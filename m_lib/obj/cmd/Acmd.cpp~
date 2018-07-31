@@ -1,0 +1,22 @@
+#include <Acmd.h>
+
+Acmd::Acmd()
+{}
+Acmd::~Acmd()
+{}
+
+void		Acmd::Init(const int)
+{}
+
+std::string	Acmd::Run()
+{}
+
+void		Acmd::set_cmd(const std::string cmd)
+{
+  _cmd = cmd;
+}
+
+std::string	Acmd::get_parse()
+{
+  return _parse;
+}
