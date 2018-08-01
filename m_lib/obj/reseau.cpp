@@ -88,7 +88,7 @@ std::string	Ireseau::Recv(int fd)
   else if (ret == -1)
     {
       std::cout << "Resea::recv EXIT " << ret << std::endl;
-      return "err"; // ERR
+      return "ERR\n"; // ERR
     }
 
   else if (ret != -1)

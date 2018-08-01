@@ -20,33 +20,39 @@ void	Serverrec::Servlet(int c_fd, cmd_s* cmd_s)
       std::string	buf_out;
 
       buf_in = _connection.Recv(c_fd);
-      _rec.Push("Recv :", buf_in, _connection.Get_ip());
-      if (buf_in.back() == '\n')
-	{
-	  size_t	size;
-
-	  size = buf_in.size();
-	  buf_in.erase(size-1, size);
-	}
-      if (buf_in.compare("monitor_c") == 0)
-	buf_out = "WELCOME\n";
-      else if (buf_in.compare("VERSION") == 0)
-	buf_out = _version;
-      else
-	{
-	  buf_out = "NOTHING\n";
-	  if(cmd_s->run(buf_in))
-	    buf_out = cmd_s->get_ret();
-	  if (buf_out.compare("EXIT") == 0)
-	    {
-	      exit = false;
-	      buf_out = "EXIT_FORCE\n";
-	    }
-	}
-      _connection.Send(buf_out, c_fd);
-      _rec.Push("Send :", buf_out, _connection.Get_ip());
-      buf_out.clear();
-      buf_in.clear();
+      if (buf_in.compare("ERR\n") == 0){
+        //Stop thread
+        exit = false;
+        std::cout << "Erreur on thread IP[" << _connection.Get_ip() << "]" << c_fd << std::endl;
+      }
+      else {
+        //No err Tech
+        _rec.Push("Recv :", buf_in, _connection.Get_ip());
+        if (buf_in.back() == '\n'){
+          size_t	size;
+          size = buf_in.size();
+          buf_in.erase(size-1, size);
+        }
+        if (buf_in.compare("monitor_c") == 0)
+          buf_out = "WELCOME\n";
+        else if (buf_in.compare("VERSION") == 0)
+          buf_out = _version;
+        else{
+          buf_out = "BIP\r\n";
+          if(cmd_s->run(buf_in))
+            buf_out = cmd_s->get_ret();
+          if (buf_out.compare("EXIT") == 0)
+            {
+              exit = false;
+              buf_out = "EXIT_FORCE\n";
+            }
+        }
+        _connection.Send(buf_out, c_fd);
+        _rec.Push("Send :", buf_out, _connection.Get_ip());
+        }
+        
+        buf_out.clear();
+        buf_in.clear();
     }
   std::cout << "Close servelet on :" << c_fd << std::endl;
   close(c_fd);
