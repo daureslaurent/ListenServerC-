@@ -47,12 +47,13 @@ void	Serverrec::Servlet(int c_fd, cmd_s* cmd_s)
               buf_out = "EXIT_FORCE\n";
             }
         }
-        _connection.Send(buf_out, c_fd);
-        _rec.Push("Send :", buf_out, _connection.Get_ip());
+        if (exit){
+          _connection.Send(buf_out, c_fd);
+          _rec.Push("Send :", buf_out, _connection.Get_ip());
         }
-        
-        buf_out.clear();
-        buf_in.clear();
+      }  
+      buf_out.clear();
+      buf_in.clear();
     }
   std::cout << "Close servelet on :" << c_fd << std::endl;
   close(c_fd);
