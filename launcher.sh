@@ -1,3 +1,2 @@
 #!/bin/bash
-time make re
-mv serv ../serveur
+./serv 80 recorder
