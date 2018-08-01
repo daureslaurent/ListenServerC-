@@ -18,7 +18,7 @@ void	Serverrec::Servlet(int c_fd, cmd_s* cmd_s)
     {
       std::string	buf_in;
       std::string	buf_out;
-
+      
       buf_in = _connection.Recv(c_fd);
       if (buf_in.compare("ERR\n") == 0){
         //Stop thread
