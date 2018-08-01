@@ -82,18 +82,20 @@ std::string	Ireseau::Recv(int fd)
   ret = recv(fd, &buf, 2048, 0);
   if (ret == 0)
     {
-      std::cout << "Resea::recv EXIT " << ret << std::endl;
+      std::cout << "[Recv]fd["<<fd<<"]ret["<<ret<<"]" << std::endl;
     return ("EXIT\n");
     }
   else if (ret == -1)
     {
-      std::cout << "Resea::recv EXIT " << ret << std::endl;
+      std::cout << "[Recv]fd["<<fd<<"]ret["<<ret<<"]" << std::endl;
       return "ERR\n"; // ERR
     }
-
-  else if (ret != -1)
+  else if (ret != -1){
+    //OK MSG
     buf[ret] = 0;
-  return (std::string((char*)&buf));
+    std::cout << "[Recv]fd["<<fd<<"]ret["<<ret<<"]\nmsg["<<(char*)&buf<<"]" << std::endl;
+    return (std::string((char*)&buf));
+  }
 }
 
 void		Ireseau::Send(const std::string msg, const int fd)
