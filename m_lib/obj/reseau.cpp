@@ -82,18 +82,18 @@ std::string	Ireseau::Recv(int fd)
   ret = recv(fd, &buf, 2048, 0);
   if (ret == 0)
     {
-      std::cout << "[Recv]fd["<<fd<<"]ret["<<ret<<"]" << std::endl;
+      std::cout << "\033[31m[Recv]fd["<<fd<<"]ret["<<ret<<"]\033[0m" << std::endl;
     return ("EXIT\n");
     }
   else if (ret == -1)
     {
-      std::cout << "[Recv]fd["<<fd<<"]ret["<<ret<<"]" << std::endl;
+      std::cout << "\033[31m[Recv]fd["<<fd<<"]ret["<<ret<<"]\033[0m" << std::endl;
       return "ERR\n"; // ERR
     }
   else if (ret != -1){
     //OK MSG
     buf[ret] = 0;
-    std::cout << "[Recv]fd["<<fd<<"]ret["<<ret<<"]msg\n"<<(char*)&buf<< std::endl;
+    //std::cout << "[Recv]fd["<<fd<<"]ret["<<ret<<"]msg\n"<<(char*)&buf<< std::endl;
     return (std::string((char*)&buf));
   }
 }
@@ -101,7 +101,7 @@ std::string	Ireseau::Recv(int fd)
 void		Ireseau::Send(const std::string msg, const int fd)
 {
   char		buf[2048];
-  std::cout << "[Send]fd["<<fd<<"]msg:\n"<<(char*)&buf << std::endl;
+  std::cout << "\033[32m[Send]fd["<<fd<<"]msg:\n"<<(char*)&buf <<"\033[0m"<< std::endl;
   memset(&buf, 0, 2048);
   strcpy((char*)&buf, msg.c_str());
   if (write(fd, &buf, msg.size()) == -1)
