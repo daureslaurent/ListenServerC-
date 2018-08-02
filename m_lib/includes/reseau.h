@@ -10,6 +10,7 @@
 class	Ireseau
 {
  private:
+  int   _port;
 
   int	init_socket(int);
   void	Err(std::string);
@@ -35,7 +36,6 @@ class	Ireseau_client
 private:
   std::string	_ip;
   int		_fd;
-  int   _port;
 
     void	Err(std::string);
 
