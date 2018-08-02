@@ -22,7 +22,7 @@ public:
 
   void	Push(std::string, std::string);
 
-  void	Push(std::string, std::string, std::string);
+  void	Push(std::string, std::string, std::string, int);
 
   void	New_client(std::string);
 };
