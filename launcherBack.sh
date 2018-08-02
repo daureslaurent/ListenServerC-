@@ -1,2 +1,2 @@
 #!/bin/bash
-./njsBackServer/node app
+ node njsBackServer/node app
