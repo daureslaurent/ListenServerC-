@@ -16,7 +16,6 @@ public:
 
  private:
   //Var thread
-
   virtual void	Servlet(int, cmd_s*);
   virtual void	Listener();
 

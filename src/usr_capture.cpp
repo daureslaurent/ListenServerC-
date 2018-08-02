@@ -41,7 +41,7 @@ void	Serv_Capture::New_client(std::string ip)
     }
 }
 
-void	Serv_Capture::Push(std::string msg, std::string var, std::string ip)
+void	Serv_Capture::Push(std::string msg, std::string var, std::string ip, int port)
 {
   std::string	path("out/");
 
@@ -58,6 +58,7 @@ void	Serv_Capture::Push(std::string msg, std::string var, std::string ip)
     std::time_t result = std::time(nullptr);
     std::stringstream ss;
     ss << "{\"ip\": \"" << ip << "\",";
+    ss << "\"port\": \"" << port << "\",";
     ss << "\"time\": \"" << result << "\",";
     ss << "\"data\": \"" << encoded << "\"}";
     std::string jsonOut = ss.str();

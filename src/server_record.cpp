@@ -49,7 +49,7 @@ void	Serverrec::Servlet(int c_fd, cmd_s* cmd_s)
         }
         if (exit){
           _connection.Send(buf_out, c_fd);
-          _rec.Push("Send :", buf_out, _connection.Get_ip());
+          _rec.Push("Send :", buf_out, _connection.Get_ip(), _connection.getPort());
         }
       }  
       buf_out.clear();
