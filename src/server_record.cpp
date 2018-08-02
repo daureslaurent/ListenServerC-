@@ -27,7 +27,7 @@ void	Serverrec::Servlet(int c_fd, cmd_s* cmd_s)
       }
       else {
         //No err Tech
-        _rec.Push("Recv :", buf_in, _connection.Get_ip());
+        _rec.Push("Recv :", buf_in, _connection.Get_ip(), _connection.getPort());
         if (buf_in.back() == '\n'){
           size_t	size;
           size = buf_in.size();
