@@ -1,3 +1,17 @@
+var mongoose = require('mongoose');
+
+mongoose.Promise = require('bluebird');
+//Set MongoDB
+var promise = mongoose.connect(config.finalDB, {useMongoClient: true});
+// Check MongoDB connect
+var db = mongoose.connection;
+db.on('error', console.error.bind(console, 'connection error:'));
+db.once('open', function() {console.log("db OK");});
+// Load Models
+var dataModel = require('./api/models/dataModel');
+var dataCtrl = require('./api/controller/dataCtrl');
+
+
 // Load the TCP Library
 net = require('net');
 
@@ -17,6 +31,7 @@ net.createServer(function (socket) {
   // Handle incoming messages from clients.
     socket.on('data', function (data) {
         console.log('receive['+data+']');
+        dataCtrl.createData(data);
     });
 
   // Remove the client from the list when it leaves
