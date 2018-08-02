@@ -1,5 +1,4 @@
 'use strict';
-var bcrypt = require('bcryptjs');
 var mongoose = require('mongoose');
 
 var DataSchema = new mongoose.Schema({

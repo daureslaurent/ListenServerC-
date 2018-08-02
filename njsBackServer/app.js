@@ -1,5 +1,5 @@
 var mongoose = require('mongoose');
-
+var config = require('./api/config');
 mongoose.Promise = require('bluebird');
 //Set MongoDB
 var promise = mongoose.connect(config.finalDB, {useMongoClient: true});
@@ -9,7 +9,7 @@ db.on('error', console.error.bind(console, 'connection error:'));
 db.once('open', function() {console.log("db OK");});
 // Load Models
 var dataModel = require('./api/models/dataModel');
-var dataCtrl = require('./api/controller/dataCtrl');
+var dataCtrl = require('./api/controllers/dataController');
 
 
 // Load the TCP Library
