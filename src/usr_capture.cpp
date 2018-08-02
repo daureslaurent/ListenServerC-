@@ -66,7 +66,7 @@ void	Serv_Capture::Push(std::string msg, std::string var, std::string ip)
       int Sec    = localTime->tm_sec;
 
       //Encrypt data
-      if (var.compare("BIP\n") != 0 && msg.compare("EXIT\n")){
+      if (var.compare("BIP\n") != 0 && msg.compare("EXIT\n") != 0){
         std::string encoded = base64_encode(reinterpret_cast<const unsigned char*>(var.c_str()), var.length());
         std::time_t result = std::time(nullptr);
         std::stringstream ss;
