@@ -5,6 +5,7 @@ DIR	=	src/
 MLIB	=	m_lib/obj/
 
 SRCS	=	$(DIR)main.cpp \
+		$(DIR)base64.cpp \
 		$(DIR)usr_capture.cpp \
 		$(DIR)Aserver.cpp \
 		$(DIR)server.cpp \
