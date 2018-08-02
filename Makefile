@@ -54,7 +54,7 @@ RM	=	rm -f
 all:	serveur monitor
 
 server	: $(SRCS_OBJ)
-	$(CC) -o serv $(OBJ_FILES) $(FLAGS)
+	$(CC)  $(OBJ_FILES) $(FLAGS) -o serv
 	@echo "\033[1;32m[G++][EXC] creation de -> $@\033[00m"
 
 serveur	:
