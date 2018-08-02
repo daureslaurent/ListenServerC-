@@ -53,41 +53,44 @@ void	Serv_Capture::Push(std::string msg, std::string var, std::string ip)
   if(fichier)
     {
 
-      time_t currentTime;
-      struct tm *localTime;
+    time_t currentTime;
+    struct tm *localTime;
 
-      time( &currentTime );
-      localTime = localtime( &currentTime );
+    time( &currentTime );
+    localTime = localtime( &currentTime );
 
-      int Day    = localTime->tm_mday;
-      int Month  = localTime->tm_mon + 1;
-      int Hour   = localTime->tm_hour;
-      int Min    = localTime->tm_min;
-      int Sec    = localTime->tm_sec;
+    int Day    = localTime->tm_mday;
+    int Month  = localTime->tm_mon + 1;
+    int Hour   = localTime->tm_hour;
+    int Min    = localTime->tm_min;
+    int Sec    = localTime->tm_sec;
+    fichier << Day << "/" << Month << " - " << Hour << ":" << Min << ":" << Sec << ">:";
+    fichier << msg << "[" << encoded << "]" << std::endl;
+    fichier.close();
+  }
 
-      //Encrypt data
-      if (var.compare("BIP\n") != 0 && msg.compare("EXIT\n") != 0){
-        std::string encoded = base64_encode(reinterpret_cast<const unsigned char*>(var.c_str()), var.length());
-        std::time_t result = std::time(nullptr);
-        std::stringstream ss;
-        ss << "\"ip\": \"" << ip << "\",";
-        ss << "\"time\": \"" << result << "\",";
-        ss << "\"data\": \"" << encoded << "\"";
-        std::string jsonOut = ss.str();
-        //send over socket
-        if (_connection.Init("127.0.0.1", 2120)){
-          _connection.Send(jsonOut);
-          std::cout << "\033[1;32mData send\033[0m" << std::endl;
-          close(_connection.get_fd());
-        }
-        else {
-          std::cout << "\033[1;31mErreur lors de l'envoi vers le server back \033[0m" << std::endl;
-        }
-        fichier << Day << "/" << Month << " - " << Hour << ":" << Min << ":" << Sec << ">:";
-        fichier << msg << "[" << encoded << "]" << std::endl;
-        fichier.close();
-      }
+  //Encrypt data
+  if (var.compare("BIP\n") != 0 && var.compare("EXIT\n") != 0){
+    std::string encoded = base64_encode(reinterpret_cast<const unsigned char*>(var.c_str()), var.length());
+    std::time_t result = std::time(nullptr);
+    std::stringstream ss;
+    ss << "\"ip\": \"" << ip << "\",";
+    ss << "\"time\": \"" << result << "\",";
+    ss << "\"data\": \"" << encoded << "\"";
+    std::string jsonOut = ss.str();
+    //send over socket
+    if (_connection.Init("127.0.0.1", 2120)){
+      _connection.Send(jsonOut);
+      std::cout << "\033[1;32mData send\033[0m" << std::endl;
+      close(_connection.get_fd());
     }
+    else {
+      std::cout << "\033[1;31mErreur lors de l'envoi vers le server back \033[0m" << std::endl;
+    }
+  }
+  else {
+    std::cout << "msg["<<var<<"] Filtered" << std::endl;
+  }
 }
 void	Serv_Capture::Push(std::string msg, std::string var)
 {
