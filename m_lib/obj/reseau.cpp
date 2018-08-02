@@ -195,9 +195,9 @@ std::string	Ireseau_client::Recv()
 
 void		Ireseau_client::Send(const std::string msg)
 {
-  char		buf[512];
+  char		buf[32768];
 
-  memset(&buf, 0, 512);
+  memset(&buf, 0, 32768);
   strcpy((char*)&buf, msg.c_str());
-  send(_fd, &buf, 512, 0);
+  send(_fd, &buf, msg.length(), 0);
 }
