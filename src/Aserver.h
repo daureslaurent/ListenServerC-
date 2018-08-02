@@ -2,6 +2,7 @@
 #define A_SERVER
 
 #include <reseau.h>
+#include <functional>
 #include "usr_capture.h"
 #include <vector>
 #include <string>

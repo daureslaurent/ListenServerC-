@@ -1,4 +1,5 @@
 #include "client.h"
+#include <functional>
 
 client_thread::client_thread()
 {}
