@@ -19,6 +19,21 @@ SRCS	=	$(DIR)main.cpp \
 		$(DIR)client.cpp \
 		$(DIR)Timer.cpp
 
+SRCS_OBJ=$(DIR)main.o \
+		$(DIR)base64.o \
+		$(DIR)usr_capture.o \
+		$(DIR)Aserver.o \
+		$(DIR)server.o \
+		$(DIR)server_record.o \
+		$(MLIB)reseau.o \
+		$(MLIB)cmd/Acmd.o \
+		$(MLIB)cmd/cmd_cpp.o \
+		$(MLIB)cmd/ping.o \
+		$(MLIB)cmd/log.o \
+		$(DIR)user.o \
+		$(DIR)client.o \
+		$(DIR)Timer.o
+
 
 DIR_m	=	src_monitor/
 
@@ -37,6 +52,10 @@ FLAGS	=	-std=c++0x -pthread -Im_lib/includes/ -W -Wall -O3
 RM	=	rm -f
 
 all:	serveur monitor
+
+server	: $(SRCS_OBJ)
+	$(CC) -o serv $(FLAGS) $(OBJ_FILES)
+	@echo "\033[1;32m[G++][EXC] creation de -> $@\033[00m"
 
 serveur	:
 	$(CC) $(SRCS) $(FLAGS) -o serv
