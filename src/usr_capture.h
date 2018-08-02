@@ -24,6 +24,6 @@ public:
 
   void	Push(std::string, std::string, std::string, int);
 
-  void	New_client(std::string);
+  void	New_client(std::string, std::string);
 };
 #endif

@@ -18,9 +18,9 @@ void	Serv_Capture::Update()
 {
 }
 
-void	Serv_Capture::New_client(std::string ip)
+void	Serv_Capture::New_client(std::string ip, std::string port)
 {
-  std::ofstream fichier("out/log_connection.log", std::ofstream::out | std::ofstream::app);
+  std::ofstream fichier("out"+port+"/log_connection.log", std::ofstream::out | std::ofstream::app);
   if(fichier)
     {
       time_t currentTime;
@@ -43,7 +43,7 @@ void	Serv_Capture::New_client(std::string ip)
 
 void	Serv_Capture::Push(std::string msg, std::string var, std::string ip, int port)
 {
-  std::string	path("out/");
+  std::string	path("out"+port+"/");
 
   path += ip;
   path += ".log";
@@ -80,7 +80,7 @@ void	Serv_Capture::Push(std::string msg, std::string var, std::string ip, int po
       int Day    = localTime->tm_mday;
       int Month  = localTime->tm_mon + 1;
       int Hour   = localTime->tm_hour;
-      int Min    = localTime->tm_min;
+      int Min    = localTim->tm_min;
       int Sec    = localTime->tm_sec;
       fichier << Day << "/" << Month << " - " << Hour << ":" << Min << ":" << Sec << ">:";
       fichier << msg << "[" << encoded << "]" << std::endl;
