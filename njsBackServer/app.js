@@ -15,9 +15,9 @@ net.createServer(function (socket) {
   clients.push(socket);
 
   // Handle incoming messages from clients.
-  socket.on('data', function (data) {
-    broadcast(socket.name + "> " + data, socket);
-  });
+    socket.on('data', function (data) {
+        console.log('receive['+data+']');
+    });
 
   // Remove the client from the list when it leaves
   socket.on('end', function () {
