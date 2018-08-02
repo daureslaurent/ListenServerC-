@@ -21,7 +21,7 @@ public:
   void	Push(std::string, std::string, std::string);
 
   void	New_client(std::string);
-
-  std::string base64_encode(const unsigned char *, size_t);
+  
+  std::string b64decode(const void* data, const size_t len);
 };
 #endif
