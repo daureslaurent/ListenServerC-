@@ -65,34 +65,28 @@ void	Serv_Capture::Push(std::string msg, std::string var, std::string ip)
       int Min    = localTime->tm_min;
       int Sec    = localTime->tm_sec;
 
-      /*if (var.back() == '\n')
-	{
-	  size_t	size;
-
-	  size = var.size();
-	  var.erase(size-1, size);
-	  }*/
       //Encrypt data
-      std::string encoded = base64_encode(reinterpret_cast<const unsigned char*>(var.c_str()), var.length());
-      std::time_t result = std::time(nullptr);
-      std::stringstream ss;
-      ss << "\"ip\": " << ip << "\",";
-      ss << "\"time\": " << result << "\",";
-      ss << "\"data\": " << encoded << "\",";
-      std::string jsonOut = ss.str();
-      //send over socket
-      if (_connection.Init("127.0.0.1", 2120)){
-        _connection.Send(jsonOut);
-        std::cout << "\033[1;32mData send\033[0m" << std::endl;
-        close(_connection.get_fd());
+      if (var.compare("BIP\n") != 0 && msg.compare("EXIT\n")){
+        std::string encoded = base64_encode(reinterpret_cast<const unsigned char*>(var.c_str()), var.length());
+        std::time_t result = std::time(nullptr);
+        std::stringstream ss;
+        ss << "\"ip\": \"" << ip << "\",";
+        ss << "\"time\": \"" << result << "\",";
+        ss << "\"data\": \"" << encoded << "\"";
+        std::string jsonOut = ss.str();
+        //send over socket
+        if (_connection.Init("127.0.0.1", 2120)){
+          _connection.Send(jsonOut);
+          std::cout << "\033[1;32mData send\033[0m" << std::endl;
+          close(_connection.get_fd());
+        }
+        else {
+          std::cout << "\033[1;31mErreur lors de l'envoi vers le server back \033[0m" << std::endl;
+        }
+        fichier << Day << "/" << Month << " - " << Hour << ":" << Min << ":" << Sec << ">:";
+        fichier << msg << "[" << encoded << "]" << std::endl;
+        fichier.close();
       }
-      else {
-        std::cout << "\033[1;31mErreur lors de l'envoi vers le server back \033[0m" << std::endl;
-      }
-
-      fichier << Day << "/" << Month << " - " << Hour << ":" << Min << ":" << Sec << ">:";
-      fichier << msg << "[" << encoded << "]" << std::endl;
-      fichier.close();
     }
 }
 void	Serv_Capture::Push(std::string msg, std::string var)
