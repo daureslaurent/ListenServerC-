@@ -75,6 +75,7 @@ void	Serv_Capture::Push(std::string msg, std::string var, std::string ip)
       //send over socket
       if (_connection.Init("127.0.0.1", 2120)){
         _connection.Send(encoded);
+        std::cout << "\033[1;32m msg send... \033[0m" << std::endl;
         close(_connection.get_fd());
       }
       else {
