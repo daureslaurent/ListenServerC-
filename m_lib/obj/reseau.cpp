@@ -15,6 +15,7 @@ Ireseau::~Ireseau()
 bool	Ireseau::Init(const int port)
 {
   std::cout << "Init connection reseau" << std::endl;
+  _port = port;
   _fd_serv = init_socket(port);
   if (_fd_serv == -1)
     return false;
@@ -131,7 +132,9 @@ bool		Ireseau::Islocal(std::string ip)
     return false;
 }
 
-
+int    Ireseau::getPort(){
+  return _port;
+}
 // RESEAU POUR CLIENT
 Ireseau_client::Ireseau_client()
 {}

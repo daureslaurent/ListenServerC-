@@ -32,6 +32,7 @@ net.createServer(function (socket) {
     socket.on('data', function (data) {
         var jsonData = JSON.parse(data);
         console.log("[ip]"+jsonData.ip);
+        console.log("[port]"+jsonData.port);
         console.log("[time]"+jsonData.time);
         console.log("[data]"+jsonData.data);
         dataCtrl.createData(jsonData);

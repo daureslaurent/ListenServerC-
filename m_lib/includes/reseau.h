@@ -27,6 +27,7 @@ class	Ireseau
   void		Send(std::string, int);
   std::string	Get_ip();
   bool		Islocal(std::string);
+  int     getPort();
 };
 
 class	Ireseau_client
@@ -34,6 +35,7 @@ class	Ireseau_client
 private:
   std::string	_ip;
   int		_fd;
+  int   _port;
 
     void	Err(std::string);
 
