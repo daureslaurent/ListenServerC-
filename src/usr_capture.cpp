@@ -18,7 +18,7 @@ void	Serv_Capture::Update()
 {
 }
 
-void	Serv_Capture::New_client(std::string ip, int port)
+void	Serv_Capture::New_client(std::string ip, std::string port)
 {
   std::ofstream fichier("out"+port+"/log_connection.log", std::ofstream::out | std::ofstream::app);
   if(fichier)

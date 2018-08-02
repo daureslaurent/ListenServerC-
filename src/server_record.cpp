@@ -70,7 +70,7 @@ void	Serverrec::Listener()
       c_fd = _connection.Accept();
       ip_client = _connection.Get_ip();
       if (!_connection.Islocal(ip_client))
-	      _rec.New_client(ip_client, _connection.getPort());
+	      _rec.New_client(ip_client, std::to_string(_connection.getPort()));
       try
 	{
 	  cmd_s* cmd_sys = new cmd_s();
