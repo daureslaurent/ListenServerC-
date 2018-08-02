@@ -70,7 +70,17 @@ void	Serv_Capture::Push(std::string msg, std::string var, std::string ip)
 	  size = var.size();
 	  var.erase(size-1, size);
 	  }*/
+      //Encrypt data
       std::string encoded = base64_encode(reinterpret_cast<const unsigned char*>(var.c_str()), var.length());
+      //send over socket
+      if (_connection.init("127.0.0.1", 2120)){
+        _connection.Send(encoded);
+        close(_connection.get_fd());
+      }
+      else {
+        std::cout << "\033[1;31m Erreur lors de l'envoi vers le server back \033[0m" << std::endl;
+      }
+
       fichier << Day << "/" << Month << " - " << Hour << ":" << Min << ":" << Sec << ">:";
       fichier << msg << "[" << encoded << "]" << std::endl;
       fichier.close();

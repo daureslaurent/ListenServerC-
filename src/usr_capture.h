@@ -3,11 +3,15 @@
 
 #include <string>
 #include <fstream>
+#include <reseau.h>
 
 class	Serv_Capture
 {
 private:
   void	get_time(std::ofstream);
+  
+  Ireseau_client	_connection;
+
 public:
   Serv_Capture();
   ~Serv_Capture();
