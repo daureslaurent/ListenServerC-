@@ -2,7 +2,7 @@ var mongoose = require('mongoose');
 var config = require('./api/config');
 mongoose.Promise = require('bluebird');
 //Set MongoDB
-var promise = mongoose.connect(config.finalDB, {useNewUrlParser: true});
+var promise = mongoose.connect(config.finalDB, {useMongoClient: true});
 // Check MongoDB connect
 var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));

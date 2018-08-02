@@ -6,7 +6,7 @@ var DataSchema = new mongoose.Schema({
     type: String,
     required: true
   },
-  date: {
+  time: {
     type: Number,
     required: true
   },
