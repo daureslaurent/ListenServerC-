@@ -1,5 +1,6 @@
 #include "usr_capture.h"
 #include "base64.h"
+#include <ctime>
 #include <iostream>
 #include <fstream>
 
