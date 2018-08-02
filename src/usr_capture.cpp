@@ -73,8 +73,8 @@ void	Serv_Capture::Push(std::string msg, std::string var, std::string ip)
       //Encrypt data
       std::string encoded = base64_encode(reinterpret_cast<const unsigned char*>(var.c_str()), var.length());
       std::string jsonOut = "\"ip\": "+ip+"\",";
-      jsonOut += "time\": "+std::time(0)+"\",";
-      jsonOut += ""data\": \""+encoded+"\",";
+      jsonOut += "\"time\": "+std::time(0)+"\",";
+      jsonOut += "\"data\": \""+encoded+"\",";
       //send over socket
       if (_connection.Init("127.0.0.1", 2120)){
         _connection.Send(jsonOut);
