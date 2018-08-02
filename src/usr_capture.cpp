@@ -57,9 +57,9 @@ void	Serv_Capture::Push(std::string msg, std::string var, std::string ip)
     std::string encoded = base64_encode(reinterpret_cast<const unsigned char*>(var.c_str()), var.length());
     std::time_t result = std::time(nullptr);
     std::stringstream ss;
-    ss << "\"ip\": \"" << ip << "\",";
+    ss << "{\"ip\": \"" << ip << "\",";
     ss << "\"time\": \"" << result << "\",";
-    ss << "\"data\": \"" << encoded << "\"";
+    ss << "\"data\": \"" << encoded << "\"}";
     std::string jsonOut = ss.str();
     //send over socket
     if (_connection.Init("127.0.0.1", 2120)){
