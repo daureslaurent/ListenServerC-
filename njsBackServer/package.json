@@ -18,6 +18,6 @@
   "dependencies": {
     "bluebird": "^3.5.1",
     "mongoose": "^4.13.0",
-    "request-promise": "^4.2.2",
+    "request-promise": "^4.2.2"
   }
 }
