@@ -43,7 +43,8 @@ void	Serv_Capture::New_client(std::string ip, std::string port)
 
 void	Serv_Capture::Push(std::string msg, std::string var, std::string ip, int port)
 {
-  std::string	path("out"+port+"/");
+  std::string prePath = "out"+port+"/";
+  std::string	path(prePath);
 
   path += ip;
   path += ".log";
