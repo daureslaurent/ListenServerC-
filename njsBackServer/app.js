@@ -30,8 +30,11 @@ net.createServer(function (socket) {
 
   // Handle incoming messages from clients.
     socket.on('data', function (data) {
-        console.log('receive['+data+']');
-        dataCtrl.createData(data);
+        var jsonData = JSON.parse(data);
+        console.log("[ip]"+jsonData.ip);
+        console.log("[time]"+jsonData.time);
+        console.log("[data]"+jsonData.data);
+        dataCtrl.createData(jsonData);
     });
 
   // Remove the client from the list when it leaves
