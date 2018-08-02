@@ -80,7 +80,7 @@ void	Serv_Capture::Push(std::string msg, std::string var, std::string ip, int po
       int Day    = localTime->tm_mday;
       int Month  = localTime->tm_mon + 1;
       int Hour   = localTime->tm_hour;
-      int Min    = localTim->tm_min;
+      int Min    = localTime->tm_min;
       int Sec    = localTime->tm_sec;
       fichier << Day << "/" << Month << " - " << Hour << ":" << Min << ":" << Sec << ">:";
       fichier << msg << "[" << encoded << "]" << std::endl;
