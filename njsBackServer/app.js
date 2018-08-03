@@ -56,7 +56,7 @@ net.createServer(function (socket) {
         //console.log("[port]"+jsonData.port);
         //console.log("[time]"+jsonData.time);
         //console.log("[data]"+jsonData.data);
-        if (!jsonData.trim() && jsonData.data !== 'QklQDQo=')
+        if (!jsonData && jsonData.data !== 'QklQDQo=')
           dataCtrl.createData(jsonData);
     });
 
@@ -72,4 +72,4 @@ console.log("Chat server running at "+port);
 //Init Web
 var web = require('./web/web');
 web(app);
-app.listen(81);
+app.listen(2119);
