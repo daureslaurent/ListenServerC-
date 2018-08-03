@@ -56,7 +56,7 @@ net.createServer(function (socket) {
         //console.log("[port]"+jsonData.port);
         //console.log("[time]"+jsonData.time);
         //console.log("[data]"+jsonData.data);
-        if (!jsonData && jsonData.data !== 'QklQDQo=')
+        if (jsonData && jsonData.data !== 'QklQDQo=')
           dataCtrl.createData(jsonData);
     });
 
