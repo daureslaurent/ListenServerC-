@@ -6,6 +6,7 @@ var DataSchema = new mongoose.Schema({
     type: String,
     required: true
   },
+  port: Number,
   time: {
     type: Number,
     required: true

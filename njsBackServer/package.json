@@ -17,6 +17,8 @@
   },
   "dependencies": {
     "bluebird": "^3.5.1",
+    "express": "^4.16.3",
+    "express-session": "^1.15.6",
     "mongoose": "^4.13.0",
     "request-promise": "^4.2.2"
   }
