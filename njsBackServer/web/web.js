@@ -8,7 +8,7 @@ module.exports = function(app) {
     app.set('css', path.join(__dirname, '/css'));
     app.set('view engine', 'ejs');
 
-    pp.get('/web', function(req, res){
+    app.get('/web', function(req, res){
         dataConverter.getAllDataSummary(function(data){
             console.log("getAllDataSummary{"+JSON.stringify(data)+"}");
             console.log("count: "+data.count);
