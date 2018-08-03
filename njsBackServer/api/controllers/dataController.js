@@ -3,7 +3,7 @@ var mongoose = require('mongoose');
 var dataModel = mongoose.model('Data');
 
 exports.createData = function(data){
-  var newData = new Data(data);
+  var newData = new dataModel(data);
   newData.save(function(err, data) {
   if (err)
     console.log("erreur createData: "+err);
