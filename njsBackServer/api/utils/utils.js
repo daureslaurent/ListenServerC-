@@ -13,7 +13,7 @@ exports.unixToTimeFR = function(timeUnix){
 };
 var serverIp = '192.168.1.17';
 
-exports.testUnixServerCb = function(port, cb){
+exports.testUnixServerCb = function(serverIp, port, cb){
   var client = new net.Socket();
   client.connect(port, serverIp, function() {
     client.write('ping\n');
@@ -63,14 +63,10 @@ exports.fancyFormatDataList = function(dataList){
     var map = new Map();
     for (let index = 0; index < serverList.length; index++) {
       map.set(serverList[index].port.toString(), serverList[index].redirect);
-      console.log('port: '+serverList[index].port+' Redir: '+serverList[index].redirect);
     }
 
     for (let index = 0; index < listData.length; index++) {
-      
       var redi = map.get(listData[index].port.toString());
-      console.log('port: '+listData[index].port+' Redir: '+redi);
-
       if (redi)
         listData[index].port = redi;
     }

@@ -34,10 +34,10 @@ exports.getAllDataSummary = function(limit, cb){
 };
 
 exports.getStateServerUnix = function(cb){
-    utils.testUnixServerCb(2121, function(state2121){
-        utils.testUnixServerCb(2122, function(state2122){
-            utils.testUnixServerCb(2123, function(state2123){
-                utils.testUnixServerCb(2124, function(state2124){
+    utils.testUnixServerCb(serverList[0].addr, serverList[0].port, function(state2121){
+        utils.testUnixServerCb(serverList[1].addr, serverList[1].port, function(state2122){
+            utils.testUnixServerCb(serverList[2].addr, serverList[2].port, function(state2123){
+                utils.testUnixServerCb(serverList[3].addr, serverList[3].port, function(state2124){
                     var arr = new Array();
                     var map = new Map();
                     map.set('2121', state2121);
