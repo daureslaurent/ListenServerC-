@@ -28,10 +28,11 @@ exports.testUnixServerCb = function(port, cb){
   
   // Add a 'close' event handler for the client socket
   client.on('close', function() {
+    client.destroy();
   });
   
   client.on('error', function(err) {
-      console.error(err);
+      client.destroy();
       return cb(false);
   });
 }
