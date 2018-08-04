@@ -24,6 +24,8 @@ exports.testUnixServerCb = function(port, cb){
       client.destroy();
       return cb(true);
     }
+    client.destroy();
+    return cb(true);
   });
   
   // Add a 'close' event handler for the client socket
