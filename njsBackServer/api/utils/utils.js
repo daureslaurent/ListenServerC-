@@ -20,7 +20,7 @@ exports.testUnixServerCb = function(port, cb){
   
   client.on('data', function(data) {
     if (data == 'pong\n'){
-      console.log('Server['+serverIp+':'+port+'] is OK')
+      //console.log('Server['+serverIp+':'+port+'] is OK')
       client.destroy();
       return cb(true);
     }

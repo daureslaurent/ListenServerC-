@@ -29,9 +29,7 @@ exports.getAllDataSummary = function(cb){
 
 exports.getStateServerUnix = function(cb){
     utils.testUnixServerCb(2121, function(state2121){
-        console.log('return 0');
         utils.testUnixServerCb(2122, function(state2122){
-            console.log('return 1');
             var ret = new Array();
             ret.push({name: 'serverHTTP', port: 2121, state: state2121});
             ret.push({name: 'serverSSH', port: 2122, state: state2122});

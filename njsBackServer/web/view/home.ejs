@@ -36,17 +36,17 @@
 
     <div class="container">
         
-        <div class="list-group">
+            <hr>
             <% for(var i=0; i<serverList.length; i++) { %>
-                <div href="#" class="list-group-item list-group-item-action flex-column align-items-start">
-                    <div class="d-flex w-100 justify-content-between">
-                        <h5 class="mb-1"><%= serverList[i].name %></h5>
-                        <small>00001</small>
+                <div class="<%= serverList[i].state ? 'card text-white mb-3 bg-success' : 'card text-white mb-3 bg-danger' %>">
+                    <div class="card-header"><%= serverList[i].name %></div>
+                    <div class="card-body">
+                        <h5 class="card-title">Port: <%= serverList[i].port%></h5>
+                        <div class="card-text">State: <%= serverList[i].state%></div>
                     </div>
-                    <small>[<%= serverList[i].port%>][<%= serverList[i].state%>]</small>
                 </div>
             <% } %>
-        </div>
+        <hr>
 
         <div class="list-group">
             <% for(var i=0; i<dataList.length; i++) { %>
