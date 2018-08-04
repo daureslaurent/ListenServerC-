@@ -9,30 +9,21 @@ module.exports = function(app) {
     app.set('view engine', 'ejs');
 
     app.get('/web', function(req, res){
-        dataConverter.getAllDataSummary(function(data){
+        dataConverter.getAllDataSummary(15, function(data){
             dataConverter.getStateServerUnix(function(servers){
-                console.log('return dataConverter.getStateServerUnix OK');
-                res.render('home', { dataList: data.data , serverList: servers})
+                dataConverter.getBackState(function(backData){
+                    console.log(JSON.stringify(data))
+                    res.render('home', { dataList: data , serverList: servers, backState : backData})
+                });
             });
-            //console.log("getAllDataSummary{"+JSON.stringify(data)+"}");
-            //res.json(data);
         });
     });
 
-    /*aapp.get('/web/detail', function(req, res){
-        var id = req.query.id;
-        playerCtrl.getPlayerIdCallBack(id, function(playerFound){
-            res.render('detail', { player: playerFound })
+    app.get('/web/detail', function(req, res){
+        dataConverter.getAllDataSummary(0, function(data){
+            res.render('detail', { dataList: data });
         });
     });
-
-    app.get('/web/detail/weather', function(req, res){
-        var id = req.query.id;
-        var state = req.query.state;
-        var redirect = '/web/detail?id='+id;
-        featuresCtrl.set_player_weather_color(id, state);
-        res.redirect(redirect);
-    });*/
 
     console.log('Web loaded');
 };

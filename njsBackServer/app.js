@@ -56,9 +56,9 @@ net.createServer(function (socket) {
     if (jsonData && jsonData.data !== 'QklQDQo=' && jsonData.data !== 'cG9uZwo=' && jsonData.data !== 'cGluZwo='
         && !validator.isEmpty(jsonData.data)){
       
-      console.log("[ip]["+jsonData.ip +"] " +
-                "[port]["+jsonData.port +"] " +
-                "[time]["+utils.unixToTimeFR(Number.parseInt(jsonData.time))+"]");
+      console.log("[port]["+jsonData.port +"] " +
+                  "[time]["+utils.unixToTimeFR(Number.parseInt(jsonData.time))+"] " +
+                  "[ip]["+jsonData.ip +"]");
       dataCtrl.createData(jsonData);
     }
   });

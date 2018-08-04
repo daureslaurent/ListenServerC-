@@ -37,4 +37,32 @@ exports.testUnixServerCb = function(port, cb){
       client.destroy();
       return cb(false);
   });
+};
+
+exports.fancyFormatDataList = function(dataList){
+  var map = new Map();
+  console.log(dataList.length)
+  for (let index = 0; index+1 < dataList.length; index++) {
+    const elem = dataList[index];
+    
+    var elemLocal = {ip: elem.ip, port: elem.port, time: elem.time, data: new Array(), _id: elem._id};
+    var mapElem = map.get(elem.ip);
+    if (!mapElem){
+      elemLocal.data.push(elem.dataDecoded);
+      map.set(elem.ip, elemLocal);
+    }
+    else {
+      mapElem.data.push(elem.dataDecoded)
+      if (elem.time >= mapElem.time)
+        mapElem.time = elem.time;
+      map.set(elem.ip, mapElem);
+    }
+  }
+
+  var arr = new Array();
+  map.forEach(function(value, key, map){
+    arr.push(value);
+  })
+  //console.log(arr);
+  return arr;
 }

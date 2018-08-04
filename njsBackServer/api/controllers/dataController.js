@@ -11,7 +11,17 @@ exports.createData = function(data){
 };
 
 exports.getAllData = function(cb) {
-  var promise = dataModel.find({}).exec();
+  var promise = dataModel.find({}).sort({time: -1}).exec();
+  promise.then(function(datas){
+    cb(datas);
+  })
+  .catch(function(err){
+    console.log('getAllData: err: '+err);
+  });
+};
+
+exports.getAllDataLimit = function(limit, cb) {
+  var promise = dataModel.find({}).sort({time: -1}).limit(limit).exec();
   promise.then(function(datas){
     cb(datas);
   })

@@ -19,34 +19,8 @@
 </head>
 
 <body>
-        <%- include('partials/navbar') %>
+    <%- include('partials/navbar') %>
     <div class="container">
-        <div class="card">
-            <div class="card-body">
-                <h5 class="card-title">ListenServer</h5>
-                <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6>
-                <p class="card-text">DB have <%= backState.data.count %> data recorder</p>
-            </div>
-        </div>
-    </div>
-
-    <div class="container">
-        <hr>
-        <div class="row hidden-md-up">
-            <% for(var i=0; i<serverList.length; i++) { %>
-                <div class="col-md-6">
-                    <div class="<%= serverList[i].state ? 'card text-white mb-3 bg-success' : 'card text-white mb-3 bg-danger' %>">
-                        <div class="card-header"><%= serverList[i].name %></div>
-                        <div class="card-body">
-                            <h5 class="card-title">Port: <%= serverList[i].port%></h5>
-                            <div class="card-text">State: <%= serverList[i].state%></div>
-                        </div>
-                    </div>
-                </div>
-            <% } %>
-        </div>
-        <center><h5 class="mb-1">15 Lasts record</h5></center>
-        <hr>
         <div class="list-group">
             <% for(var i=0; i<dataList.length; i++) { %>
                 <div href="#" class="list-group-item list-group-item-action flex-column align-items-start">
