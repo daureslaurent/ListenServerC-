@@ -10,9 +10,9 @@ module.exports = function(app) {
 
     app.get('/web', function(req, res){
         dataConverter.getAllDataSummary(function(data){
-            console.log("getAllDataSummary{"+JSON.stringify(data)+"}");
-            console.log("count: "+data.count);
-            //res.render('home', { players: playersList })
+            //console.log("getAllDataSummary{"+JSON.stringify(data)+"}");
+            //res.json(data);
+            res.render('home', { dataList: data.data })
         });
     });
 
