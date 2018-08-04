@@ -15,7 +15,7 @@ exports.getAllDataSummary = function(cb){
                 result.data = datas.reverse();
                 for (let index = 0; index < result.data.length; index++) {
                     const encodedData = result.data[index].data;
-                    result.data[index].dataDecod = base64.decode(encodedData);//validator.escape(base64.decode(encodedData));
+                    result.data[index].dataDecoded = base64.decode(encodedData);//validator.escape(base64.decode(encodedData));
                     result.data[index].timeStr = utils.unixToTimeFR(result.data[index].time);//formattedTime;
                     result.data[index].time = null
                 }
