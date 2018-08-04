@@ -15,7 +15,7 @@ exports.getAllDataSummary = function(cb){
                 result.data = datas.reverse();
                 for (let index = 0; index < result.data.length; index++) {
                     const encodedData = result.data[index].data;
-                    result.data[index].data = base64.decode(encodedData);//validator.escape(base64.decode(encodedData));
+                    result.data[index].dataDecod = base64.decode(encodedData);//validator.escape(base64.decode(encodedData));
                     result.data[index].timeStr = utils.unixToTimeFR(result.data[index].time);//formattedTime;
                     result.data[index].time = null
                 }
@@ -27,3 +27,15 @@ exports.getAllDataSummary = function(cb){
     });
 };
 
+exports.getStateServerUnix = function(cb){
+    utils.testUnixServerCb(2121, function(state2121){
+        console.log('return 0');
+        utils.testUnixServerCb(2122, function(state2122){
+            console.log('return 1');
+            var ret = new Array();
+            ret.push({name: 'serverHTTP', port: 2121, state: state2121});
+            ret.push({name: 'serverSSH', port: 2122, state: state2122});
+            return cb(ret);
+        });
+    });
+}

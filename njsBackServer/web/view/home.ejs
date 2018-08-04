@@ -19,8 +19,35 @@
 </head>
 
 <body>
-    <div class="container">
         <%- include('partials/navbar') %>
+    <div class="container">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">ListenServer</h5>
+                <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6>
+                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                <a href="#" class="card-link">Card link</a>
+                <a href="#" class="card-link">Another link</a>
+            </div>
+        </div>
+    </div>
+
+    
+
+    <div class="container">
+        
+        <div class="list-group">
+            <% for(var i=0; i<serverList.length; i++) { %>
+                <div href="#" class="list-group-item list-group-item-action flex-column align-items-start">
+                    <div class="d-flex w-100 justify-content-between">
+                        <h5 class="mb-1"><%= serverList[i].name %></h5>
+                        <small>00001</small>
+                    </div>
+                    <small>[<%= serverList[i].port%>][<%= serverList[i].state%>]</small>
+                </div>
+            <% } %>
+        </div>
+
         <div class="list-group">
             <% for(var i=0; i<dataList.length; i++) { %>
                 <div href="#" class="list-group-item list-group-item-action flex-column align-items-start">

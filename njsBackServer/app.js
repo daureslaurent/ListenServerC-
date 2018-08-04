@@ -48,17 +48,20 @@ net.createServer(function (socket) {
   // Put this new client in the list
   clients.push(socket);
 
+  var validator = require('validator');
   // Handle incoming messages from clients.
     socket.on('data', function (data) {
         var jsonData = JSON.parse(data);
         console.log("[ip]["+jsonData.ip +"] " +
                     "[port]["+jsonData.port +"] " +
                     "[time]["+utils.unixToTimeFR(Number.parseInt(jsonData.time))+"]");
-        //console.log("[port]"+jsonData.port);
-        //console.log("[time]"+jsonData.time);
-        //console.log("[data]"+jsonData.data);
-        if (jsonData && jsonData.data !== 'QklQDQo=')
+        if (jsonData && jsonData.data !== 'QklQDQo='
+            && jsonData.data !== 'cG9uZwo=' && jsonData.data !== 'cGluZwo='
+            && !validator.isEmpty(jsonData.data))
           dataCtrl.createData(jsonData);
+          else {
+            console.log('['+jsonData.data+'] filtered');
+          }
     });
 
   // Remove the client from the list when it leaves
