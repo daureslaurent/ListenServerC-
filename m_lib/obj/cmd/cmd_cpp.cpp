@@ -2,6 +2,7 @@
 //cmd
 #include "ping.h"
 #include "log.h"
+#include "sshFake.h"
 //dev
 #include <iostream>
 cmd_s::cmd_s()
@@ -17,6 +18,8 @@ void	cmd_s::Init(const int fd)
   _mod_cmd.push_back(cmd_log);
   Acmd	*cmd_dlog =	new CMD_logd();
   _mod_cmd.push_back(cmd_dlog);
+  Acmd	*cmd_ssh =	new CMD_ssh();
+  _mod_cmd.push_back(cmd_ssh);
 
   _fd = fd;
   std::cout << "Commande Init - nb[" << (void*)this << "]" << std::endl;

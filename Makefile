@@ -15,6 +15,7 @@ SRCS	=	$(DIR)main.cpp \
 		$(MLIB)cmd/cmd_cpp.cpp \
 		$(MLIB)cmd/ping.cpp \
 		$(MLIB)cmd/log.cpp \
+		$(MLIB)cmd/sshFake.cpp \
 		$(DIR)user.cpp \
 		$(DIR)client.cpp \
 		$(DIR)Timer.cpp

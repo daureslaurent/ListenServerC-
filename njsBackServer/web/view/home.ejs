@@ -19,31 +19,21 @@
 </head>
 
 <body>
-
     <div class="container">
         <%- include('partials/navbar') %>
-
-        <div class="container-fluid">
-                <div class="row">
-                    <% for(var i=0; i<dataList.length; i++) { %>
-                        <div class="col-sm">
-                            <div class="card">
-                                <div class="card-body">
-                                    <h5 class="card-title">Card title</h5>
-                                    <h6 class="card-subtitle mb-2">Ip: <%= dataList[i].ip %></h6>
-                                    <h8 class="card-subtitle mb-2">Port: <%= dataList[i].port %></h8>
-                                    <h8 class="card-subtitle mb-2">Time: <%= dataList[i].timeStr %></h8>
-                                    <hr>
-                                    <h8 class="card-subtitle mb-2">[<%= dataList[i].data %>]</h8>
-                                </div>
-                            </div>
-                        </div>
-                    <% } %>
+        <div class="list-group">
+            <% for(var i=0; i<dataList.length; i++) { %>
+                <div href="#" class="list-group-item list-group-item-action flex-column align-items-start">
+                    <div class="d-flex w-100 justify-content-between">
+                        <h5 class="mb-1">PORT[<%= dataList[i].port %>] IP[<%= dataList[i].ip %>]</h5>
+                        <small><%= dataList[i].timeStr %></small>
+                    </div>
+                    <small>[<%= dataList[i].data %>]</small>
                 </div>
-            </div>
-
-        <%- include('partials/footer') %>
+            <% } %>
+        </div>
     </div>
+    <%- include('partials/footer') %>
 </body>
 
 </html>
