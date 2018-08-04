@@ -12,7 +12,6 @@ module.exports = function(app) {
         dataConverter.getAllDataSummary(15, function(data){
             dataConverter.getStateServerUnix(function(servers){
                 dataConverter.getBackState(function(backData){
-                    console.log(JSON.stringify(data))
                     res.render('home', { dataList: data , serverList: servers, backState : backData})
                 });
             });

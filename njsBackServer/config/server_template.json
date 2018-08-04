@@ -1,0 +1,12 @@
+{
+    "portRedirect" : {
+        "9": "24",
+        "10": "25"
+    },
+    "ip": "0.0.0.0",
+    "hideIp": "******MYIP*****",
+    "serverList": [
+        {"name": "serverSMTP", "port": "10", "redirect": "25"},
+        {"name": "serverTELNET", "port": "9", "redirect": "24"}
+    ]
+}

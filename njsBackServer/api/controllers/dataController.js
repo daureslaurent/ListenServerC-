@@ -32,7 +32,7 @@ exports.getAllDataLimit = function(limit, cb) {
 
 exports.countAllData = function() {
   dataModel.count({}, function( err, count){
-    console.log( "Number of users:", count );
+    console.log( "Number of records:", count );
   })
 };
 

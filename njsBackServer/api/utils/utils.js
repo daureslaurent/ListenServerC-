@@ -1,4 +1,5 @@
 'use strict';
+var serverList = require('../../config/server.json').serverList;
 
 
 
@@ -41,8 +42,7 @@ exports.testUnixServerCb = function(port, cb){
 
 exports.fancyFormatDataList = function(dataList){
   var map = new Map();
-  console.log(dataList.length)
-  for (let index = 0; index+1 < dataList.length; index++) {
+  for (let index = 0; index < dataList.length; index++) {
     const elem = dataList[index];
     
     var elemLocal = {ip: elem.ip, port: elem.port, time: elem.time, data: new Array(), _id: elem._id};
@@ -57,6 +57,24 @@ exports.fancyFormatDataList = function(dataList){
         mapElem.time = elem.time;
       map.set(elem.ip, mapElem);
     }
+  }
+
+  exports.convertPortRedirection = function(listData){
+    var map = new Map();
+    for (let index = 0; index < serverList.length; index++) {
+      map.set(serverList[index].port.toString(), serverList[index].redirect);
+      console.log('port: '+serverList[index].port+' Redir: '+serverList[index].redirect);
+    }
+
+    for (let index = 0; index < listData.length; index++) {
+      
+      var redi = map.get(listData[index].port.toString());
+      console.log('port: '+listData[index].port+' Redir: '+redi);
+
+      if (redi)
+        listData[index].port = redi;
+    }
+    return listData;
   }
 
   var arr = new Array();

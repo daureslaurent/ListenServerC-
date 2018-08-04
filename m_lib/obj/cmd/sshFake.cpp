@@ -15,5 +15,5 @@ void		CMD_ssh::Init(const int fd)
 
 std::string	CMD_ssh::Run()
 {
-  return "SSH-2.0-PUTTY\r\n";
+  return "OKRETURNSSH";
 }
