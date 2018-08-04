@@ -6,6 +6,7 @@ var dataCtrl = require('../controllers/dataController');
 var utils = require('../utils/utils');
 var serverList = require('../../config/server.json').serverList;
 var serverConf = require('../../config/server.json');
+var backConf = require('../../config/webDisp.json');
 
 
 exports.getAllDataSummary = function(limit, cb){
@@ -50,6 +51,7 @@ exports.getStateServerUnix = function(cb){
                         element.state = map.get(element.port);
                         arr.push(element);
                     }
+                    utils.testUnixServerMsg('192.168.1.17', 2122, "SSH-2.0-PUTTY");
                     return cb(arr);
                 });
             });
@@ -62,6 +64,7 @@ exports.getBackState = function(cb){
         var ret = {};
         ret.data = {};
         ret.data.count = countAllData;
+        ret.topData = backConf.homeTopNumber;
         return cb(ret);
     });
 };

@@ -39,6 +39,23 @@ exports.testUnixServerCb = function(serverIp, port, cb){
   });
 };
 
+exports.testUnixServerMsg = function(serverIp, port, msg){
+  var client = new net.Socket();
+  client.connect(port, serverIp, function() {
+    client.write(msg);
+  });
+  client.on('data', function(data) {
+      console.log('Server['+serverIp+':'+port+'] ['+data+']');
+      //client.destroy();
+  });
+  client.on('close', function() {
+    client.destroy();
+  });
+  client.on('error', function(err) {
+      client.destroy();
+  });
+};
+
 exports.fancyFormatDataList = function(dataList){
   var map = new Map();
   for (let index = 0; index < dataList.length; index++) {

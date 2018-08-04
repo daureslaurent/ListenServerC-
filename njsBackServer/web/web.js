@@ -2,14 +2,14 @@
 module.exports = function(app) {
     var path = require('path');
     var dataConverter = require('./../api/converter/dataConverter');
-
+    var backConf = require('../config/webDisp.json');
     app.set('views', path.join(__dirname, '/view'));
     
     app.set('css', path.join(__dirname, '/css'));
     app.set('view engine', 'ejs');
 
     app.get('/web', function(req, res){
-        dataConverter.getAllDataSummary(15, function(data){
+        dataConverter.getAllDataSummary(backConf.homeTopNumber, function(data){
             dataConverter.getStateServerUnix(function(servers){
                 dataConverter.getBackState(function(backData){
                     res.render('home', { dataList: data , serverList: servers, backState : backData})
