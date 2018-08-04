@@ -53,13 +53,12 @@ net.createServer(function (socket) {
   socket.on('data', function (data) {
     var jsonData = JSON.parse(data);
     
-    if (jsonData && jsonData.data !== 'QklQDQo=' && jsonData.data !== 'cG9uZwo=' && jsonData.data !== 'cGluZwo=' && jsonData.data !== 'W1NFUlZFUl9TRU5EXTpwb25nIAo=' && jsonData.data !== 'W1NFUlZFUl9TRU5EXTpCSVAgCg=='
+    if (jsonData && jsonData.data !== 'QklQDQo=' && jsonData.data !== 'cG9uZwo=' && jsonData.data !== 'cGluZwo=' && jsonData.data !== 'W1NFUlZFUl9TRU5EXTpwb25nCg==' && jsonData.data !== 'W1NFUlZFUl9TRU5EXTpCSVAg'
         && !validator.isEmpty(jsonData.data)){
       
       console.log("[port]["+jsonData.port +"] " +
                   "[time]["+utils.unixToTimeFR(Number.parseInt(jsonData.time))+"] " +
                   "[ip]["+jsonData.ip +"]");
-      console.log("[data]["+jsonData.data +"]");
       dataCtrl.createData(jsonData);
     }
   });
