@@ -1,5 +1,9 @@
 'use strict';
 
+exports.unixToTimeFR = function(timeUnix){
+  return unixToTimeStr(timeUnix + 7200);
+}
+
 exports.unixToTimeStr = function(timeUnix){
   var date = new Date(timeUnix*1000);
   var hours = date.getHours();
