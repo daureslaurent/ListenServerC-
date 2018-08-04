@@ -39,20 +39,23 @@ exports.getStateServerUnix = function(cb){
         utils.testUnixServerCb(serverList[1].addr, serverList[1].port, function(state2122){
             utils.testUnixServerCb(serverList[2].addr, serverList[2].port, function(state2123){
                 utils.testUnixServerCb(serverList[3].addr, serverList[3].port, function(state2124){
-                    var arr = new Array();
-                    var map = new Map();
-                    map.set('2121', state2121);
-                    map.set('2122', state2122);
-                    map.set('2123', state2123);
-                    map.set('2124', state2124);
-
-                    for (let index = 0; index < serverList.length; index++) {
-                        var element = serverList[index];
-                        element.state = map.get(element.port);
-                        arr.push(element);
-                    }
-                    utils.testUnixServerMsg('192.168.1.17', 2122, "SSH-2.0-PUTTY");
-                    return cb(arr);
+                    utils.testUnixServerCb(serverList[4].addr, serverList[4].port, function(state2110){
+                        var arr = new Array();
+                        var map = new Map();
+                        map.set(serverList[0].port, state2121);
+                        map.set(serverList[1].port, state2122);
+                        map.set(serverList[2].port, state2123);
+                        map.set(serverList[3].port, state2124);
+                        map.set(serverList[4].port, state2110);
+    
+                        for (let index = 0; index < serverList.length; index++) {
+                            var element = serverList[index];
+                            element.state = map.get(element.port);
+                            arr.push(element);
+                        }
+                        //utils.testUnixServerMsg('192.168.1.17', 2124, "SSH-2.0-PUTTY");
+                        return cb(arr);
+                    });
                 });
             });
         });
