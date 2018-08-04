@@ -37,6 +37,7 @@ net = require('net');
 // Keep track of the chat clients
 var clients = [];
 var port = 2120;
+var utils = require('./api/utils/utils');
 
 // Start a TCP Server
 net.createServer(function (socket) {
@@ -52,7 +53,7 @@ net.createServer(function (socket) {
         var jsonData = JSON.parse(data);
         console.log("[ip]["+jsonData.ip +"] " +
                     "[port]["+jsonData.port +"] " +
-                    "[time]["+jsonData.timeStr +"]");
+                    "[time]["+utils.unixToTimeStr(jsonData.time)+"]");
         //console.log("[port]"+jsonData.port);
         //console.log("[time]"+jsonData.time);
         //console.log("[data]"+jsonData.data);
