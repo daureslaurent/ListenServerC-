@@ -11,7 +11,6 @@ exports.unixToTimeStr = function(timeUnix){
 exports.unixToTimeFR = function(timeUnix){
   return this.unixToTimeStr(timeUnix+ 7200);
 };
-var serverIp = '192.168.1.17';
 
 exports.testUnixServerCb = function(serverIp, port, cb){
   var client = new net.Socket();
