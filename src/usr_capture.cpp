@@ -55,7 +55,7 @@ void	Serv_Capture::Push(std::string msg, std::string var, std::string ip, int po
   //Encrypt data
   if (var.compare("BIP\n") != 0 && var.compare("EXIT\n") != 0){
     if (msg.compare("Send :") == 0){
-      msg.insert(0, "[SERVER_SEND]:");
+      msg = msg.insert(0, "[SERVER_SEND]:");
     }
     std::string encoded = base64_encode(reinterpret_cast<const unsigned char*>(var.c_str()), var.length());
     std::time_t result = std::time(nullptr);

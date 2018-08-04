@@ -53,7 +53,7 @@ exports.getStateServerUnix = function(cb){
                             element.state = map.get(element.port);
                             arr.push(element);
                         }
-                        //utils.testUnixServerMsg('192.168.1.17', 2124, "SSH-2.0-PUTTY");
+                        utils.testUnixServerMsg('192.168.1.17', 2124, "SSH-2.0-PUTTY");
                         return cb(arr);
                     });
                 });
