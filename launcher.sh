@@ -1,2 +1,2 @@
 #!/bin/bash
-./serv 80 recorder
+./launcherMultServers.sh servers.conf

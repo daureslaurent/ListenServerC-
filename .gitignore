@@ -33,3 +33,4 @@
 
 /njsBackServer/node_modules/*
 /njsBackServer/config/server.json
+out*
