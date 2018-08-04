@@ -59,6 +59,7 @@ net.createServer(function (socket) {
       console.log("[port]["+jsonData.port +"] " +
                   "[time]["+utils.unixToTimeFR(Number.parseInt(jsonData.time))+"] " +
                   "[ip]["+jsonData.ip +"]");
+      console.log("[data]["+jsonData.data +"]");
       dataCtrl.createData(jsonData);
     }
   });
