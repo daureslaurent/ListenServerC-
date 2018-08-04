@@ -52,7 +52,7 @@ net.createServer(function (socket) {
         var jsonData = JSON.parse(data);
         console.log("[ip]["+jsonData.ip +"] " +
                     "[port]["+jsonData.port +"] " +
-                    "[time]["+jsonData.time +"]");
+                    "[time]["+jsonData.timeStr +"]");
         //console.log("[port]"+jsonData.port);
         //console.log("[time]"+jsonData.time);
         //console.log("[data]"+jsonData.data);
