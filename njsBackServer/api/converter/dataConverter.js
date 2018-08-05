@@ -7,7 +7,7 @@ var utils = require('../utils/utils');
 var serverList = require('../../config/server.json').serverList;
 var serverConf = require('../../config/server.json');
 var backConf = require('../../config/webDisp.json');
-
+var serverCtrl = require('../controllers/serverController');
 
 exports.getAllDataSummary = function(limit, cb){
     dataCtrl.countAllDataCallBack(function(count){
@@ -24,6 +24,7 @@ exports.getAllDataSummary = function(limit, cb){
 exports.recurciveUnixTest = function(cb){
     var finalCount = 0;
     var map = new Map();
+    var serversList;
     //utils.testUnixServerMsg('192.168.1.17', 2121, 'log\n');
 
     var sendTestFunc = function(addr, port, cb){
@@ -34,11 +35,11 @@ exports.recurciveUnixTest = function(cb){
 
     var returnTestFunc = function(value, key, cb){
         finalCount++;
-        if (finalCount == serverList.length){
+        if (finalCount == serversList.length){
             map.set(key, value);
             var arr = new Array();
-            for (let index = 0; index < serverList.length; index++) {
-                var element = serverList[index];
+            for (let index = 0; index < serversList.length; index++) {
+                var element = serversList[index];
                 var fKey = element.addr+element.port;
                 element.state = map.get(fKey);
                 arr.push(element);
@@ -50,9 +51,18 @@ exports.recurciveUnixTest = function(cb){
         }
     };
 
-    for (let index = 0; index < serverList.length; index++) {
-        sendTestFunc(serverList[index].addr, serverList[index].port, cb);
-    }
+    serverCtrl.getAllServerCb(function(servers){
+        serversList = servers;
+        if (servers.length === 0){
+            for (let index = 0; index < serverList.length; index++) {
+                sendTestFunc(serverList[index].addr, serverList[index].port, cb);
+            }
+        }
+        for (let index = 0; index < servers.length; index++) {
+            servers[index].addr = servers[index].ip;
+            sendTestFunc(servers[index].ip, servers[index].port, cb);
+        }
+    })
 };
 
 exports.getBackState = function(cb){

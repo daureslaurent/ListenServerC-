@@ -1,7 +1,8 @@
 'use strict';
 var validator = require('validator');
-var psTree = require('ps-tree');                
-var exec = require('child_process').exec;
+
+var serverCtrl = require('../api/controllers/serverController');
+var serverCmd = require('../api/utils/serverCmd');
 
 module.exports = function(app) {
     var path = require('path');
@@ -16,7 +17,7 @@ module.exports = function(app) {
         dataConverter.getAllDataSummary(backConf.homeTopNumber, function(data){
             dataConverter.recurciveUnixTest(function(servers){
                 dataConverter.getBackState(function(backData){
-                    //console.log(servers);
+                    console.log(servers);
                     res.render('home', { dataList: data , serverList: servers, backState : backData})
                 });
             });
@@ -29,51 +30,27 @@ module.exports = function(app) {
         });
     });
 
+    app.get('/web/server/:id/state', function(req, res){
+        if (req.query.state){
+            var id = req.params.id;
+            var state = (req.query.state == 'true');
+            if (state)
+                serverCmd.startServer(id);
+            else
+                serverCmd.stopServer(id);
+        }
+        res.json('{"msg": "OK"}');
+    });
+
     app.get('/web/server', function(req, res){
         dataConverter.recurciveUnixTest(function(servers){
-            if (req.query.teststart){
-                
-                var kill = function (pid, signal, callback) {
-                    signal   = signal || 'SIGKILL';
-                    callback = callback || function () {};
-                    var killTree = true;
-                    if(killTree) {
-                        psTree(pid, function (err, children) {
-                            [pid].concat(
-                                children.map(function (p) {
-                                    return p.PID;
-                                })
-                            ).forEach(function (tpid) {
-                                try { process.kill(tpid, signal) }
-                                catch (ex) { }
-                            });
-                            callback();
-                        });
-                    } else {
-                        try { process.kill(pid, signal) }
-                        catch (ex) { }
-                        callback();
-                    }
-                };
-                var child = exec('sudo ./doLaunchScriptServer.sh 2121');
-                var childPid = child.pid;
-                console.log('Server launch['+childPid+']');
-                //Store pid in bd
-
-                /*child.stdout.on('data', function(data) {
-                    console.log('stdout: ' + data);
-                });
-                child.stderr.on('data', function(data) {
-                    console.log('stdout: ' + data);
-                });*/
-                child.on('close', function(code) {
-                    //TODO: chnge state in db
-                    console.log('closing code: ' + code);
-                });
-                setTimeout(function(pid){
-                    console.log('close pid['+pid+']');
-                    kill(pid);
-                }, 20000, childPid);
+            if (req.query.addr){
+                var addr = req.query.addr;
+                var name = req.query.name;
+                var port = req.query.port;
+                var redirect = req.query.redirect;
+                console.log('CreateServer['+addr+']['+name+']['+port+']['+redirect+']');
+                serverCtrl.createServer(addr, name, port, redirect);
             }
             res.render('server', { serverList: servers });
         });

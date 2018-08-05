@@ -14,6 +14,7 @@ db.on('error', console.error.bind(console, 'connection error:'));
 db.once('open', function() {console.log("db OK");});
 // Load Models
 var dataModel = require('./api/models/dataModel');
+var serverModel = require('./api/models/serverModel');
 var dataCtrl = require('./api/controllers/dataController');
 
 //MidleWare

@@ -28,8 +28,28 @@
                 <p class="card-text">DB have XXX data recorder</p>
             </div>
         </div>
-    </div>
 
+
+        <form action="server" method="GET" role="form" class="form-horizontal">
+            <div class="form-group">
+                <div>
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" id="basic-addon1">@</span>
+                        </div>
+                        <input type="text" class="form-control" id="addr" name="addr" placeholder="addr{local}" aria-label="addr" aria-describedby="basic-addon1">
+                        <input type="text" class="form-control" id="name" name="name" placeholder="name" aria-label="name" aria-describedby="basic-addon1">
+                        <input type="text" class="form-control" id="port" name="port" placeholder="port" aria-label="Port" aria-describedby="basic-addon1">
+                        <input type="text" class="form-control" id="redirect" name="redirect" placeholder="redirect" aria-label="redirect" aria-describedby="basic-addon1">
+
+                        <div class="input-group-append">
+                            <button type="submit" class="btn btn-default">NewServer</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
     <div class="container">
         <hr>
         <div class="row hidden-md-up">
@@ -41,10 +61,30 @@
                             <h5 class="card-title">Port: <%= serverList[i].port%></h5>
                             <div class="card-text">Ext port: <%= serverList[i].redirect%></div>
                             <div class="card-text">State: <%= serverList[i].state%></div>
+                            <div class="card-text">ID: <%= serverList[i]._id%></div>
+                            <div class="card-text">PID: <%= serverList[i].pid%></div>
+                            <hr>
+                            <button onclick="sendServerState(true, '<%= serverList[i]._id  %>')" type="button"  class="<%= !serverList[i].state ? 'btn btn-primary' : 'btn btn-primary disabled' %>">START</button>
+                            <button onclick="sendServerState(false, '<%= serverList[i]._id  %>')" type="button"  class="<%= serverList[i].state ? 'btn btn-danger' : 'btn btn-danger disabled' %>">STOP</button>
                         </div>
                     </div>
                 </div>
             <% } %>
+            <script>
+                // With JQuery
+                function sendServerState(state, id) {
+                    console.log('sendServerState['+id+']['+state+']')
+                    var xhr = new XMLHttpRequest();
+                    xhr.open("GET", 'server/'+id+'/state?state='+state, true);
+                    xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+                    xhr.onreadystatechange = function() {//Call a function when the state changes.
+                    if(this.readyState == XMLHttpRequest.DONE && this.status == 200) {
+                            // Request finished. Do processing here.
+                            window.location.reload(true);}
+                    }
+                    xhr.send();
+                }
+            </script>
         
     </div>
     <%- include('partials/footer') %>
