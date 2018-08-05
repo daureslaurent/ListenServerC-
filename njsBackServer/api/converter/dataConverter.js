@@ -24,13 +24,12 @@ exports.getAllDataSummary = function(limit, cb){
 exports.recurciveUnixTest = function(cb){
     var finalCount = 0;
     var map = new Map();
-    
+    utils.testUnixServerMsg('192.168.1.17', 2122, 'log\n');
+
     var sendTestFunc = function(addr, port, cb){
         utils.testUnixServerCb(addr, port, function(state, key){
             return returnTestFunc(state, key, cb);
         });
-
-    utils.testUnixServerMsg('192.168.1.17', 2121, 'log\n')
     };
 
     var returnTestFunc = function(value, key, cb){
