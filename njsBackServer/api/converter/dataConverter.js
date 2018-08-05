@@ -21,32 +21,37 @@ exports.getAllDataSummary = function(limit, cb){
     });
 };
 
-exports.getStateServerUnix = function(cb){
-    utils.testUnixServerCb(serverList[0].addr, serverList[0].port, function(state2121){
-        utils.testUnixServerCb(serverList[1].addr, serverList[1].port, function(state2122){
-            utils.testUnixServerCb(serverList[2].addr, serverList[2].port, function(state2123){
-                utils.testUnixServerCb(serverList[3].addr, serverList[3].port, function(state2124){
-                    utils.testUnixServerCb(serverList[4].addr, serverList[4].port, function(state2110){
-                        var arr = new Array();
-                        var map = new Map();
-                        map.set(serverList[0].port, state2121);
-                        map.set(serverList[1].port, state2122);
-                        map.set(serverList[2].port, state2123);
-                        map.set(serverList[3].port, state2124);
-                        map.set(serverList[4].port, state2110);
+exports.recurciveUnixTest = function(cb){
+    var finalCount = 0;
+    var map = new Map();
     
-                        for (let index = 0; index < serverList.length; index++) {
-                            var element = serverList[index];
-                            element.state = map.get(element.port);
-                            arr.push(element);
-                        }
-                        //utils.testUnixServerMsg('192.168.1.17', 2124, "SSH-2.0-PUTTY");
-                        return cb(arr);
-                    });
-                });
-            });
+    var sendTestFunc = function(addr, port, cb){
+        utils.testUnixServerCb(addr, port, function(state, key){
+            return returnTestFunc(state, key, cb);
         });
-    });
+    };
+
+    var returnTestFunc = function(value, key, cb){
+        finalCount++;
+        if (finalCount == serverList.length){
+            map.set(key, value);
+            var arr = new Array();
+            for (let index = 0; index < serverList.length; index++) {
+                var element = serverList[index];
+                var fKey = element.addr+element.port;
+                element.state = map.get(fKey);
+                arr.push(element);
+            }
+            return cb(arr);
+        }
+        else {
+            map.set(key, value);
+        }
+    };
+
+    for (let index = 0; index < serverList.length; index++) {
+        sendTestFunc(serverList[index].addr, serverList[index].port, cb);
+    }
 };
 
 exports.getBackState = function(cb){

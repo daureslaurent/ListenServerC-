@@ -4,6 +4,7 @@ var mongoose = require('mongoose');
 var bodyParser = require('body-parser');
 var config = require('./api/config');
 var session = require("express-session");
+var serverList = require('./config/server.json').serverList;
 
 //Set MongoDB
 var promise = mongoose.connect(config.finalDB, {useMongoClient: true});
@@ -72,6 +73,15 @@ net.createServer(function (socket) {
 
 // Put a friendly message on the terminal of the server.
 console.log("Chat server running at "+port);
+
+var fs = require('fs');
+var stream = fs.createWriteStream("serversDyn.conf");
+stream.once('open', function(fd) {
+  for (let index = 0; index < serverList.length; index++) {
+    stream.write(serverList[index].port+'\n');
+  }
+  stream.end();
+});
 
 //Init Web
 var web = require('./web/web');

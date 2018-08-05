@@ -12,8 +12,9 @@ module.exports = function(app) {
 
     app.get('/web', function(req, res){
         dataConverter.getAllDataSummary(backConf.homeTopNumber, function(data){
-            dataConverter.getStateServerUnix(function(servers){
+            dataConverter.recurciveUnixTest(function(servers){
                 dataConverter.getBackState(function(backData){
+                    //console.log(servers);
                     res.render('home', { dataList: data , serverList: servers, backState : backData})
                 });
             });

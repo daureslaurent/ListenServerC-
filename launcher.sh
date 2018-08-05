@@ -1,2 +1,2 @@
 #!/bin/bash
-./launcherMultServers.sh servers.conf
+./doDynMultServers.sh serversDyn.conf

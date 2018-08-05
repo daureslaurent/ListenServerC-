@@ -13,6 +13,7 @@ exports.unixToTimeFR = function(timeUnix){
 };
 
 exports.testUnixServerCb = function(serverIp, port, cb){
+  var key = serverIp+port;
   var client = new net.Socket();
   client.connect(port, serverIp, function() {
     client.write('ping\n');
@@ -22,10 +23,10 @@ exports.testUnixServerCb = function(serverIp, port, cb){
     if (data == 'pong\n'){
       //console.log('Server['+serverIp+':'+port+'] is OK')
       client.destroy();
-      return cb(true);
+      return cb(true, key);
     }
     client.destroy();
-    return cb(true);
+    return cb(true, key);
   });
   
   // Add a 'close' event handler for the client socket
@@ -35,7 +36,7 @@ exports.testUnixServerCb = function(serverIp, port, cb){
   
   client.on('error', function(err) {
       client.destroy();
-      return cb(false);
+      return cb(false, key);
   });
 };
 
