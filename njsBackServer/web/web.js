@@ -1,5 +1,7 @@
 'use strict';
 var validator = require('validator');
+var psTree = require('ps-tree');                
+var exec = require('child_process').exec;
 
 module.exports = function(app) {
     var path = require('path');
@@ -30,7 +32,48 @@ module.exports = function(app) {
     app.get('/web/server', function(req, res){
         dataConverter.recurciveUnixTest(function(servers){
             if (req.query.teststart){
-                //TODO: ADD LAUNCH SCRIPT
+                
+                var kill = function (pid, signal, callback) {
+                    signal   = signal || 'SIGKILL';
+                    callback = callback || function () {};
+                    var killTree = true;
+                    if(killTree) {
+                        psTree(pid, function (err, children) {
+                            [pid].concat(
+                                children.map(function (p) {
+                                    return p.PID;
+                                })
+                            ).forEach(function (tpid) {
+                                try { process.kill(tpid, signal) }
+                                catch (ex) { }
+                            });
+                            callback();
+                        });
+                    } else {
+                        try { process.kill(pid, signal) }
+                        catch (ex) { }
+                        callback();
+                    }
+                };
+                var child = exec('sudo ./doLaunchScriptServer.sh 2121');
+                var childPid = child.pid;
+                console.log('Server launch['+childPid+']');
+                //Store pid in bd
+
+                /*child.stdout.on('data', function(data) {
+                    console.log('stdout: ' + data);
+                });
+                child.stderr.on('data', function(data) {
+                    console.log('stdout: ' + data);
+                });*/
+                child.on('close', function(code) {
+                    //TODO: chnge state in db
+                    console.log('closing code: ' + code);
+                });
+                setTimeout(function(pid){
+                    console.log('close pid['+pid+']');
+                    kill(pid);
+                }, 20000, childPid);
             }
             res.render('server', { serverList: servers });
         });
