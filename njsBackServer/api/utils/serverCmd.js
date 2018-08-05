@@ -61,8 +61,8 @@ exports.stopServer = function(id){
     serverCtrl.getServerByIdCb(id, function(server){
         var pid = server[0].pid;
         console.log('PID to close: '+pid);
-        
-        kill(pid);
+        if (pid != '-1')
+            kill(pid);
         serverCtrl.setPIDServer('-1', id);
     })
 }
