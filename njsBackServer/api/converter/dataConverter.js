@@ -29,6 +29,8 @@ exports.recurciveUnixTest = function(cb){
         utils.testUnixServerCb(addr, port, function(state, key){
             return returnTestFunc(state, key, cb);
         });
+
+    utils.testUnixServerMsg('192.168.1.17', 2121, 'log\n')
     };
 
     var returnTestFunc = function(value, key, cb){
