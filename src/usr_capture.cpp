@@ -67,7 +67,7 @@ void	Serv_Capture::Push(std::string msg, std::string var, std::string ip, int po
     std::string jsonOut = ss.str();
     //send over socket
     Ireseau ipUtils;
-    if (!ipUtils.isLocal(ip) && _connection.Init("127.0.0.1", 2120)){
+    if (!ipUtils.IsLocal(ip) && _connection.Init("127.0.0.1", 2120)){
       _connection.Send(jsonOut);
       //std::cout << "\033[1;32mData send\033[0m" << std::endl;
       close(_connection.get_fd());
