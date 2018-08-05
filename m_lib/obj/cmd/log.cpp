@@ -3,8 +3,9 @@
 #include <fstream>
 #include <iostream>
 
-CMD_log::CMD_log()
+CMD_log::CMD_log(const int port)
 {
+  _port = port;
   _parse = "log";
 }
 

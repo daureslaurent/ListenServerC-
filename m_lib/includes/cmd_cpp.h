@@ -11,7 +11,7 @@ public:
   cmd_s();
   ~cmd_s();
 
-  void	Init(const int);
+  void	Init(const int, const int);
   bool	run(const std::string);
   std::string	get_ret();
 

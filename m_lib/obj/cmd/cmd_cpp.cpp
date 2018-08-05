@@ -10,11 +10,11 @@ cmd_s::cmd_s()
 cmd_s::~cmd_s()
 {}
 
-void	cmd_s::Init(const int fd)
+void	cmd_s::Init(const int fd, const int port)
 {
   Acmd	*cmd_ping =	new CMD_ping();
   _mod_cmd.push_back(cmd_ping);
-  Acmd	*cmd_log =	new CMD_log();
+  Acmd	*cmd_log =	new CMD_log(port);
   _mod_cmd.push_back(cmd_log);
   Acmd	*cmd_dlog =	new CMD_logd();
   _mod_cmd.push_back(cmd_dlog);

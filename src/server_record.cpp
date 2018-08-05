@@ -73,7 +73,7 @@ void	Serverrec::Listener()
       try
 	{
 	  cmd_s* cmd_sys = new cmd_s();
-	  cmd_sys->Init(c_fd);
+	  cmd_sys->Init(c_fd, _connection.getPort());
 	  _list_thread.push_back(std::thread(std::bind(&Serverrec::Servlet, this, c_fd, cmd_sys)));
 	}
       catch (std::bad_alloc& ba)

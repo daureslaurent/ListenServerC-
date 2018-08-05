@@ -5,12 +5,13 @@
 class	CMD_log : public Acmd
 {
 public:
-  CMD_log();
+  CMD_log(const int);
   virtual		~CMD_log();
   virtual void		Init(const int);
   virtual std::string	Run();
 private:
   int	void_test;
+  int _port;
 };
 
 class	CMD_logd : public Acmd
