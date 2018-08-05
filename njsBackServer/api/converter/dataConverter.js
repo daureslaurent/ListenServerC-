@@ -61,6 +61,6 @@ exports.getBackState = function(cb){
 
 exports.getDataByPortCallBack = function(port, cb){
     dataCtrl.getDataByPortCallBack(port, function(data){
-        return utils.formatDataForWeb(data);
+        return cb(utils.formatDataForWeb(data));
     });
 };

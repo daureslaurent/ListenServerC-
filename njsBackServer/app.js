@@ -53,7 +53,7 @@ net.createServer(function (socket) {
   socket.on('data', function (data) {
     var jsonData = JSON.parse(data);
     
-    if (jsonData && jsonData.data !== 'QklQDQo=' && jsonData.data !== 'cG9uZwo=' && jsonData.data !== 'cGluZwo=' && jsonData.data !== 'W1NFUlZFUl9TRU5EXTpwb25nCg==' && jsonData.data !== 'W1NFUlZFUl9TRU5EXTpCSVAg'
+    if (jsonData && jsonData.data !== 'QklQDQo=' && jsonData.data !== 'cG9uZwo=' && jsonData.data !== 'cGluZwo=' && jsonData.data !== 'W1NFUlZFUl9TRU5EXTpwb25nCg==' && jsonData.data !== 'W1NFUlZFUl9TRU5EXTpCSVANCg=='
         && !validator.isEmpty(jsonData.data)){
       
       console.log("[port]["+jsonData.port +"] " +

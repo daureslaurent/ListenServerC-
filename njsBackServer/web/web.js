@@ -1,4 +1,6 @@
 'use strict';
+var validator = require('validator');
+
 module.exports = function(app) {
     var path = require('path');
     var dataConverter = require('./../api/converter/dataConverter');
@@ -25,7 +27,11 @@ module.exports = function(app) {
     });
 
     app.get('/web/search', function(req, res){
-        dataConverter.getDataByPortCallBack(req.query.port, function(data){
+        var port = Number(req.query.port);
+        if (!req.query.port ||!validator.isNumeric(req.query.port))
+            port = 0;
+        console.log(port);
+        dataConverter.getDataByPortCallBack(port, function(data){
             console.log(data);
             res.render('search', { dataList: data });
         });
