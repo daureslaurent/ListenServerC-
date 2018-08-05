@@ -23,7 +23,6 @@ void	Serverrec::Servlet(int c_fd, cmd_s* cmd_s)
       if (buf_in.compare("ERR\n") == 0){
         //Stop thread
         exit = false;
-        std::cout << "Erreur on thread IP[" << _connection.Get_ip() << "]" << c_fd << std::endl;
       }
       else {
         //No err Tech

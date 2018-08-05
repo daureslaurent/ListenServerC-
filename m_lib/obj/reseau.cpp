@@ -83,12 +83,12 @@ std::string	Ireseau::Recv(int fd)
   ret = recv(fd, &buf, 2048, 0);
   if (ret == 0)
     {
-      std::cout << "\033[31m[Recv] fd["<<fd<<"] ret["<<ret<<"]\033[0m" << std::endl;
+      std::cout << "\033[31m[Recv] fd["<<fd<<"] ret["<<ret<<"] ip["<< this.Get_ip() <<"\033[0m" << std::endl;
     return ("EXIT\n");
     }
   else if (ret == -1)
     {
-      std::cout << "\033[31m[Recv] fd["<<fd<<"] ret["<<ret<<"]\033[0m" << std::endl;
+      std::cout << "\033[31m[Recv] fd["<<fd<<"] ret["<<ret<<"] ip["<< this.Get_ip() <<"\033[0m" << std::endl;
       return "ERR\n"; // ERR
     }
   else if (ret != -1){
