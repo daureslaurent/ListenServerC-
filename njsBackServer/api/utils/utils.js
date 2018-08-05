@@ -1,7 +1,7 @@
 'use strict';
 var serverList = require('../../config/server.json').serverList;
-
-
+var base64 = require('base-64');
+var serverConf = require('../../config/server.json');
 
 exports.unixToTimeStr = function(timeUnix){
   var date = new Date(timeUnix*1000);
@@ -62,12 +62,12 @@ exports.formatDataForWeb = function(data){
       var decodedData = base64.decode(encodedData)
       data[index].dataDecoded = decodedData.replace(serverConf.ip, serverConf.hideIp);
   }
-  data = utils.fancyFormatDataList(data);
+  data = this.fancyFormatDataList(data);
   for (let index = 0; index < data.length; index++) {
-      data[index].timeStr = utils.unixToTimeFR(data[index].time);
+      data[index].timeStr = this.unixToTimeFR(data[index].time);
   }
-  data = utils.convertPortRedirection(data);
-  return cb(data);
+  data = this.convertPortRedirection(data);
+  return data;
 }
 
 exports.fancyFormatDataList = function(dataList){

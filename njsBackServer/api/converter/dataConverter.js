@@ -13,20 +13,7 @@ exports.getAllDataSummary = function(limit, cb){
     dataCtrl.countAllDataCallBack(function(count){
         dataCtrl.getCountByPortCallBack(2122, function(count2121){
             dataCtrl.getAllDataLimit(limit, function(datas){
-                var result = {};
-                result.data = datas;
-                for (let index = 0; index < result.data.length; index++) {
-                    const encodedData = result.data[index].data;
-                    var decodedData = base64.decode(encodedData)
-                    result.data[index].dataDecoded = decodedData.replace(serverConf.ip, serverConf.hideIp);
-                }
-                result.data = utils.fancyFormatDataList(datas);
-                for (let index = 0; index < result.data.length; index++) {
-                    result.data[index].timeStr = utils.unixToTimeFR(result.data[index].time);//formattedTime;
-                }
-                result.data = utils.convertPortRedirection(result.data);
-                //console.log(JSON.stringify(result.data))
-                cb(result.data);
+                cb(utils.formatDataForWeb(datas));
             });
             //console.log('datas['+datas+']');
         });
