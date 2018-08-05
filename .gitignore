@@ -35,3 +35,4 @@
 /njsBackServer/config/server.json
 out*
 /serv
+serversDyn.conf

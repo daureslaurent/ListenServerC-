@@ -75,7 +75,7 @@ net.createServer(function (socket) {
 console.log("Chat server running at "+port);
 
 var fs = require('fs');
-var stream = fs.createWriteStream("serversDyn.conf");
+var stream = fs.createWriteStream("../serversDyn.conf");
 stream.once('open', function(fd) {
   for (let index = 0; index < serverList.length; index++) {
     stream.write(serverList[index].port+'\n');
