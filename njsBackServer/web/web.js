@@ -27,13 +27,30 @@ module.exports = function(app) {
         });
     });
 
-    app.get('/web/search', function(req, res){
-        var port = Number(req.query.port);
-        if (!req.query.port ||!validator.isNumeric(req.query.port))
-            port = 0;
-        dataConverter.getDataByPortCallBack(port, function(data){
-            res.render('search', { dataList: data });
+    app.get('/web/server', function(req, res){
+        dataConverter.recurciveUnixTest(function(servers){
+            if (req.query.teststart){
+                //TODO: ADD LAUNCH SCRIPT
+            }
+            res.render('server', { serverList: servers });
         });
+    });
+
+    app.get('/web/search', function(req, res){
+        if (req.query.port && validator.isIP(req.query.port)){
+            var ip = req.query.port;
+            dataConverter.getDataByIpCallBack(ip, function(data){
+                return res.render('search', { dataList: data });
+            });
+        }
+        else {
+            var port = Number(req.query.port);
+            if (!req.query.port ||!validator.isNumeric(req.query.port))
+                port = 0;
+            dataConverter.getDataByPortCallBack(port, function(data){
+                return res.render('search', { dataList: data });
+            });
+        }
     });
 
     console.log('Web loaded');

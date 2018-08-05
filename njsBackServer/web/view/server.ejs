@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="utf-8">
-    <title>ListenServer Home</title>
+    <title>ListenServer Server</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js" integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T" crossorigin="anonymous"></script>
     <style>
@@ -25,7 +25,7 @@
             <div class="card-body">
                 <h5 class="card-title">ListenServer</h5>
                 <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6>
-                <p class="card-text">DB have <%= backState.data.count %> data recorder</p>
+                <p class="card-text">DB have XXX data recorder</p>
             </div>
         </div>
     </div>
@@ -45,23 +45,7 @@
                     </div>
                 </div>
             <% } %>
-        </div>
-        <center><h5 class="mb-1"><%= backState.topData %> Lasts record</h5></center>
-        <hr>
-        <div class="list-group">
-            <% for(var i=0; i<dataList.length; i++) { %>
-                <div href="#" class="list-group-item list-group-item-action flex-column align-items-start">
-                    <div class="d-flex w-100 justify-content-between">
-                        <h5 class="mb-1">PORT[<%= dataList[i].port %>] IP[<%= dataList[i].ip %>]</h5>
-                        <small><%= dataList[i].timeStr %></small>
-                    </div>
-                    <% for(var index=0; index<dataList[i].data.length; index++) { %>
-                        <small>[<%= dataList[i].data[index] %>]</small>
-                        <br>
-                    <% } %>
-                </div>
-            <% } %>
-        </div>
+        
     </div>
     <%- include('partials/footer') %>
 </body>

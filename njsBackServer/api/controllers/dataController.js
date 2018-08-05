@@ -67,3 +67,15 @@ exports.getDataByPortCallBack = function(port, cb){
     console.log('getCountByPortCallBack('+port+'): err: '+err);
   });
 };
+
+exports.getDataByIpCallBack = function(ip, cb){
+  var promise = dataModel.find({'ip':ip})
+                .sort({time: -1})
+                .exec();
+  promise.then(function(data){
+    cb(data);
+  })
+  .catch(function(err){
+    console.log('getDataByIpCallBack('+port+'): err: '+err);
+  });
+};

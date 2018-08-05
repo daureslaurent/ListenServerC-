@@ -70,3 +70,9 @@ exports.getDataByPortCallBack = function(port, cb){
         return cb(utils.formatDataForWeb(data));
     });
 };
+
+exports.getDataByIpCallBack = function(ip, cb){
+    dataCtrl.getDataByIpCallBack(ip, function(data){
+        return cb(utils.formatDataForWeb(data));
+    });
+};
