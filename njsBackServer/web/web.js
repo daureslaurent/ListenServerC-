@@ -17,7 +17,6 @@ module.exports = function(app) {
         dataConverter.getAllDataSummary(backConf.homeTopNumber, function(data){
             dataConverter.recurciveUnixTest(function(servers){
                 dataConverter.getBackState(function(backData){
-                    console.log(servers);
                     res.render('home', { dataList: data , serverList: servers, backState : backData})
                 });
             });
