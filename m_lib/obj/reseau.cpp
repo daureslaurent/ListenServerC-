@@ -102,7 +102,7 @@ std::string	Ireseau::Recv(int fd)
 void		Ireseau::Send(const std::string msg, const int fd)
 {
   char		buf[2048];
-  std::cout << "\033[32m[Send] fd["<<fd<<"] msg["<<(char*)&buf <<"]\033[0m"<< std::endl;
+  //std::cout << "\033[32m[Send] fd["<<fd<<"] msg["<<(char*)&buf <<"]\033[0m"<< std::endl;
   memset(&buf, 0, 2048);
   strcpy((char*)&buf, msg.c_str());
   if (write(fd, &buf, msg.size()) == -1)
@@ -154,7 +154,7 @@ bool	Ireseau_client::Init(const std::string addr, const int port)
   int			tgt_sockfd;
   struct sockaddr_in	tgt_address;
 
-  std::cout << "Init socket	" << std::endl;
+  //std::cout << "Init socket	" << std::endl;
   memset(&tgt_address, '\0', sizeof(tgt_address));
 
   if ( (tgt_sockfd = socket(AF_INET, SOCK_STREAM, 0)) == -1)
@@ -162,7 +162,7 @@ bool	Ireseau_client::Init(const std::string addr, const int port)
       Err("\033[1;31m[FAIL]\033[0m");
       return (false);
     }
-  std::cout << "\033[1;32m[OK]\033[0m\nConnect	" << std::endl;
+  //std::cout << "\033[1;32m[OK]\033[0m\nConnect	" << std::endl;
   tgt_address.sin_family = AF_INET;
   tgt_address.sin_port = htons(port);
   tgt_address.sin_addr.s_addr = inet_addr(addr.c_str());
@@ -173,7 +173,7 @@ bool	Ireseau_client::Init(const std::string addr, const int port)
       Err("\033[1;31m[FAIL]\033[0m");
       return (false);
     }
-  std::cout << "\033[1;32m[OK]\033[0m\n" << std::endl;
+  //std::cout << "\033[1;32m[OK]\033[0m\n" << std::endl;
   _fd = tgt_sockfd;
   return (true);
 }

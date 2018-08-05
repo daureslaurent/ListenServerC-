@@ -68,7 +68,7 @@ void	Serv_Capture::Push(std::string msg, std::string var, std::string ip, int po
     //send over socket
     if (_connection.Init("127.0.0.1", 2120)){
       _connection.Send(jsonOut);
-      std::cout << "\033[1;32mData send\033[0m" << std::endl;
+      //std::cout << "\033[1;32mData send\033[0m" << std::endl;
       close(_connection.get_fd());
     }
     else {
@@ -89,10 +89,6 @@ void	Serv_Capture::Push(std::string msg, std::string var, std::string ip, int po
       fichier << msg << "[" << var << "]" << std::endl;
       fichier.close();
     }
-
-  }
-  else {
-    std::cout << "msg["<<var<<"] Filtered" << std::endl;
   }
 }
 void	Serv_Capture::Push(std::string msg, std::string var)

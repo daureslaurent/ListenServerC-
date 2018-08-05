@@ -30,9 +30,7 @@ module.exports = function(app) {
         var port = Number(req.query.port);
         if (!req.query.port ||!validator.isNumeric(req.query.port))
             port = 0;
-        console.log(port);
         dataConverter.getDataByPortCallBack(port, function(data){
-            console.log(data);
             res.render('search', { dataList: data });
         });
     });
