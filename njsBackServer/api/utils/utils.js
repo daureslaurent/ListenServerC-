@@ -56,6 +56,20 @@ exports.testUnixServerMsg = function(serverIp, port, msg){
   });
 };
 
+exports.formatDataForWeb = function(data){
+  for (let index = 0; index < data.length; index++) {
+      const encodedData = data[index].data;
+      var decodedData = base64.decode(encodedData)
+      data[index].dataDecoded = decodedData.replace(serverConf.ip, serverConf.hideIp);
+  }
+  data = utils.fancyFormatDataList(data);
+  for (let index = 0; index < data.length; index++) {
+      data[index].timeStr = utils.unixToTimeFR(data[index].time);
+  }
+  data = utils.convertPortRedirection(data);
+  return cb(data);
+}
+
 exports.fancyFormatDataList = function(dataList){
   var map = new Map();
   for (let index = 0; index < dataList.length; index++) {

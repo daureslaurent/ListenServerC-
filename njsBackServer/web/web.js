@@ -24,5 +24,12 @@ module.exports = function(app) {
         });
     });
 
+    app.get('/web/search', function(req, res){
+        dataConverter.getDataByPortCallBack(req.query.port, function(data){
+            console.log(data);
+            res.render('search', { dataList: data });
+        });
+    });
+
     console.log('Web loaded');
 };

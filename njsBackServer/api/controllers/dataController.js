@@ -55,3 +55,15 @@ exports.getCountByPortCallBack = function(port, cb){
     console.log('getCountByPortCallBack('+port+'): err: '+err);
   });
 };
+
+exports.getDataByPortCallBack = function(port, cb){
+  var promise = dataModel.find({'port':port})
+                .sort({time: -1})
+                .exec();
+  promise.then(function(datas){
+    cb(datas);
+  })
+  .catch(function(err){
+    console.log('getCountByPortCallBack('+port+'): err: '+err);
+  });
+};
