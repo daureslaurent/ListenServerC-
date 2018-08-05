@@ -70,7 +70,7 @@ void	Server::Listener()
       try
 	{
 	  cmd_s* cmd_sys = new cmd_s();
-	  cmd_sys->Init(c_fd);
+	  cmd_sys->Init(c_fd, _connection.getPort());
 	  client_thread* client = new client_thread();
 	  client->Run(c_fd, cmd_sys, ip_client, &_timer);
 
