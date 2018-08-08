@@ -1,5 +1,5 @@
-#ifndef	SSH_CMD
-#define	SSH_CMD
+#ifndef	HTTP_CMD
+#define	HTTP_CMD
 #include <Acmd.h>
 #include <sstream>
 

@@ -12,14 +12,16 @@ Serverrec::~Serverrec()
 void	Serverrec::Servlet(int c_fd, cmd_s* cmd_s)
 {
   bool	exit = true;
-  _connection.Send("HELLO\n", c_fd);
+  std::string closeSocket = "-==SERVERCLOSESOCKET==-";
+  //_connection.Send("HELLO\n", c_fd);
 
   while (exit)
     {
-      std::string	buf_in;
-      std::string	buf_out;
+      std::string	buf_in = "";
+      std::string	buf_out= "";
       
       buf_in = _connection.Recv(c_fd);
+      std::cout <<"buf_in["<< buf_in <<"]"<< std::endl;
       if (buf_in.compare("ERR\n") == 0){
         //Stop thread
         exit = false;
@@ -38,13 +40,24 @@ void	Serverrec::Servlet(int c_fd, cmd_s* cmd_s)
           buf_out = _version;
         else{
           buf_out = "BIP\r\n";
-          if(cmd_s->run(buf_in))
+          if(cmd_s->run(buf_in)){
             buf_out = cmd_s->get_ret();
+          }
           if (buf_out.compare("EXIT") == 0)
             {
               exit = false;
               buf_out = "EXIT_FORCE\n";
             }
+          //Close after httpResponse
+          else if (buf_out.compare(0, closeSocket.size(), closeSocket) == 0){
+            std::cout << "ERASE:" << buf_out.substr(closeSocket.size()) << std::endl;
+            //Force Send & Close client
+            buf_out = buf_out.substr(closeSocket.size());
+            _connection.Send(buf_out, c_fd);
+            _rec.Push("Send :", buf_out, _connection.Get_ip(), _connection.getPort());
+            close(c_fd);
+            exit = false;
+          }
         }
         if (exit){
           _connection.Send(buf_out, c_fd);

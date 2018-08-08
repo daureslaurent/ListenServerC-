@@ -21,8 +21,8 @@ void	cmd_s::Init(const int fd, const int port)
   _mod_cmd.push_back(cmd_dlog);
   Acmd	*cmd_ssh =	new CMD_ssh();
   _mod_cmd.push_back(cmd_ssh);
-  Acmd	*cmd_http =	new CMD_http();
-  _mod_cmd.push_back(cmd_http);
+  Acmd	*cmd_http_fake =	new CMD_http();
+  _mod_cmd.push_back(cmd_http_fake);
 
   _fd = fd;
   std::cout << "Commande Init - nb[" << (void*)this << "]" << std::endl;
@@ -47,6 +47,7 @@ bool	cmd_s::run(const std::string cmd)
 	  _mod_cmd[i]->Init(_fd);
 	  _mod_cmd[i]->set_cmd(cmd);
 	  _ret = _mod_cmd[i]->Run();
+
 	  return true;
 	}
     }
