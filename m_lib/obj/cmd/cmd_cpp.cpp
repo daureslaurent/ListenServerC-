@@ -3,6 +3,7 @@
 #include "ping.h"
 #include "log.h"
 #include "sshFake.h"
+#include "httpFake.h"
 //dev
 #include <iostream>
 cmd_s::cmd_s()
@@ -20,6 +21,8 @@ void	cmd_s::Init(const int fd, const int port)
   _mod_cmd.push_back(cmd_dlog);
   Acmd	*cmd_ssh =	new CMD_ssh();
   _mod_cmd.push_back(cmd_ssh);
+  Acmd	*cmd_http =	new CMD_http();
+  _mod_cmd.push_back(cmd_http);
 
   _fd = fd;
   std::cout << "Commande Init - nb[" << (void*)this << "]" << std::endl;
