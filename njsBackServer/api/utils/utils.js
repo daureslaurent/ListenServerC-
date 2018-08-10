@@ -116,5 +116,17 @@ exports.fancyFormatDataList = function(dataList){
 
 exports.ledLampAlert = function(){
   var addr = configLamp.server + ':' + configLamp.port + configLamp.uriAlert;
-  axios.get(addr);
+  console.log(addr);
+  axios.get(addr)
+  .then(function (response) {
+    // handle success
+    console.log(response);
+  })
+  .catch(function (error) {
+    // handle error
+    console.log(error);
+  })
+  .then(function () {
+    // always executed
+  });
 };
