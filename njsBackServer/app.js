@@ -6,6 +6,8 @@ var config = require('./api/config');
 var session = require("express-session");
 var serverList = require('./config/server.json').serverList;
 
+const axios = require('axios');
+
 //Set MongoDB
 var promise = mongoose.connect(config.finalDB, {useMongoClient: true});
 // Check MongoDB connect
@@ -63,6 +65,10 @@ net.createServer(function (socket) {
                   "[ip]["+jsonData.ip +"]");
       //console.log("[data]["+jsonData.data+"]");
       dataCtrl.createData(jsonData);
+
+      //Send alert LedLamp
+      utils.ledLampAlert();
+
     }
   });
 

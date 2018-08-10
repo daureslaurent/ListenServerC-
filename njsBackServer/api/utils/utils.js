@@ -2,6 +2,8 @@
 var serverList = require('../../config/server.json').serverList;
 var base64 = require('base-64');
 var serverConf = require('../../config/server.json');
+var axios = require('axios');
+var configLamp = require('../../config/ledLamp.json');
 
 exports.unixToTimeStr = function(timeUnix){
   var date = new Date(timeUnix*1000);
@@ -111,3 +113,8 @@ exports.fancyFormatDataList = function(dataList){
   //console.log(arr);
   return arr;
 }
+
+exports.ledLampAlert = function(){
+  var addr = configLamp.server + ':' + configLamp.port + configLamp.uriAlert;
+  axios.get(addr);
+};

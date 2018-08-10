@@ -33,6 +33,7 @@
 
 /njsBackServer/node_modules/*
 /njsBackServer/config/server.json
+/njsBackServer/config/ledLamp.json
 out*
 /serv
 serversDyn.conf
