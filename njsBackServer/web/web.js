@@ -51,7 +51,10 @@ module.exports = function(app) {
                 console.log('CreateServer['+addr+']['+name+']['+port+']['+redirect+']');
                 serverCtrl.createServer(addr, name, port, redirect);
             }
-            res.render('server', { serverList: servers });
+            //Get log from ServerUnix
+            dataConverter.getInfosServerUnixCb(servers, function(data){
+                res.render('server', { serverList: data });
+            });
         });
     });
 

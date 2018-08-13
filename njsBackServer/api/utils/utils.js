@@ -59,6 +59,30 @@ exports.testUnixServerMsg = function(serverIp, port, msg){
   });
 };
 
+exports.getLogServerUnix = function(addr, port, cb){
+  var key = addr+port;
+  var client = new net.Socket();
+  client.connect(port, addr, function() {
+    client.write('log\n');
+  });
+  
+  client.on('data', function(data) {
+    console.log('LOG['+data+']');
+      client.destroy();
+      return cb(data, key);
+  });
+  
+  // Add a 'close' event handler for the client socket
+  client.on('close', function() {
+    client.destroy();
+  });
+  
+  client.on('error', function(err) {
+      client.destroy();
+      return cb(false, key);
+  });
+};
+
 exports.formatDataForWeb = function(data){
   for (let index = 0; index < data.length; index++) {
       const encodedData = data[index].data;

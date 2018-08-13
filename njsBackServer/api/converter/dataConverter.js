@@ -65,6 +65,41 @@ exports.recurciveUnixTest = function(cb){
     })
 };
 
+exports.getInfosServerUnixCb = function(serverList, cb){
+    console.log(serverList);
+    //return cb(serverList);
+    
+    var finalCount = 0;
+    var map = new Map();
+
+    var sendTestFunc = function(addr, port, cb){
+        utils.getLogServerUnix(addr, port, function(log){
+            return returnTestFunc(log, addr+port, cb);
+        });
+    };
+    var returnTestFunc = function(log, key, cb){
+        finalCount++;
+        if (finalCount == serverList.length){
+            map.set(key, log);
+            var arr = new Array();
+            for (let index = 0; index < serverList.length; index++) {
+                var element = serverList[index];
+                var fKey = element.addr+element.port;
+                element.log = map.get(fKey);
+                arr.push(element);
+            }
+            return cb(arr);
+        }
+        else {
+            map.set(key, log);
+        }
+    };
+    
+    for (let index = 0; index < serverList.length; index++) {
+        sendTestFunc(serverList[index].ip, serverList[index].port, cb);
+    }
+};
+
 exports.getBackState = function(cb){
     dataCtrl.countAllDataCallBack(function(countAllData){
         var ret = {};

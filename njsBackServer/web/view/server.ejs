@@ -63,6 +63,8 @@
                             <div class="card-text">State: <%= serverList[i].state%></div>
                             <div class="card-text">ID: <%= serverList[i]._id%></div>
                             <div class="card-text">PID: <%= serverList[i].pid%></div>
+                            <div class="card-text">LOG: <%= serverList[i].log%></div>
+
                             <hr>
                             <button onclick="sendServerState(true, '<%= serverList[i]._id  %>')" type="button"  class="<%= !serverList[i].state ? 'btn btn-primary' : 'btn btn-primary disabled' %>">START</button>
                             <button onclick="sendServerState(false, '<%= serverList[i]._id  %>')" type="button"  class="btn btn-danger">STOP</button>
