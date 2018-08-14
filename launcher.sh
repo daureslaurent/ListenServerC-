@@ -1,2 +1,2 @@
 #!/bin/bash
-./doDynMultServers.sh serversDyn.conf
+node app.js
