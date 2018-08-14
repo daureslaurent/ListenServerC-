@@ -39,7 +39,7 @@ exports.startServer = function(id){
     serverCtrl.getServerByIdCb(id, function(server){
         var port = server[0].port;
         console.log(server.port);
-        var child = exec('sudo ./doLaunchScriptServer.sh '+port);
+        var child = exec('sudo ./autoBackLauncher.sh '+port);
         var childPid = child.pid;
         serverCtrl.setPIDServer(childPid, id);
         console.log('Server launch PID['+childPid+'] PORT['+port+']');
