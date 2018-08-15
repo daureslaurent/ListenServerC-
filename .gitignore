@@ -31,8 +31,8 @@
 *.out
 *.app
 
-/node_modules/*
-/config/server.json
+node_modules/*
+config/server.json
 out*
-/serv
+serv
 serversDyn.conf
