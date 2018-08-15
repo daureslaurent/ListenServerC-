@@ -6,7 +6,6 @@
 CMD_log::CMD_log(const int port)
 {
   _port = port;
-  std::cout << "CmdLog port: " << _port << std::endl;
   _parse = "log";
 }
 

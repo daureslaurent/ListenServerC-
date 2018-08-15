@@ -14,7 +14,7 @@ Ireseau::~Ireseau()
 
 bool	Ireseau::Init(const int port)
 {
-  std::cout << "Init connection reseau" << std::endl;
+  std::cout << "Server listener OK" << std::endl;
   _port = port;
   _fd_serv = init_socket(port);
   if (_fd_serv == -1)

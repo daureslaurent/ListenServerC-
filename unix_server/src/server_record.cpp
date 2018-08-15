@@ -17,12 +17,15 @@ void	Serverrec::Servlet(int c_fd, cmd_s* cmd_s)
 
   while (exit)
     {
-      std::cout << "Request[" << _connection.Get_ip() << "][" << (void*)this << "]" << std::endl;
 
       std::string	buf_in = "";
       std::string	buf_out= "";
       
       buf_in = _connection.Recv(c_fd);
+      std::string ip = _connection.Get_ip();
+      if (!_connection.Islocal(ip))
+        std::cout << "Request[" << _connection.Get_ip() << "][" << (void*)this << "]" << std::endl;
+
       if (buf_in.compare("ERR\n") == 0){
         //Stop thread
         exit = false;
@@ -68,6 +71,7 @@ void	Serverrec::Servlet(int c_fd, cmd_s* cmd_s)
       buf_out.clear();
       buf_in.clear();
     }
+  if (!_connection.Islocal(ip))
   std::cout << "Close servelet on :" << c_fd << std::endl;
   close(c_fd);
 }
