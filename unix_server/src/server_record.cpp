@@ -17,7 +17,7 @@ void	Serverrec::Servlet(int c_fd, cmd_s* cmd_s)
 
   while (exit)
     {
-      std::cout << "Request[" << _connection.get_ip() << "][" << (void*)this << "]" << std::endl;
+      std::cout << "Request[" << _connection.Get_ip() << "][" << (void*)this << "]" << std::endl;
 
       std::string	buf_in = "";
       std::string	buf_out= "";
