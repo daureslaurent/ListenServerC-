@@ -8,6 +8,7 @@ var serverCmd = require('../api/utils/serverCmd');
 module.exports = function(app) {
     var path = require('path');
     var dataConverter = require('./../api/converter/dataConverter');
+    var graphConvert = require('../api/converter/graphConverter');
     var backConf = require('../config/webDisp.json');
     
     app.set('views', path.join(__dirname, '/view'));
@@ -29,6 +30,12 @@ module.exports = function(app) {
     app.get('/web/detail', function(req, res){
         dataConverter.getAllDataSummary(0, function(data){
             res.render('detail', { dataList: data });
+        });
+    });
+
+    app.get('/web/graph', function(req, res){
+        graphConvert.getGraphDayDataCallBack(function(dayGraph){
+            res.render('graph', { dataDay : dayGraph});
         });
     });
 
