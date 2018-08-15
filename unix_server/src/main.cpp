@@ -14,7 +14,7 @@ int	main(int ac, char **av)
 {
   int		port;
 
-  std::cout << "Serv " << VERSION << std::endl;
+  //std::cout << "Serv " << VERSION << std::endl;
 
   if (ac == 2)
     {
@@ -28,7 +28,7 @@ int	main(int ac, char **av)
     {
       Aserver	*server_ctrl = new Serverrec();
       port = atoi(av[1]);
-      std::cout << "ListenServ record:" << port << std::endl;
+      //std::cout << "ListenServ record:" << port << std::endl;
       server_ctrl->Run(atoi(av[1]), std::string(VERSION));
       server_ctrl->Wait_end();
     }

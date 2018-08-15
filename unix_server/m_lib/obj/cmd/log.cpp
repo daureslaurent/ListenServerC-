@@ -20,7 +20,6 @@ void		CMD_log::Init(const int fd)
 std::string	CMD_log::Run()
 {
   std::string path = "out"+std::to_string(_port)+"/log_connection.log";
-  std::cout << "path[" << path << "]" << std::endl;
   std::ifstream		fichier(path, std::ios::in);  // on ouvre en lecture
   std::string		final;
 

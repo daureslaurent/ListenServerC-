@@ -19,7 +19,7 @@ bool	Ireseau::Init(const int port)
   _fd_serv = init_socket(port);
   if (_fd_serv == -1)
     return false;
-  std::cout << "Serveur[" << _fd_serv << "]" << std::endl;
+  //std::cout << "Serveur[" << _fd_serv << "]" << std::endl;
   return true;
 }
 

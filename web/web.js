@@ -56,26 +56,19 @@ module.exports = function(app) {
             if (req.query.serverId){
                 var serverId = req.query.serverId;
                 serverCtrl.getServerByIdCb(serverId, function(dataNAN){
-                    console.log('Call getServerByIdCb');
-
-                    console.log('TO1');
                     var data = dataNAN[0];
                     dataConverter.getDataByPortLimitCallBack(data.port, 20, function(dataList){
-                        console.log('Call getDataByPortLimitCallBack');
-
                         serverCmd.getLogUnixServer(data.port, function(logUnix){
-                            console.log('Call getLogUnixServer');
                             utils.testUnixServerCb(data.ip, data.port, function(state){
-                                //If off no GetLog!
-                                console.log('Call testUnixServerCb');
                                 if (state){
                                     utils.getLogServerUnix(data.ip, data.port, function(log){
-                                        console.log('Call getLogServerUnix');
-                                        res.render('serverControl', { dataList: dataList, serverData: data, serverState: state, serverLog: log, unixLog: logUnix });
+                                        utils.getVersionServerUnix(data.ip, data.port, function(version){
+                                            res.render('serverControl', { dataList: dataList, serverData: data, serverState: state, serverLog: log, unixLog: logUnix, serverVersion: version });
+                                        })
                                     });
                                 }
                                 else {
-                                    res.render('serverControl', { dataList: dataList, serverData: data, serverState: state, serverLog: 'NO CONNECTION', unixLog: logUnix });
+                                    res.render('serverControl', { dataList: dataList, serverData: data, serverState: state, serverLog: 'NO CONNECTION', unixLog: logUnix, serverVersion: 'undefined' });
                                 }
                             });
                         });
