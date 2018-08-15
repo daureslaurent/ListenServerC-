@@ -66,28 +66,15 @@
                             <div class="card-text">LOG: <%= serverList[i].log%></div>
 
                             <hr>
-                            <button onclick="sendServerState(true, '<%= serverList[i]._id  %>')" type="button"  class="<%= !serverList[i].state ? 'btn btn-primary' : 'btn btn-primary disabled' %>">START</button>
-                            <button onclick="sendServerState(false, '<%= serverList[i]._id  %>')" type="button"  class="btn btn-danger">STOP</button>
+                            <button onclick="openServerAdvanced('<%= serverList[i]._id  %>')" type="button"  class="btn btn-primary">+++</button>
                         </div>
                     </div>
                 </div>
             <% } %>
             <script>
-                // With JQuery
-                function sendServerState(state, id) {
-                    console.log('sendServerState['+id+']['+state+']')
-                    var xhr = new XMLHttpRequest();
-                    xhr.open("GET", 'server/'+id+'/state?state='+state, true);
-                    xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-                    xhr.onreadystatechange = function() {//Call a function when the state changes.
-                        if(this.readyState == XMLHttpRequest.DONE && this.status == 200) {
-                            var delayInMilliseconds = 2000;
-                            setTimeout(function() {
-                                window.location.reload(true);
-                            }, delayInMilliseconds);
-                        }
-                    }
-                    xhr.send();
+                function openServerAdvanced(id){
+                    var path = '/web/server?serverId='+id;
+                    document.location.href = path;
                 }
             </script>
         

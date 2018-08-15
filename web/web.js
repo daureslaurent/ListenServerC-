@@ -1,5 +1,6 @@
 'use strict';
 var validator = require('validator');
+var utils = require('../api/utils/utils');
 
 var serverCtrl = require('../api/controllers/serverController');
 var serverCmd = require('../api/utils/serverCmd');
@@ -51,10 +52,39 @@ module.exports = function(app) {
                 console.log('CreateServer['+addr+']['+name+']['+port+']['+redirect+']');
                 serverCtrl.createServer(addr, name, port, redirect);
             }
-            //Get log from ServerUnix
-            dataConverter.getInfosServerUnixCb(servers, function(data){
-                res.render('server', { serverList: data });
-            });
+            console.log('TO0');
+            if (req.query.serverId){
+                var serverId = req.query.serverId;
+                serverCtrl.getServerByIdCb(serverId, function(dataNAN){
+                    console.log('Call getServerByIdCb');
+
+                    console.log('TO1');
+                    var data = dataNAN[0];
+                    dataConverter.getDataByPortLimitCallBack(data.port, 20, function(dataList){
+                        console.log('Call getDataByPortLimitCallBack');
+
+                        serverCmd.getLogUnixServer(data.port, function(logUnix){
+                            console.log('Call getLogUnixServer');
+                            utils.testUnixServerCb(data.ip, data.port, function(state){
+                                //If off no GetLog!
+                                console.log('Call testUnixServerCb');
+                                if (state){
+                                    utils.getLogServerUnix(data.ip, data.port, function(log){
+                                        console.log('Call getLogServerUnix');
+                                        res.render('serverControl', { dataList: dataList, serverData: data, serverState: state, serverLog: log, unixLog: logUnix });
+                                    });
+                                }
+                                else {
+                                    res.render('serverControl', { dataList: dataList, serverData: data, serverState: state, serverLog: 'NO CONNECTION', unixLog: logUnix });
+                                }
+                            });
+                        });
+                    });
+                });
+            }
+            else {
+                res.render('server', { serverList: servers });
+            }
         });
     });
 

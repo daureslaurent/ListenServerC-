@@ -38,21 +38,19 @@ exports.unixToTimeStr = function(timeUnix){
 exports.startServer = function(id){
     serverCtrl.getServerByIdCb(id, function(server){
         var port = server[0].port;
-        console.log(server.port);
         var child = exec('sudo ./autoBackLauncher.sh '+port);
         var childPid = child.pid;
         serverCtrl.setPIDServer(childPid, id);
         console.log('Server launch PID['+childPid+'] PORT['+port+']');
         child.on('close', function(code) {
-            //TODO: chnge state in db
             serverCtrl.setPIDServer('-1', id);
-            console.log('closing code: ' + code);
+            //console.log('closing code: ' + code);
         });
         child.stdout.on('data', function(data) {
-                    console.log('stdout: ' + data);
+                   // console.log('stdout: ' + data);
                 });
                 child.stderr.on('data', function(data) {
-                    console.log('stdout: ' + data);
+                    //console.log('stdout: ' + data);
         });
     })
 }
@@ -66,3 +64,27 @@ exports.stopServer = function(id){
         serverCtrl.setPIDServer('-1', id);
     })
 }
+
+exports.getLogUnixServer = function(port, cb){
+    var fs = require('fs');
+    var path = 'out'+port+'/logServer/outLog-'+port+'.txt';
+    console.log('path:'+path);
+    fs.readFile(path, 'utf8', function(err, contents) {
+        var sended = false;
+
+        if (err){
+            if (!sended){
+                console.log('Err: '+err);
+                sended = true;
+                cb('Erreur');
+            }
+        }
+        else {
+            if (!sended){
+                console.log('contents:'+contents);
+                cb(contents);
+                sended = true;
+            }
+        }
+    });
+};

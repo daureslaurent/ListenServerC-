@@ -65,6 +65,15 @@ exports.recurciveUnixTest = function(cb){
     })
 };
 
+exports.getInfosAdvancedServerUnixCb = function(addr, ip, cb){
+    utils.getLogServerUnix(addr, port, function(log){
+        return returnTestFunc(log, addr+port, cb);
+    });
+    utils.testUnixServerCb(addr, port, function(state, key){
+        return returnTestFunc(state, key, cb);
+    });
+}
+
 exports.getInfosServerUnixCb = function(serverList, cb){
     var finalCount = 0;
     var map = new Map();
@@ -88,7 +97,8 @@ exports.getInfosServerUnixCb = function(serverList, cb){
             return cb(arr);
         }
         else {
-            map.set(key, log);
+            if (log != 'close')
+                map.set(key, log);
         }
     };
     
@@ -115,6 +125,12 @@ exports.getDataByPortCallBack = function(port, cb){
 
 exports.getDataByIpCallBack = function(ip, cb){
     dataCtrl.getDataByIpCallBack(ip, function(data){
+        return cb(utils.formatDataForWeb(data));
+    });
+};
+
+exports.getDataByPortLimitCallBack = function(port, limit, cb){
+    dataCtrl.getDataByPortLimitCallBack(port, limit, function(data){
         return cb(utils.formatDataForWeb(data));
     });
 };

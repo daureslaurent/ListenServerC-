@@ -31,8 +31,8 @@
 *.out
 *.app
 
-/njsBackServer/node_modules/*
-/njsBackServer/config/server.json
+/node_modules/*
+/config/server.json
 out*
 /serv
 serversDyn.conf

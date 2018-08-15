@@ -22,13 +22,19 @@ exports.testUnixServerCb = function(serverIp, port, cb){
   });
   
   client.on('data', function(data) {
+    var sended = false;
     if (data == 'pong\n'){
-      //console.log('Server['+serverIp+':'+port+'] is OK')
+      if (!sended){
+        cb(true, key);
+        sended = true;
+      }
       client.destroy();
-      return cb(true, key);
+    }
+    if (!sended){
+      cb(true, key);
+      sended = true;
     }
     client.destroy();
-    return cb(true, key);
   });
   
   // Add a 'close' event handler for the client socket
@@ -37,8 +43,8 @@ exports.testUnixServerCb = function(serverIp, port, cb){
   });
   
   client.on('error', function(err) {
-      client.destroy();
-      return cb(false, key);
+    cb(false, key);
+    client.destroy();
   });
 };
 
@@ -62,24 +68,33 @@ exports.testUnixServerMsg = function(serverIp, port, msg){
 exports.getLogServerUnix = function(addr, port, cb){
   var key = addr+port;
   var client = new net.Socket();
+
   client.connect(port, addr, function() {
+    var sended = false;
+
+    client.on('data', function(data) {
+      client.destroy();
+      if (!sended){
+        cb(data, key);
+        sended = true;
+      }
+    });
+  
+    // Add a 'close' event handler for the client socket
+    client.on('close', function() {
+
+      if (!sended){
+        cb('close', key);
+        sended = true;
+      }
+      client.destroy();
+    });
     client.write('log\n');
   });
-  
-  client.on('data', function(data) {
-      client.destroy();
-      return cb(data, key);
-  });
-  
-  // Add a 'close' event handler for the client socket
-  client.on('close', function() {
-    client.destroy();
-    return cb(false, key);
-  });
-  
+
   client.on('error', function(err) {
-      client.destroy();
-      return cb(false, key);
+    cb('err', key);
+    client.destroy();
   });
 };
 
@@ -144,7 +159,6 @@ exports.ledLampAlert = function(){
 
 
   var addr = ("http://" + configLamp.server + ':' + configLamp.port + configLamp.uriAlert).toString();
-  console.log(addr);
   axios.get(addr)
   .then(function (response) {
     // handle success

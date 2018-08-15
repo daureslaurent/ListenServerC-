@@ -68,6 +68,19 @@ exports.getDataByPortCallBack = function(port, cb){
   });
 };
 
+exports.getDataByPortLimitCallBack = function(port, limit, cb){
+  var promise = dataModel.find({'port':port})
+                .sort({time: -1})
+                .limit(limit)
+                .exec();
+  promise.then(function(data){
+    cb(data);
+  })
+  .catch(function(err){
+    console.log('getCountByPortCallBack('+port+'): err: '+err);
+  });
+};
+
 exports.getDataByIpCallBack = function(ip, cb){
   var promise = dataModel.find({'ip':ip})
                 .sort({time: -1})
