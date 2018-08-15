@@ -28,7 +28,7 @@ exports.testUnixServerCb = function(serverIp, port, cb){
         cb(true, key);
         sended = true;
       }
-      client.destroy();
+      //client.destroy();
     }
     if (!sended){
       cb(true, key);
@@ -87,7 +87,7 @@ exports.getLogServerUnix = function(addr, port, cb){
         cb('close', key);
         sended = true;
       }
-      client.destroy();
+      //client.destroy();
     });
     client.write('log\n');
   });
