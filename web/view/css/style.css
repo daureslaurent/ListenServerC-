@@ -1,0 +1,18 @@
+body {
+    padding-top: 20px;
+    padding-bottom: 20px;
+    background-color: #f0f3f6
+}
+
+.terminalLike{
+    background-color: rgb(46, 52, 64);
+    color: rgb(191,97,106);
+    font-family: "Lucida Sans Typewriter";
+    font-size: 0.8em;
+}
+
+.dataList{
+    color: rgb(59,66,82);
+    font-family: "Lucida Sans Typewriter";
+    font-size: 0.7em;
+}

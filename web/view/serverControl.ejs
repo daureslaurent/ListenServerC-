@@ -6,28 +6,7 @@
     <title>ListenServer Server</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js" integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T" crossorigin="anonymous"></script>
-    
-    <style>
-        body {
-            padding-top: 20px;
-            padding-bottom: 20px;
-            background-color: #f0f3f6
-        }
-
-        .terminalLike{
-            background-color: rgb(46, 52, 64);
-            color: rgb(191,97,106);
-            font-family: "Lucida Sans Typewriter";
-            font-size: 0.8em;
-        }
-
-        .dataList{
-            color: rgb(59,66,82);
-            font-family: "Lucida Sans Typewriter";
-            font-size: 0.7em;
-        }
-
-    </style>
+    <link rel="stylesheet" type="text/css" href="css/style.css" />
 </head>
 
 <body>
@@ -40,7 +19,13 @@
                 <div class="card">
                     <div class="card-body">
                         <small><b>DataBase</b></small>
-                        <div class="card-text">Name: <%= serverData.name%></div>
+                        <div class="card-text">Name: <%= serverData.name%>
+                        <% if(!serverState){ %>
+                            <span class="badge badge-danger">KO</span>
+                        <% } else{ %>  
+                            <span class="badge badge-success">OK</span>
+                        <% } %>
+                        </div>
                         <div class="card-text">ID: <%= serverData._id%></div>
                         <div class="card-text">Redirection: <%= serverData.redirect%></div>
                     </div>

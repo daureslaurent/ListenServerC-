@@ -1,7 +1,7 @@
 'use strict';
 var validator = require('validator');
 var utils = require('../api/utils/utils');
-
+var express = require('express');
 var serverCtrl = require('../api/controllers/serverController');
 var serverCmd = require('../api/utils/serverCmd');
 
@@ -9,9 +9,11 @@ module.exports = function(app) {
     var path = require('path');
     var dataConverter = require('./../api/converter/dataConverter');
     var backConf = require('../config/webDisp.json');
-    app.set('views', path.join(__dirname, '/view'));
     
-    app.set('css', path.join(__dirname, '/css'));
+    app.set('views', path.join(__dirname, '/view'));
+    console.log(__dirname)
+    app.use('/web', express.static(__dirname + '/view/'));
+    //app.use('/css', path.join(__dirname, '/web/css'));
     app.set('view engine', 'ejs');
 
     app.get('/web', function(req, res){
