@@ -74,14 +74,12 @@ exports.getLogUnixServer = function(port, cb){
 
         if (err){
             if (!sended){
-                console.log('Err: '+err);
                 sended = true;
-                cb('Erreur');
+                cb(err);
             }
         }
         else {
             if (!sended){
-                console.log('contents:'+contents);
                 cb(contents);
                 sended = true;
             }
