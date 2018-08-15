@@ -50,7 +50,7 @@ exports.startServer = function(id){
                    // console.log('stdout: ' + data);
                 });
                 child.stderr.on('data', function(data) {
-                    console.log('stderr: ' + data);
+                    //console.log('stderr: ' + data);
         });
     })
 }
