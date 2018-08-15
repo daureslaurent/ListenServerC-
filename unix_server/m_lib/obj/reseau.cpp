@@ -36,25 +36,23 @@ int	Ireseau::init_socket(const int port)
   int			server_sockfd;
   struct sockaddr_in	server_address;
 
-  std::cout << "Init socket	" << std::endl;
   memset(&server_address, '\0', sizeof(server_address));
 
   if ( (server_sockfd = socket(AF_INET, SOCK_STREAM, 0)) == -1)
     {
-      Err("\033[1;31m[FAIL]\033[0m");
+      std::cout << "Erreur" << std::endl;
+      Err("init_socket - socket");
       return (-1);
     }
-  std::cout << "\033[1;32m[OK]\033[0m\nBind socket	" << std::endl;
   server_address.sin_family = AF_INET;
   server_address.sin_addr.s_addr = htonl(INADDR_ANY);
   server_address.sin_port = htons(port);
   server_len = sizeof(server_address);
   if (bind(server_sockfd, (struct sockaddr *)&server_address,server_len) == -1)
     {
-      Err("\033[1;31m[FAIL]\033[0m");
+      Err("init_socket - bind");
       return (-1);
     }
-  std::cout << "\033[1;32m[OK]\033[0m\n" << std::endl;
   listen(server_sockfd, 5);
   return (server_sockfd);
 }
@@ -83,12 +81,12 @@ std::string	Ireseau::Recv(int fd)
   ret = recv(fd, &buf, 2048, 0);
   if (ret == 0)
     {
-      std::cout << "\033[31m[Recv] fd["<<fd<<"] ret["<<ret<<"] ip["<< this->Get_ip() <<"\033[0m" << std::endl;
-    return ("EXIT\n");
+      //std::cout << "\033[31m[Recv] fd["<<fd<<"] ret["<<ret<<"] ip["<< this->Get_ip() <<"\033[0m" << std::endl;
+      return ("EXIT\n");
     }
   else if (ret == -1)
     {
-      std::cout << "\033[31m[Recv] fd["<<fd<<"] ret["<<ret<<"] ip["<< this->Get_ip() <<"\033[0m" << std::endl;
+      //std::cout << "\033[31m[Recv] fd["<<fd<<"] ret["<<ret<<"] ip["<< this->Get_ip() <<"\033[0m" << std::endl;
       return "ERR\n"; // ERR
     }
   else if (ret != -1){

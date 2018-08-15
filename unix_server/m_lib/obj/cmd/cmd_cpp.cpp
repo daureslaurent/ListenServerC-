@@ -25,7 +25,7 @@ void	cmd_s::Init(const int fd, const int port)
   _mod_cmd.push_back(cmd_http_fake);
 
   _fd = fd;
-  std::cout << "Commande Init - nb[" << (void*)this << "]" << std::endl;
+  //std::cout << "Commande Init - nb[" << (void*)this << "]" << std::endl;
 }
 
 bool	cmd_s::run(const std::string cmd)

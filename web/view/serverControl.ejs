@@ -30,7 +30,7 @@
     <div class="container-fluid">
         <div class="row">
 
-            <div class="col-md-8">
+            <div class="col-md-6">
                 <div class="card">
                     <div class="card-body">
                         <small><b>DataBase</b></small>
@@ -52,7 +52,20 @@
                 </div>
             </div>
 
-
+            <div class="col-md-2">
+                    <div class="card">
+                        <div class="card-body">
+                            <small><b>Control</b></small>
+                            <h6>Start/Stop</h6>
+                            <% if(!serverState){ %>
+                                <button onclick="sendServerState(true, '<%= serverData._id  %>')" type="button"  class="<%= !serverData.state ? 'btn btn-primary' : 'btn btn-primary disabled' %>">START</button>
+                            <% } else{ %>  
+                                <button onclick="sendServerState(false, '<%= serverData._id  %>')" type="button"  class="btn btn-danger">STOP</button>
+                            <% } %>
+                            <br>
+                        </div>
+                    </div>
+                </div>
 
         </div>
     </div>
@@ -61,7 +74,7 @@
 
     <div class="container-fluid">
         <div class="row">
-            <div class="col-md-9">
+            <div class="col">
                 <div class="card">
                     <div class="card-body">
                         <small><b>Control</b></small>
@@ -69,24 +82,6 @@
                     </div>
                 </div>
             </div>
-
-            <div class="col-md-3">
-                    <div class="card">
-                        <div class="card-body">
-                            <small><b>Control</b></small>
-                            <div class="card-text">State: <%= serverState %>%></div>
-                            <div class="card-text">PID: <%= serverData.pid%>%></div>
-                            <div class="card-text">Port: <%= serverData.port%></div>
-                            <br>
-                            <% if(!serverState){ %>
-                                <button onclick="sendServerState(true, '<%= serverData._id  %>')" type="button"  class="<%= !serverData.state ? 'btn btn-primary' : 'btn btn-primary disabled' %>">START</button>
-                                <% } else{ %>  
-                                <button onclick="sendServerState(false, '<%= serverData._id  %>')" type="button"  class="btn btn-danger">STOP</button>
-                                <% } %>
-                        </div>
-                    </div>
-                </div>
-                
 
         </div>
     </div>
