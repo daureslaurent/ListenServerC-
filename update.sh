@@ -2,6 +2,7 @@
 git checkout autoBackLauncher.sh
 git pull
 chmod +x autoBackLauncher.sh
+chmod +x launcher.sh
 if [ -f "serv" ]
 then
 	echo "No need compile server ..."
