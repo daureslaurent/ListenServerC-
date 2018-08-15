@@ -6,6 +6,8 @@ var config = require('./api/config');
 var session = require("express-session");
 var serverList = require('./config/server.json').serverList;
 
+var blackListData = require('./config/blackListData.json');
+
 const axios = require('axios');
 
 //Set MongoDB
@@ -44,6 +46,9 @@ var port = 2120;
 var utils = require('./api/utils/utils');
 
 // Start a TCP Server
+var base64 = require('base-64');
+
+
 net.createServer(function (socket) {
 
   // Identify this client
@@ -63,12 +68,13 @@ net.createServer(function (socket) {
       var jsonData = JSON.parse(data);
     
       if (jsonData && jsonData.data !== 'QklQDQo=' && jsonData.data !== 'cG9uZwo=' && jsonData.data !== 'cGluZwo=' && jsonData.data !== 'W1NFUlZFUl9TRU5EXTpwb25nCg==' && jsonData.data !== 'W1NFUlZFUl9TRU5EXTpCSVANCg=='
-          && !validator.isEmpty(jsonData.data)){
+          && jsonData !== blackListData.blackList[0] && !validator.isEmpty(jsonData.data)){
         
         console.log("[port]["+jsonData.port +"] " +
                     "[time]["+utils.unixToTimeFR(Number.parseInt(jsonData.time))+"] " +
                     "[ip]["+jsonData.ip +"]");
-        //console.log("[data]["+jsonData.data+"]");
+                    console.log("[data]["+jsonData.data+"]");
+                    console.log("[data]["+base64.decode(jsonData.data)+"]");
         dataCtrl.createData(jsonData); 
     }
       //Send alert LedLamp

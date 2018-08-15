@@ -21,6 +21,12 @@
             font-size: 0.8em;
         }
 
+        .dataList{
+            color: rgb(59,66,82);
+            font-family: "Lucida Sans Typewriter";
+            font-size: 0.7em;
+        }
+
     </style>
 </head>
 
@@ -95,13 +101,14 @@
                         <% for(var i=0; i<dataList.length; i++) { %>
                             <div href="#" class="list-group-item list-group-item-action flex-column align-items-start">
                                 <div class="d-flex w-100 justify-content-between">
-                                    <h5 class="mb-1">PORT[<%= dataList[i].port %>] IP[<%= dataList[i].ip %>]</h5>
+                                    <small><b class="mb-1"><%= dataList[i].ip %></b></small>
                                     <small><%= dataList[i].timeStr %></small>
                                 </div>
+                                <small>
                                 <% for(var index=0; index<dataList[i].data.length; index++) { %>
-                                    <small>[<%= dataList[i].data[index] %>]</small>
-                                    <br>
+                                    <pre style="white-space:pre-wrap;" class="dataList">[<%= dataList[i].data[index] %>]</pre>
                                 <% } %>
+                                </small>
                             </div>
                         <% } %>
                     </div>

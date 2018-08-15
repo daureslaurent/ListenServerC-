@@ -57,7 +57,7 @@ module.exports = function(app) {
                 var serverId = req.query.serverId;
                 serverCtrl.getServerByIdCb(serverId, function(dataNAN){
                     var data = dataNAN[0];
-                    dataConverter.getDataByPortLimitCallBack(data.port, 20, function(dataList){
+                    dataConverter.getDataByPortLimitCallBack(data.port, 5, function(dataList){
                         serverCmd.getLogUnixServer(data.port, function(logUnix){
                             utils.testUnixServerCb(data.ip, data.port, function(state){
                                 if (state){
