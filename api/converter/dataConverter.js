@@ -66,9 +66,6 @@ exports.recurciveUnixTest = function(cb){
 };
 
 exports.getInfosServerUnixCb = function(serverList, cb){
-    console.log(serverList);
-    //return cb(serverList);
-    
     var finalCount = 0;
     var map = new Map();
 
