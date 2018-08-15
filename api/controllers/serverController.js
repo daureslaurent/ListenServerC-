@@ -55,3 +55,11 @@ exports.createServer = function(addr, name, port, redirect){
     console.log('getAllServer: err: '+err);
   });
 };
+
+exports.deleteServer = function(id){
+  var promise = serverModel.find({'_id':id}).remove().exec();
+  promise.then(function(serverList){})
+  .catch(function(err){
+    console.log('deleteServer: err: '+err);
+  });
+};

@@ -51,9 +51,14 @@ module.exports = function(app) {
                 var redirect = req.query.redirect;
                 console.log('CreateServer['+addr+']['+name+']['+port+']['+redirect+']');
                 serverCtrl.createServer(addr, name, port, redirect);
+                res.render('server', { serverList: servers });
             }
-            console.log('TO0');
-            if (req.query.serverId){
+            else if (req.query.todel){
+                var id = req.query.todel;
+                serverCtrl.deleteServer(id);
+                res.render('server', { serverList: servers });
+            }
+            else if (req.query.serverId){
                 var serverId = req.query.serverId;
                 serverCtrl.getServerByIdCb(serverId, function(dataNAN){
                     var data = dataNAN[0];

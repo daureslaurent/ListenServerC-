@@ -36,7 +36,7 @@
     <div class="container-fluid">
         <div class="row">
 
-            <div class="col-md-6">
+            <div class="col-md-5">
                 <div class="card">
                     <div class="card-body">
                         <small><b>DataBase</b></small>
@@ -58,17 +58,18 @@
                 </div>
             </div>
 
-            <div class="col-md-2">
+            <div class="col-md-3">
                     <div class="card">
                         <div class="card-body">
                             <small><b>Control</b></small>
-                            <h6>Start/Stop</h6>
+                            <hr>
                             <% if(!serverState){ %>
-                                <button onclick="sendServerState(true, '<%= serverData._id  %>')" type="button"  class="<%= !serverData.state ? 'btn btn-primary' : 'btn btn-primary disabled' %>">START</button>
+                                <button onclick="sendServerState(true, '<%= serverData._id  %>')" type="button"  class="btn btn-primary btn-sm">START</button>
                             <% } else{ %>  
-                                <button onclick="sendServerState(false, '<%= serverData._id  %>')" type="button"  class="btn btn-danger">STOP</button>
+                                <button onclick="sendServerState(false, '<%= serverData._id  %>')" type="button"  class="btn btn-danger btn-sm">STOP</button>
                             <% } %>
-                            <br>
+                            &nbsp;
+                            <button onclick="doTodel('<%= serverData._id  %>')" type="button"  class="btn btn-danger btn-sm">DELETE</button>
                         </div>
                     </div>
                 </div>
@@ -163,6 +164,11 @@
                 }
             }
             xhr.send();
+        }
+
+        function doTodel(id){
+            var path = '/web/server?todel='+id;
+            document.location.href = path;
         }
     </script>
 

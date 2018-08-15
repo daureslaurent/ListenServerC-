@@ -68,7 +68,6 @@ exports.stopServer = function(id){
 exports.getLogUnixServer = function(port, cb){
     var fs = require('fs');
     var path = 'out'+port+'/logServer/outLog-'+port+'.txt';
-    console.log('path:'+path);
     fs.readFile(path, 'utf8', function(err, contents) {
         var sended = false;
 
