@@ -67,7 +67,6 @@ exports.getLogServerUnix = function(addr, port, cb){
   });
   
   client.on('data', function(data) {
-    console.log('LOG['+data+']');
       client.destroy();
       return cb(data, key);
   });
@@ -75,6 +74,7 @@ exports.getLogServerUnix = function(addr, port, cb){
   // Add a 'close' event handler for the client socket
   client.on('close', function() {
     client.destroy();
+    return cb(false, key);
   });
   
   client.on('error', function(err) {
