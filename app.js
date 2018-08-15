@@ -55,20 +55,24 @@ net.createServer(function (socket) {
   var validator = require('validator');
   // Handle incoming messages from clients.
   socket.on('data', function (data) {
-    var jsonData = JSON.parse(data);
+    //Check multiple msg
+    var listMsg = data.split("}");
+    //loop on msg
+    for (let index = 0; index < listMsg.length; index++) {
+      const msg = listMsg[index];
+      var jsonData = JSON.parse(data);
     
-    if (jsonData && jsonData.data !== 'QklQDQo=' && jsonData.data !== 'cG9uZwo=' && jsonData.data !== 'cGluZwo=' && jsonData.data !== 'W1NFUlZFUl9TRU5EXTpwb25nCg==' && jsonData.data !== 'W1NFUlZFUl9TRU5EXTpCSVANCg=='
-        && !validator.isEmpty(jsonData.data)){
-      
-      console.log("[port]["+jsonData.port +"] " +
-                  "[time]["+utils.unixToTimeFR(Number.parseInt(jsonData.time))+"] " +
-                  "[ip]["+jsonData.ip +"]");
-      //console.log("[data]["+jsonData.data+"]");
-      dataCtrl.createData(jsonData);
-
+      if (jsonData && jsonData.data !== 'QklQDQo=' && jsonData.data !== 'cG9uZwo=' && jsonData.data !== 'cGluZwo=' && jsonData.data !== 'W1NFUlZFUl9TRU5EXTpwb25nCg==' && jsonData.data !== 'W1NFUlZFUl9TRU5EXTpCSVANCg=='
+          && !validator.isEmpty(jsonData.data)){
+        
+        console.log("[port]["+jsonData.port +"] " +
+                    "[time]["+utils.unixToTimeFR(Number.parseInt(jsonData.time))+"] " +
+                    "[ip]["+jsonData.ip +"]");
+        //console.log("[data]["+jsonData.data+"]");
+        dataCtrl.createData(jsonData); 
+    }
       //Send alert LedLamp
       utils.ledLampAlert();
-
     }
   });
 
@@ -80,15 +84,6 @@ net.createServer(function (socket) {
 
 // Put a friendly message on the terminal of the server.
 console.log("Chat server running at "+port);
-
-var fs = require('fs');
-var stream = fs.createWriteStream("../serversDyn.conf");
-stream.once('open', function(fd) {
-  for (let index = 0; index < serverList.length; index++) {
-    stream.write(serverList[index].port+'\n');
-  }
-  stream.end();
-});
 
 //Init Web
 var web = require('./web/web');
