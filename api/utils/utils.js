@@ -73,11 +73,11 @@ exports.getLogServerUnix = function(addr, port, cb){
     var sended = false;
 
     client.on('data', function(data) {
-      client.destroy();
       if (!sended){
         cb(data, key);
         sended = true;
       }
+      //client.destroy();
     });
   
     // Add a 'close' event handler for the client socket
