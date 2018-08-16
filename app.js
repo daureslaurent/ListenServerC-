@@ -67,7 +67,7 @@ net.createServer(function (socket) {
       var jsonData = JSON.parse(data);
       var decodedData = base64.decode(jsonData.data);
       if (jsonData && jsonData.data !== 'QklQDQo=' && jsonData.data !== 'cG9uZwo=' && jsonData.data !== 'cGluZwo=' && jsonData.data !== 'W1NFUlZFUl9TRU5EXTpwb25nCg==' && jsonData.data !== 'W1NFUlZFUl9TRU5EXTpCSVANCg=='
-          && jsonData !== blackListData.blackList[0] && !validator.isEmpty(jsonData.data) && (decodedData.startsWith("[SERVER_SEND]:") != 0)){
+          && jsonData !== blackListData.blackList[0] && !validator.isEmpty(jsonData.data) && (decodedData.startsWith("[SERVER_SEND]:") == 0)){
         console.log("[port]["+jsonData.port +"] " +
                     "[time]["+utils.unixToTimeFR(Number.parseInt(jsonData.time))+"] " +
                     "[ip]["+jsonData.ip +"]");
