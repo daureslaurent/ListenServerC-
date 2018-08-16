@@ -32,6 +32,7 @@ exports.recurciveUnixTest = function(cb){
     };
 
     var returnTestFunc = function(value, key, cb){
+        console.log('t2: '+key)
         finalCount++;
         if (finalCount == serversList.length){
             map.set(key, value);
@@ -42,6 +43,7 @@ exports.recurciveUnixTest = function(cb){
                 element.state = map.get(fKey);
                 arr.push(element);
             }
+            console.log('FINISH:'+arr)
             return cb(arr);
         }
         else {
@@ -57,6 +59,7 @@ exports.recurciveUnixTest = function(cb){
             }
         }
         for (let index = 0; index < servers.length; index++) {
+            console.log('t1:'+servers[index].port)
             servers[index].addr = servers[index].ip;
             sendTestFunc(servers[index].ip, servers[index].port, cb);
         }

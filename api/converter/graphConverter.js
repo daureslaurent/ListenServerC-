@@ -37,7 +37,7 @@ exports.getGraphDayDataCallBack = function(cb){
     
     dataCtrl.countAllDataCallBack(function(count){
         var curPage = 0;
-        var paging = 500;
+        var paging = 999;
         var maxPage = count - 1;
         var tmpArr = new Array();
         var nbOccur = Math.ceil(maxPage/paging);
