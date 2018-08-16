@@ -13,7 +13,11 @@ var DataSchema = new mongoose.Schema({
   },
   pid: String,
   state: Boolean,
-  redirect: String
+  redirect: String,
+  
+  graph: {
+    color: String
+  }
 });
 
 module.exports = mongoose.model('Server', DataSchema);

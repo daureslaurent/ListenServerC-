@@ -34,6 +34,16 @@ exports.setPIDServer = function(pid, id){
   });
 }
 
+exports.setColorServer = function(color, id){
+  var promise = serverModel.update({ _id: id }, { $set: { 'graph.color': color }}).exec();
+  promise.then(function(serverList){})
+  .catch(function(err){
+    console.log('setColorServer: err: '+err);
+  });
+}
+
+
+
 exports.createServer = function(addr, name, port, redirect){
   //{"addr": "192.168.1.17", "name": "serverHTTP", "port": "2121", "redirect": "80:WEB"}
   var promise = serverModel.find({'ip':addr, 'port':port}).exec();

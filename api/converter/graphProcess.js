@@ -30,3 +30,29 @@ exports.doProcessDayDataCB =  function(dataList, cb){
     }
     cb(mapPort);
 }
+
+exports.doLastUsageServerProcess = function(data, backTime, cb){
+    var diviseur = Math.round(1*20*60);
+    var map = new Map();
+    var maxTime = Math.round((Date.now()/1000)/ diviseur)//Math.round(data[0].time/ diviseur);
+    var minTime = Math.round(data[data.length-1].time/ diviseur);
+    console.log('Diviseur: '+diviseur)
+    console.log('maxTime: '+maxTime)
+    console.log('minTime: '+minTime)
+    console.log('Diff time: '+(maxTime-minTime))
+    //init map
+    for (let index = minTime; index < maxTime; index++) {
+        map.set(index, 0);
+    }
+    
+    for (let index = 0; index < data.length; index++) {
+        var preTime = data[index].time / diviseur
+        var time = Math.round(preTime);
+        const elem = map.get(time);
+        if (elem == undefined){
+            map.set(time, 0);
+        }
+        map.set(time,  map.get(time)+1);
+    }
+    cb(map);
+}

@@ -38,7 +38,10 @@ module.exports = function(app) {
         graphConvert.getPercentPortCallBack(function(dataDot){
             graphConvert.getGraphDayDataCallBack(function(dayGraph){
                 var timeStampEnd = new Date().getTime();
-                res.render('graph', { dataDay : dayGraph, dataDot: dataDot, genDay: (timeStampEnd-timeStampStart)});
+                res.render('graph', { dataDay : dayGraph, dataDot: dataDot, genTime: (timeStampEnd-timeStampStart)});
+            });
+            graphConvert.getLastUsageServerCb('5b66fc7e22c8424fec46b387', '0', function(last){
+
             });
         });
 
@@ -56,7 +59,17 @@ module.exports = function(app) {
         res.json('{"msg": "OK"}');
     });
 
+    app.get('/web/server/:id/color', function(req, res){
+        if (req.query.color){
+            var color = req.query.color;
+            var id = req.params.id;
+            serverCtrl.setColorServer(color, id);
+            res.json("OK");
+        }
+    });
+
     app.get('/web/server', function(req, res){
+        var timeStampStart = new Date().getTime();
         dataConverter.recurciveUnixTest(function(servers){
             if (req.query.addr){
                 var addr = req.query.addr;
@@ -76,19 +89,24 @@ module.exports = function(app) {
                 var serverId = req.query.serverId;
                 serverCtrl.getServerByIdCb(serverId, function(dataNAN){
                     var data = dataNAN[0];
-                    dataConverter.getDataByPortLimitCallBack(data.port, 5, function(dataList){
-                        serverCmd.getLogUnixServer(data.port, function(logUnix){
-                            utils.testUnixServerCb(data.ip, data.port, function(state){
-                                if (state){
-                                    utils.getLogServerUnix(data.ip, data.port, function(log){
-                                        utils.getVersionServerUnix(data.ip, data.port, function(version){
-                                            res.render('serverControl', { dataList: dataList, serverData: data, serverState: state, serverLog: log, unixLog: logUnix, serverVersion: version });
-                                        })
-                                    });
-                                }
-                                else {
-                                    res.render('serverControl', { dataList: dataList, serverData: data, serverState: state, serverLog: 'NO CONNECTION', unixLog: logUnix, serverVersion: 'undefined' });
-                                }
+                    graphConvert.getLastUsageServerCb(serverId, 0, function(lastData){
+                        dataConverter.getDataByPortLimitCallBack(data.port, 5, function(dataList){
+                            serverCmd.getLogUnixServer(data.port, function(logUnix){
+                                utils.testUnixServerCb(data.ip, data.port, function(state){
+                                    if (state){
+                                        utils.getLogServerUnix(data.ip, data.port, function(log){
+                                            utils.getVersionServerUnix(data.ip, data.port, function(version){
+                                                console.log(data)
+                                                var gentTime =((new Date().getTime())-timeStampStart);
+                                                res.render('serverControl', { dataList: dataList, serverData: data, serverState: state, serverLog: log, unixLog: logUnix, serverVersion: version, dataLast : lastData, genTime: gentTime });
+                                            })
+                                        });
+                                    }
+                                    else {
+                                        var gentTime =((new Date().getTime())-timeStampStart);
+                                        res.render('serverControl', { dataList: dataList, serverData: data, serverState: state, serverLog: 'NO CONNECTION', unixLog: logUnix, serverVersion: 'undefined', dataLast : lastData, genTime: gentTime });
+                                    }
+                                });
                             });
                         });
                     });

@@ -8,7 +8,22 @@ var hours = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9,
     10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 
     20, 21, 22, 23, 0];
 
+//Cache System
+var dayGraphCache = null;
+
 exports.getGraphDayDataCallBack = function(cb){
+    
+    //Cache System
+    var funcCacheIntercept = function(dayGraph){
+        dayGraphCache = dayGraph;
+        cb(dayGraph);
+    }
+
+    if (dayGraphCache != null){
+        console.log('useCache!');
+        return cb(dayGraphCache);
+    }
+
     var funcdoGraphDayPagging = function(mapPort, cb){
         var retArray = new Array();
         var portArray = new Array();
@@ -30,6 +45,7 @@ exports.getGraphDayDataCallBack = function(cb){
         });
     };
 
+
     
     dataCtrl.countAllDataCallBack(function(count){
         var curPage = 0;
@@ -48,7 +64,7 @@ exports.getGraphDayDataCallBack = function(cb){
                 tmpArr = tmpArr.concat(data);;
                 if (currOccur >= nbOccur){
                     process.doProcessDayDataCB(tmpArr, function(mapPort){
-                        funcdoGraphDayPagging(mapPort, cb);
+                        funcdoGraphDayPagging(mapPort, funcCacheIntercept);
                     });
                 }
             });
@@ -81,4 +97,23 @@ exports.getPercentPortCallBack = function(cb){
         });
     });
     
+}
+
+exports.getLastUsageServerCb = function(id, backTime, cb){
+    serverCtrl.getServerByIdCb(id, function(serverList){
+        var server = serverList[0];
+       //GetDataByPort
+        dataCtrl.getDataByPortCallBack(server.port, function(data){
+            process.doLastUsageServerProcess(data, backTime, function(map){
+                var labelArray = new Array();
+                var dataArray = new Array();
+                map.forEach(function(valeur, cle) {
+                    labelArray.push(cle);
+                    dataArray.push(valeur);
+                });
+                var endData = {labels: labelArray, data: dataArray};
+                cb(endData);
+            });
+        });
+    });
 }
