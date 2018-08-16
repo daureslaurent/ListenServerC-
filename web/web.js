@@ -35,11 +35,13 @@ module.exports = function(app) {
 
     app.get('/web/graph', function(req, res){
         var timeStampStart = new Date().getTime();
-
-        graphConvert.getGraphDayDataCallBack(function(dayGraph){
-            var timeStampEnd = new Date().getTime();
-            res.render('graph', { dataDay : dayGraph, genDay: (timeStampEnd-timeStampStart)});
+        graphConvert.getPercentPortCallBack(function(dataDot){
+            graphConvert.getGraphDayDataCallBack(function(dayGraph){
+                var timeStampEnd = new Date().getTime();
+                res.render('graph', { dataDay : dayGraph, dataDot: dataDot, genDay: (timeStampEnd-timeStampStart)});
+            });
         });
+
     });
 
     app.get('/web/server/:id/state', function(req, res){

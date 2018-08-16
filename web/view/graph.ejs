@@ -20,8 +20,16 @@
                 <div class="card">
                     <div class="card-body">
                         <small><b>Graph request by hours</b></small>
-                        <div class="card-text"><canvas id="myChart"></canvas></div>
+                        <div class="card-text"><canvas id="chartDay"></canvas></div>
                         <center><small></small>Graph gen in <%= genDay %> ms</center>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-body">
+                        <small><b>Graph request by hours</b></small>
+                        <div class="card-text"><canvas id="chartDot"></canvas></div>
                     </div>
                 </div>
             </div>
@@ -33,8 +41,8 @@
     <%- include('partials/footer') %>
 </body>
 <script>
-    var ctx = document.getElementById('myChart').getContext('2d');
-    var chart = new Chart(ctx, {
+    var ctxDay = document.getElementById('chartDay').getContext('2d');
+    var chartDay = new Chart(ctxDay, {
         // The type of chart we want to create
         type: 'bar',
         // The data for our dataset
@@ -62,7 +70,26 @@
                 }]
             }
         }
-        });
+    });
+
+    var ctxDot = document.getElementById('chartDot').getContext('2d');
+    var chartDot = new Chart(ctxDot, {
+        // The type of chart we want to create
+        type: 'doughnut',
+        // The data for our dataset
+
+        data: {
+            labels: [<%= dataDot.labels %>],
+      datasets: [
+                {
+                label: "Request",
+                backgroundColor: ["#3e95cd", "#8e5ea2","#3cba9f","#e8c3b9","#c45850"],
+                data: [<%= dataDot.data %>]
+                }
+            ]
+        },
+        options: {}
+    });
 </script>
 
 </html>
