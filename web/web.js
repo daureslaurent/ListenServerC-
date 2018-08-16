@@ -34,8 +34,11 @@ module.exports = function(app) {
     });
 
     app.get('/web/graph', function(req, res){
+        var timeStampStart = new Date().getTime();
+
         graphConvert.getGraphDayDataCallBack(function(dayGraph){
-            res.render('graph', { dataDay : dayGraph});
+            var timeStampEnd = new Date().getTime();
+            res.render('graph', { dataDay : dayGraph, genDay: (timeStampEnd-timeStampStart)});
         });
     });
 
