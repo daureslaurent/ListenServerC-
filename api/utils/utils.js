@@ -199,10 +199,10 @@ exports.getRedirectionCb = function(port, cb){
     for (let index = 0; index < serverList.length; index++) {
       const server = serverList[index];
       if (server.port == port){
-        cb(server.redirect);
+        return cb(server.redirect);
       }
     }
-    cb(port);
+    return cb(port);
   });
 }
 

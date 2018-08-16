@@ -19,7 +19,7 @@
             <div class="col-md-8">
                 <div class="card">
                     <div class="card-body">
-                        <small><b>Control</b></small>
+                        <small><b>Graph request by hours</b></small>
                         <div class="card-text"><canvas id="myChart"></canvas></div>
                     </div>
                 </div>
@@ -29,32 +29,39 @@
     </div>
 
 
-    <div class="container-fluid">
-            
-    </div>
-
     <%- include('partials/footer') %>
 </body>
 <script>
     var ctx = document.getElementById('myChart').getContext('2d');
     var chart = new Chart(ctx, {
         // The type of chart we want to create
-        type: 'line',
+        type: 'bar',
         // The data for our dataset
         data: {
             labels: [<%= dataDay.labels %>],
             datasets: [
             <% for(var i=0; i<dataDay.data.length; i++) { %>
                 { 
-                label: "Port <%= i %>",
-                backgroundColor: 'rgba(<%= Math.random()*255 %>, <%= Math.random()*255 %>, <%= Math.random()*255 %>, 0.2)',
+                label: "Port <%= dataDay.name[i] %>",
+                backgroundColor: 'rgba(<%= Math.random()*255 %>, <%= Math.random()*255 %>, <%= Math.random()*255 %>, 0.8)',
                 borderColor: 'rgba(<%= Math.random()*255 %>, <%= Math.random()*255 %>, <%= Math.random()*255 %>)',
                 data: [<%= dataDay.data[i] %>],
                 }
                 <% if(i+1 != dataDay.data.length){ %>,<% } %>
             <% } %>
             ]
-        }, /*Configuration options go here*/ options: {} });
+        },
+        options: {
+            scales: {
+                xAxes: [{
+                    stacked: true
+                }],
+                yAxes: [{
+                    stacked: true
+                }]
+            }
+        }
+        });
 </script>
 
 </html>

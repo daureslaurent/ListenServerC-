@@ -15,8 +15,9 @@ exports.getGraphDayDataCallBack = function(cb){
         var portArray = new Array();
         var finalCount = 0;
         mapPort.forEach(function(valeur, cle) {
-            //utils.getRedirectionCb(cle, function(rediPort){
-                portArray.push(cle);
+            utils.getRedirectionCb(cle, function(rediPort){
+                portArray.push(rediPort);
+                console.log(cle+' '+rediPort);
                 var tmpArray = new Array();
                 for (let index = 0; index < hours.length; index++) {
                     tmpArray.push(valeur.get(hours[index]));
@@ -29,7 +30,7 @@ exports.getGraphDayDataCallBack = function(cb){
                     console.log('process_Convert_DayData time: '+(timeStampEnd-timeStampStart));
                     cb(ret);
                 }
-            //})
+            });
         });
     };
 
