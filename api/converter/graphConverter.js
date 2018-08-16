@@ -9,8 +9,6 @@ var hours = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9,
     20, 21, 22, 23, 0];
 
 exports.getGraphDayDataCallBack = function(cb){
-    var timeStampStart = new Date().getTime();
-
     var funcdoGraphDayPagging = function(mapPort, cb){
         var retArray = new Array();
         var portArray = new Array();
@@ -18,7 +16,6 @@ exports.getGraphDayDataCallBack = function(cb){
         mapPort.forEach(function(valeur, cle) {
             utils.getRedirectionCb(cle, function(rediPort){
                 portArray.push(rediPort);
-                console.log(cle+' '+rediPort);
                 var tmpArray = new Array();
                 for (let index = 0; index < hours.length; index++) {
                     tmpArray.push(valeur.get(hours[index]));
@@ -27,8 +24,6 @@ exports.getGraphDayDataCallBack = function(cb){
                 finalCount++;
                 if (finalCount == mapPort.size){
                     var ret = {labels: hours, name: portArray, data: retArray}
-                    var timeStampEnd = new Date().getTime();
-                    console.log('process_Convert_DayData time: '+(timeStampEnd-timeStampStart));
                     cb(ret);
                 }
             });
@@ -73,8 +68,6 @@ exports.getPercentPortCallBack = function(cb){
                 const server = listServer[index];
                 dataCtrl.getCountByPortCallBack(server.port, function(count){
                     currCount++;
-                    console.log(currCount+'/'+listServer.length)
-
                     nameArray.push(server.port);
                     dataArray.push(Math.round((count/totalCountData)*100));
                     if (currCount >= listServer.length){
