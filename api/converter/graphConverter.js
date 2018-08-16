@@ -67,13 +67,15 @@ exports.getPercentPortCallBack = function(cb){
             for (let index = 0; index < listServer.length; index++) {
                 const server = listServer[index];
                 dataCtrl.getCountByPortCallBack(server.port, function(count){
-                    currCount++;
-                    nameArray.push(server.port);
-                    dataArray.push(Math.round((count/totalCountData)*100));
-                    if (currCount >= listServer.length){
-                        var ret = {labels: nameArray, data: dataArray}
-                        cb(ret);
-                    }
+                    utils.getRedirectionCb(server.port, function(rediPort){
+                        currCount++;
+                        nameArray.push(rediPort.substr(0, rediPort.indexOf(":")));
+                        dataArray.push(Math.round((count/totalCountData)*100));
+                        if (currCount >= listServer.length){
+                            var ret = {labels: nameArray, data: dataArray}
+                            cb(ret);
+                        }
+                    });
                 })
             }
         });
