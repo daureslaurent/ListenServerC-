@@ -1,16 +1,4 @@
 {
-    "portRedirect" : {
-        "2121": "80",
-        "2122": "22",
-        "2123": "25"
-    },
     "ip": "2.7.2.73",
-    "hideIp": "******MYIP*****",
-    "serverList": [
-        {"addr": "192.168.1.17", "name": "serverHTTP", "port": "2121", "redirect": "80:WEB"},
-        {"addr": "192.168.1.17", "name": "serverSSH", "port": "2122", "redirect": "22:SSH"},
-        {"addr": "192.168.1.17", "name": "serverSMTP", "port": "2123", "redirect": "25:SMTP"},
-        {"addr": "192.168.1.17", "name": "serverTELNET", "port": "2124", "redirect": "23:TELNET"},
-        {"addr": "192.168.1.17", "name": "serverWEBTEST", "port": "2110", "redirect": "19942:UIWEB"}
-    ]
+    "hideIp": "******MYIP*****"
 }

@@ -1,6 +1,6 @@
 'use strict';
 
-exports.doProcessDayDataCB =  function(dataList, portList, cb){
+exports.doProcessDayDataCB =  function(dataList, cb){
     var timeStampStart = new Date().getTime();
     var mapPort = new Map();
     var portList = new Array();
@@ -8,7 +8,7 @@ exports.doProcessDayDataCB =  function(dataList, portList, cb){
 
     var hours = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9,
                 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 
-                20, 21, 22, 23, 24];
+                20, 21, 22, 23, 0];
     //Init map with 0
     /*for (let index = 0; index < hours.length; index++) {
         map.set(hours[index], 0);
@@ -32,6 +32,7 @@ exports.doProcessDayDataCB =  function(dataList, portList, cb){
         map.set(hour, map.get(hour) +1);
         mapPort.set(element.port, map);
         //console.log(dataMap)
+        //console.log(index);
     }
 
     var timeStampEnd = new Date().getTime();

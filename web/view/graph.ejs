@@ -15,35 +15,46 @@
     <%- include('partials/navbar') %>
 
     <div class="container-fluid">
-            <canvas id="myChart"></canvas>
+        <div class="row">
+            <div class="col-md-8">
+                <div class="card">
+                    <div class="card-body">
+                        <small><b>Control</b></small>
+                        <div class="card-text"><canvas id="myChart"></canvas></div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+
+    <div class="container-fluid">
+            
     </div>
 
     <%- include('partials/footer') %>
 </body>
 <script>
     var ctx = document.getElementById('myChart').getContext('2d');
-var chart = new Chart(ctx, {
-    // The type of chart we want to create
-    type: 'line',
-    // The data for our dataset
-    data: {
-        labels: [<%= dataDay.labels %>],
-        datasets: [
-        <% for(var i=0; i<dataDay.data.length; i++) { %>
-            {
-            label: "My First dataset <%= i %>",
-            backgroundColor: 'rgb(255, 99, 132)',
-            borderColor: 'rgb(255, 99, 132)',
-            data: [<%= dataDay.data[i] %>],
-            }
-            <% if(i+1 != dataDay.data.length){ %>,<% } %>
-        <% } %>
-        ]
-    },
-
-    // Configuration options go here
-    options: {}
-});
+    var chart = new Chart(ctx, {
+        // The type of chart we want to create
+        type: 'line',
+        // The data for our dataset
+        data: {
+            labels: [<%= dataDay.labels %>],
+            datasets: [
+            <% for(var i=0; i<dataDay.data.length; i++) { %>
+                { 
+                label: "Port <%= i %>",
+                backgroundColor: 'rgba(<%= Math.random()*255 %>, <%= Math.random()*255 %>, <%= Math.random()*255 %>, 0.2)',
+                borderColor: 'rgba(<%= Math.random()*255 %>, <%= Math.random()*255 %>, <%= Math.random()*255 %>)',
+                data: [<%= dataDay.data[i] %>],
+                }
+                <% if(i+1 != dataDay.data.length){ %>,<% } %>
+            <% } %>
+            ]
+        }, /*Configuration options go here*/ options: {} });
 </script>
 
 </html>

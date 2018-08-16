@@ -1,7 +1,4 @@
 'use strict';
-var serverList = require('../../config/server.json').serverList;
-var base64 = require('base-64');
-var serverConf = require('../../config/server.json');
 
 var serverCtrl = require('../controllers/serverController');
 var psTree = require('ps-tree');                

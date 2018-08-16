@@ -4,7 +4,6 @@ var mongoose = require('mongoose');
 var bodyParser = require('body-parser');
 var config = require('./api/config');
 var session = require("express-session");
-var serverList = require('./config/server.json').serverList;
 
 var blackListData = require('./config/blackListData.json');
 

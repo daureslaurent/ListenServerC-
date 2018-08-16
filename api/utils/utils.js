@@ -1,9 +1,10 @@
 'use strict';
-var serverList = require('../../config/server.json').serverList;
+
 var base64 = require('base-64');
-var serverConf = require('../../config/server.json');
 var axios = require('axios');
 var configLamp = require('../../config/ledLamp.json');
+var serverCtrl = require('../controllers/serverController');
+var serverConf = require('../../config/server.json');
 
 exports.unixToTimeStr = function(timeUnix){
   var date = new Date(timeUnix*1000);
@@ -131,7 +132,7 @@ exports.getVersionServerUnix = function(addr, port, cb){
   });
 };
 
-exports.formatDataForWeb = function(data){
+exports.formatDataForWebCb = function(data, cb){
   for (let index = 0; index < data.length; index++) {
       const encodedData = data[index].data;
       var decodedData = base64.decode(encodedData)
@@ -141,15 +142,16 @@ exports.formatDataForWeb = function(data){
   for (let index = 0; index < data.length; index++) {
       data[index].timeStr = this.unixToTimeFR(data[index].time);
   }
-  data = this.convertPortRedirection(data);
-  return data;
+  this.convertPortRedirectionCb(data, function(end){
+    cb(end);
+  });
 }
 
 exports.fancyFormatDataList = function(dataList){
   var map = new Map();
+  
   for (let index = 0; index < dataList.length; index++) {
     const elem = dataList[index];
-    
     var elemLocal = {ip: elem.ip, port: elem.port, time: elem.time, data: new Array(), _id: elem._id};
     var mapElem = map.get(elem.ip);
     if (!mapElem){
@@ -162,28 +164,46 @@ exports.fancyFormatDataList = function(dataList){
         mapElem.time = elem.time;
       map.set(elem.ip, mapElem);
     }
-  }
-
-  exports.convertPortRedirection = function(listData){
-    var map = new Map();
-    for (let index = 0; index < serverList.length; index++) {
-      map.set(serverList[index].port.toString(), serverList[index].redirect);
-    }
-
-    for (let index = 0; index < listData.length; index++) {
-      var redi = map.get(listData[index].port.toString());
-      if (redi)
-        listData[index].port = redi;
-    }
-    return listData;
-  }
-
+  }  
   var arr = new Array();
   map.forEach(function(value, key, map){
     arr.push(value);
   })
   //console.log(arr);
   return arr;
+}
+
+
+
+
+exports.convertPortRedirectionCb = function(listData, cb){
+  serverCtrl.getAllServerCb(function(serverList){
+    var map = new Map();
+    for (let index = 0; index < serverList.length; index++) {
+      const server = serverList[index];
+      map.set(server.port, server.redirect);
+    }
+
+    for (let index = 0; index < listData.length; index++) {
+      var redi = map.get(listData[index].port);
+      if (redi)
+        listData[index].port = redi;
+      //console.log(listData[index])
+    }
+    cb(listData);
+  });
+};
+
+exports.getRedirectionCb = function(port, cb){
+  serverCtrl.getAllServerCb(function(serverList){
+    for (let index = 0; index < serverList.length; index++) {
+      const server = serverList[index];
+      if (server.port == port){
+        cb(server.redirect);
+      }
+    }
+    cb(port);
+  });
 }
 
 exports.ledLampAlert = function(){

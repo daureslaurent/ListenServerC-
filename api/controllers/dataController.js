@@ -30,6 +30,22 @@ exports.getAllDataLimit = function(limit, cb) {
   });
 };
 
+exports.getAllDataSkipLimitCb = function(skip, limit, cb) {
+  var promise = dataModel.find({}).sort({time: -1}).skip(skip).limit(limit).exec();
+  promise.then(function(datas){
+    cb(datas);
+  })
+  .catch(function(err){
+    console.log('getAllData: err: '+err);
+  });
+};
+
+exports.getAllDataSkipLimit = function(skip, limit) { 
+  var promise = dataModel.find({}).skip(skip).limit(limit).exec(function(err, data){
+    return data;
+  });
+};
+
 exports.countAllData = function() {
   dataModel.count({}, function( err, count){
     console.log( "Number of records:", count );

@@ -1,11 +1,7 @@
 'use strict';
 
-var validator = require('validator');
-var base64 = require('base-64');
 var dataCtrl = require('../controllers/dataController');
 var utils = require('../utils/utils');
-var serverList = require('../../config/server.json').serverList;
-var serverConf = require('../../config/server.json');
 var backConf = require('../../config/webDisp.json');
 var serverCtrl = require('../controllers/serverController');
 
@@ -13,7 +9,9 @@ exports.getAllDataSummary = function(limit, cb){
     dataCtrl.countAllDataCallBack(function(count){
         dataCtrl.getCountByPortCallBack(2122, function(count2121){
             dataCtrl.getAllDataLimit(limit, function(datas){
-                cb(utils.formatDataForWeb(datas));
+                utils.formatDataForWebCb(datas, function(end){
+                    cb(end);
+                })
             });
             //console.log('datas['+datas+']');
         });
@@ -119,18 +117,24 @@ exports.getBackState = function(cb){
 
 exports.getDataByPortCallBack = function(port, cb){
     dataCtrl.getDataByPortCallBack(port, function(data){
-        return cb(utils.formatDataForWeb(data));
+        utils.formatDataForWebCb(data, function(end){
+            cb(end);
+        });
     });
 };
 
 exports.getDataByIpCallBack = function(ip, cb){
     dataCtrl.getDataByIpCallBack(ip, function(data){
-        return cb(utils.formatDataForWeb(data));
+        utils.formatDataForWebCb(data, function(end){
+            cb(end);
+        });
     });
 };
 
 exports.getDataByPortLimitCallBack = function(port, limit, cb){
     dataCtrl.getDataByPortLimitCallBack(port, limit, function(data){
-        return cb(utils.formatDataForWeb(data));
+        utils.formatDataForWebCb(data, function(end){
+            cb(end);
+        });
     });
 };
