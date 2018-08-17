@@ -15,7 +15,7 @@ exports.getGraphDayDataCallBack = function(cb){
     
     //Cache System
     var funcCacheIntercept = function(dayGraph){
-        dayGraphCache = dayGraph;
+        //dayGraphCache = dayGraph;
         cb(dayGraph);
     }
 
