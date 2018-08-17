@@ -47,7 +47,7 @@ exports.doLastUsageServerProcess = function(data, option, cb){
     
     for (let index = 0; index < data.length; index++) {
         var preTime = data[index].time / diviseur
-        if (preTime > minTime && preTime < maxTime){
+        if (preTime >= minTime && preTime <= maxTime){
             var time = Math.round(preTime);
             const elem = map.get(time);
             if (elem == undefined){
