@@ -105,13 +105,14 @@ exports.getLastUsageServerCb = function(id, backTime, cb){
        //GetDataByPort
         dataCtrl.getDataByPortCallBack(server.port, function(data){
             process.doLastUsageServerProcess(data, backTime, function(map){
+                
                 var labelArray = new Array();
                 var dataArray = new Array();
                 map.forEach(function(valeur, cle) {
                     labelArray.push(cle);
                     dataArray.push(valeur);
                 });
-                var endData = {labels: labelArray, data: dataArray};
+                var endData = {portNames: null, labels: labelArray, data: dataArray};
                 cb(endData);
             });
         });
@@ -126,11 +127,11 @@ exports.getLastUsageAllServerCb = function(option, cb){
             const server = serverList[index];
             var endLabelArray = new Array();
             var endDataArray = new Array();
+            var endPortArray = new Array();
             var count = 0;
-            console.log('OriStart['+server.port+']')
+
             dataCtrl.getAllDataByPortCallBack(server.port, dataCtrl, function(data){
-                console.log('getAllDataByPortCallBack')
-                console.log('OriDataSize['+data[0].port+']:'+data.length)
+
                 process.doLastUsageServerProcess(data, option, function(map){
                     count++;
                     var labelArray = new Array();
@@ -141,8 +142,7 @@ exports.getLastUsageAllServerCb = function(option, cb){
                     });
                     endLabelArray.push(labelArray);
                     endDataArray.push(dataArray);
-                    console.log(count+'//'+serverList.length+' '+data[0].port)
-
+                    endPortArray.push(data[0].port);
                     if (count == serverList.length){
                         //Convert label timestamp to date
                         var nameArray = new Array();
@@ -151,14 +151,11 @@ exports.getLastUsageAllServerCb = function(option, cb){
                             const timeElem = listLabel[index];
                             var timeStamp = (timeElem*Math.round(precision))*1000;
                             var date = new Date(timeStamp +(7200*1000));
-                            var strDate = date.getHours()+''+date.getMinutes();
-                            console.log(timeElem)
-                            console.log(timeStamp)
-                            console.log(date.toString())
+                            var strDate = utils.dateToDateGraph(date);
+                            //var strDate = date.getHours()+''+date.getMinutes();
                             nameArray.push(strDate);
                         }
-                        var endData = {labels: nameArray, data: endDataArray};
-                        console.log('END ALL_LAST_DATA')
+                        var endData = {portList: endPortArray, labels: nameArray, data: endDataArray};
                         cb(endData);
                     }
                 });

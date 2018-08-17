@@ -97,7 +97,6 @@ exports.getDataByPortSkipLimit = function(port, skip, limit, cb) {
 
 exports.getAllDataByPortCallBack = function(port, dataCtrl, cb){
   dataCtrl.getCountByPortCallBack(port, function(count){
-    console.log('Port '+port+' :'+count)
     var curPage = 0;
     var paging = 999;
     var maxPage = count - 1;
@@ -108,13 +107,10 @@ exports.getAllDataByPortCallBack = function(port, dataCtrl, cb){
       if (curPage+paging > maxPage){
           paging = maxPage - curPage;
       }
-      console.log('Start :'+curPage+' :'+paging+' :'+maxPage)
       dataCtrl.getDataByPortSkipLimit(port, curPage, paging, function(data){
           currOccur++;
           tmpArr = tmpArr.concat(data);
-          console.log(currOccur+'/'+nbOccur)
           if (currOccur >= nbOccur){
-            console.log('end')
               cb(tmpArr);
           }
       });
@@ -129,7 +125,6 @@ exports.getDataByPortLimitCallBack = function(port, limit, cb){
                 .limit(limit)
                 .exec();
   promise.then(function(data){
-    console.log('reqOK');
     cb(data);
   })
   .catch(function(err){

@@ -38,7 +38,7 @@ module.exports = function(app) {
         var timeStampStart = new Date().getTime();
         graphConvert.getPercentPortCallBack(function(dataDot){
             graphConvert.getGraphDayDataCallBack(function(dayGraph){
-                var option = {timeDiff : 1*60*60, precision: 1*60 };
+                var option = {timeDiff : 24*60*60, precision: 25*60 };
                 graphConvert.getLastUsageAllServerCb(option, function(lastGraph){
                     var timeStampEnd = new Date().getTime();
                     res.render('graph', { dataDay : dayGraph, dataDot: dataDot, dataLast: lastGraph, genTime: (timeStampEnd-timeStampStart)});

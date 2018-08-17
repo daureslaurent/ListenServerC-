@@ -15,6 +15,18 @@ exports.unixToTimeFR = function(timeUnix){
   return this.unixToTimeStr(timeUnix+ 7200);
 };
 
+exports.dateToDateGraph = function(date){
+  var funcPadZero = function(nb){
+    if (nb == 0)
+      return '00';
+    else if (nb < 10) {
+      nb = '0' + nb;
+    }
+    return nb.toString();
+  }
+  return funcPadZero(date.getHours()) + ':' + funcPadZero(date.getMinutes());
+}
+
 exports.testUnixServerCb = function(serverIp, port, cb){
   var key = serverIp+port;
   var client = new net.Socket();

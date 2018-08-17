@@ -15,6 +15,18 @@
     <%- include('partials/navbar') %>
 
     <div class="container-fluid">
+
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-body">
+                        <small><b>Graph request by hours</b></small>
+                        <div class="card-text"><canvas id="chartLast"></canvas></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <div class="row">
             <div class="col-md-8">
                 <div class="card">
@@ -32,21 +44,8 @@
                     </div>
                 </div>
             </div>
-
         </div>
 
-
-        <div class="row">
-            <div class="col-md-8">
-                <div class="card">
-                    <div class="card-body">
-                        <small><b>Graph request by hours</b></small>
-                        <div class="card-text"><canvas id="chartLast"></canvas></div>
-                    </div>
-                </div>
-            </div>
-
-        </div>
     </div>
 
 
@@ -65,7 +64,6 @@
                 { 
                 label: "Port <%= dataDay.name[i] %>",
                 backgroundColor: 'rgba(<%= Math.random()*255 %>, <%= Math.random()*255 %>, <%= Math.random()*255 %>, 0.8)',
-                borderColor: 'rgba(<%= Math.random()*255 %>, <%= Math.random()*255 %>, <%= Math.random()*255 %>)',
                 data: [<%= dataDay.data[i] %>],
                 }
                 <% if(i+1 != dataDay.data.length){ %>,<% } %>
@@ -109,13 +107,16 @@
         type: 'bar',
         // The data for our dataset
         data: {
-            labels: [<%= dataLast.labels %>],
+            labels: [
+            <% for(var i=0; i<dataLast.labels.length; i++) { %>
+                '<%= dataLast.labels[i] %>'
+                <% if(i+1 != dataLast.labels.length){ %>,<% } %><% } %>
+            ],
             datasets: [
             <% for(var i=0; i<dataLast.data.length; i++) { %>
                 { 
-                label: "Port <%= i %>",
+                label: "Port <%= dataLast.portList[i] %>",
                 backgroundColor: 'rgba(<%= Math.random()*255 %>, <%= Math.random()*255 %>, <%= Math.random()*255 %>, 0.8)',
-                borderColor: 'rgba(<%= Math.random()*255 %>, <%= Math.random()*255 %>, <%= Math.random()*255 %>)',
                 data: [<%= dataLast.data[i] %>],
                 }
                 <% if(i+1 != dataLast.data.length){ %>,<% } %>
