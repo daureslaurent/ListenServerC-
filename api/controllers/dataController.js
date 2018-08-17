@@ -104,9 +104,6 @@ exports.getAllDataByPortCallBack = function(port, dataCtrl, cb){
     var tmpArr = new Array();
     var nbOccur = Math.ceil(maxPage/paging);
     var currOccur = 0;
-    if (count == 0){
-      return cb(new Array());
-    }
     for (;curPage < maxPage; curPage += paging) {
       if (curPage+paging > maxPage){
           paging = maxPage - curPage;
