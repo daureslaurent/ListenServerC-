@@ -23,9 +23,9 @@ void	Serverrec::Servlet(int c_fd, cmd_s* cmd_s)
       
       buf_in = _connection.Recv(c_fd);
       std::string ip = _connection.Get_ip();
-      //if (!_connection.Islocal(ip))
+      if (!_connection.Islocal(ip))
         std::cout << "Request[" << ip << "][" << (void*)this << "]" << std::endl;
-        std::cout << "DATA[" << buf_in << "]" << std::endl;
+        //std::cout << "DATA[" << buf_in << "]" << std::endl;
 
       if (buf_in.compare("ERR\n") == 0){
         //Stop thread
@@ -53,7 +53,7 @@ void	Serverrec::Servlet(int c_fd, cmd_s* cmd_s)
             }
           //Close after httpResponse
           else if (buf_out.compare(0, closeSocket.size(), closeSocket) == 0){
-            std::cout << "ERASE[" << buf_out.substr(closeSocket.size()) << "]"<< std::endl;
+            //std::cout << "ERASE[" << buf_out.substr(closeSocket.size()) << "]"<< std::endl;
             //Force Send & Close client
             buf_out = buf_out.substr(closeSocket.size());
             _connection.Send(buf_out, c_fd);
@@ -70,8 +70,8 @@ void	Serverrec::Servlet(int c_fd, cmd_s* cmd_s)
       buf_out.clear();
       buf_in.clear();
     }
-  //if (!_connection.Islocal(_connection.Get_ip()))
-  std::cout << "Close servelet on :" << c_fd << std::endl;
+  if (!_connection.Islocal(_connection.Get_ip()))
+    std::cout << "Close servelet on :" << c_fd << std::endl;
   close(c_fd);
 }
 
