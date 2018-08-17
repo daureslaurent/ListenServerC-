@@ -7,7 +7,7 @@ exports.getAllServerCb = function(cb){
   if (!test){
     //this.createServer('192.168.1.17', 'TestServ', '2121', '80');
   }
-  var promise = serverModel.find({}).exec();
+  var promise = serverModel.find({}).sort({_id: -1}).exec();
   promise.then(function(serverList){
     cb(serverList);
   })
