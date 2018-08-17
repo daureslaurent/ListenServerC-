@@ -19,20 +19,23 @@ void		CMD_log::Init(const int fd)
 
 std::string	CMD_log::Run()
 {
+  int maxLine = 10;
   std::string path = "out"+std::to_string(_port)+"/log_connection.log";
   std::ifstream		fichier(path, std::ios::in);  // on ouvre en lecture
   std::string		final = "-==SERVERCLOSESOCKET==-";
 
   if (fichier)  // si l'ouverture a fonctionné
     {
+      int index = 0;
       while (fichier.good())
       {
         std::string	buf;  // déclaration d'une chaîne qui contiendra la ligne lue
         std::getline(fichier, buf);  // on met dans "contenu" la ligne
-        final += buf;
-        final += "\n";
+        if (index < maxLine){
+          final += buf;
+          final += "\n";
+        }
       }
-      final += "[END]\n";    
       fichier.close();
     }
   else
