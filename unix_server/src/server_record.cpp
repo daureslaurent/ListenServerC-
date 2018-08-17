@@ -41,8 +41,6 @@ void	Serverrec::Servlet(int c_fd, cmd_s* cmd_s)
         }
         if (buf_in.compare("monitor_c") == 0)
           buf_out = "WELCOME\n";
-        else if (buf_in.compare("VERSION") == 0)
-          buf_out = closeSocket + _version;
         else{
           buf_out = "BIP\r\n";
           if(cmd_s->run(buf_in)){

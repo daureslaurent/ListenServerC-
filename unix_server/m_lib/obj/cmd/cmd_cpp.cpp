@@ -4,6 +4,7 @@
 #include "log.h"
 #include "sshFake.h"
 #include "httpFake.h"
+#include "versionCmd.h"
 //dev
 #include <iostream>
 cmd_s::cmd_s()
@@ -23,6 +24,8 @@ void	cmd_s::Init(const int fd, const int port)
   _mod_cmd.push_back(cmd_ssh);
   Acmd	*cmd_http_fake =	new CMD_http();
   _mod_cmd.push_back(cmd_http_fake);
+  Acmd	*cmd_version =	new CMD_version();
+  _mod_cmd.push_back(cmd_version);
 
   _fd = fd;
   //std::cout << "Commande Init - nb[" << (void*)this << "]" << std::endl;
