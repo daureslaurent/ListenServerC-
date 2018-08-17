@@ -28,7 +28,7 @@ crossorigin="anonymous"></script>
 
 <body>
     <%- include('partials/navbar') %>
-    <div class="container-fluid">
+    <div class="container-fluid mainContainer">
         <form action="search" method="GET" role="form" class="form-horizontal">
             <div class="form-group">
                 <div>
@@ -45,7 +45,7 @@ crossorigin="anonymous"></script>
             </div>
         </form>
         <hr>
-        <div class="list-group">
+        <div class="list-group mainContainer">
             <% for(var i=0; i<dataList.length; i++) { %>
                 <div href="#" class="list-group-item list-group-item-action flex-column align-items-start">
                     <div class="d-flex w-100 justify-content-between">

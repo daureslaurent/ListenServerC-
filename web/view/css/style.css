@@ -16,3 +16,7 @@ body {
     font-family: "Lucida Sans Typewriter";
     font-size: 0.7em;
 }
+
+.mainContainer {
+    max-width: 1300px;
+}

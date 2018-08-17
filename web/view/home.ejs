@@ -11,7 +11,7 @@
 
 <body>
         <%- include('partials/navbar') %>
-    <div class="container-fluid">
+    <div class="container-fluid mainContainer">
         <div class="card">
             <div class="card-body">
                 <h5 class="card-title">ListenServer</h5>
@@ -21,7 +21,7 @@
         </div>
     </div>
 
-    <div class="container-fluid">
+    <div class="container-fluid mainContainer">
         <hr>
         <div class="row hidden-md-up">
             <% for(var i=0; i<serverList.length; i++) { %>
@@ -38,7 +38,7 @@
         </div>
         <center><h5 class="mb-1"><%= backState.topData %> Lasts record</h5></center>
         <hr>
-        <div class="list-group">
+        <div class="list-group mainContainer">
             <% for(var i=0; i<dataList.length; i++) { %>
                 <div href="#" class="list-group-item list-group-item-action flex-column align-items-start">
                     <div class="d-flex w-100 justify-content-between">
