@@ -2,7 +2,7 @@
 #include <string>
 #include <fstream>
 #include <iostream>
-#include <version.h>
+#include "../../../src/version.h"
 
 CMD_version::CMD_version()
 {
