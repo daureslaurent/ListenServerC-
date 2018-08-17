@@ -67,67 +67,51 @@ exports.testUnixServerMsg = function(serverIp, port, msg){
 };
 
 exports.getLogServerUnix = function(addr, port, cb){
-  var key = addr+port;
   var client = new net.Socket();
-
+  var sended = false;
   client.connect(port, addr, function() {
-    var sended = false;
-
-    client.on('data', function(data) {
-      if (!sended){
-        cb(data, key);
-        sended = true;
-      }
-      //client.destroy();
-    });
-  
-    // Add a 'close' event handler for the client socket
-    client.on('close', function() {
-
-      if (!sended){
-        cb('close', key);
-        sended = true;
-      }
-      //client.destroy();
-    });
     client.write('log\n');
   });
-
+  
+  client.on('data', function(data) {
+    if (!sended){
+      cb(data);
+      sended = true;
+    }
+  });
+  
+  // Add a 'close' event handler for the client socket
+  client.on('close', function() {
+    client.destroy();
+  });
+  
   client.on('error', function(err) {
-    cb('err', key);
+    cb(false, key);
     client.destroy();
   });
 };
 
 exports.getVersionServerUnix = function(addr, port, cb){
-  var key = addr+port;
   var client = new net.Socket();
-
+  var sended = false;
   client.connect(port, addr, function() {
-    var sended = false;
-
-    client.on('data', function(data) {
-      if (!sended){
-        cb(data, key);
-        sended = true;
-      }
-      //client.destroy();
-    });
-  
-    // Add a 'close' event handler for the client socket
-    client.on('close', function() {
-
-      if (!sended){
-        cb('close', key);
-        sended = true;
-      }
-      //client.destroy();
-    });
     client.write('VERSION\n');
   });
-
+  
+  client.on('data', function(data) {
+    if (!sended){
+      cb(data);
+      sended = true;
+    }
+  });
+  
+  // Add a 'close' event handler for the client socket
+  client.on('close', function() {
+    client.destroy();
+  });
+  
   client.on('error', function(err) {
-    cb('err', key);
+    cb(false, key);
     client.destroy();
   });
 };
