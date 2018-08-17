@@ -35,6 +35,7 @@ std::string	CMD_log::Run()
           final += buf;
           final += "\n";
         }
+        index++;
       }
       fichier.close();
     }
