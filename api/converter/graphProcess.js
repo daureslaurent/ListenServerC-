@@ -32,6 +32,7 @@ exports.doProcessDayDataCB =  function(dataList, cb){
 }
 
 exports.doLastUsageServerProcess = function(data, option, cb){
+    console.log('START PROCESS['+data[0].port+']');
     var backTime = option.timeDiff;
     var precision = option.precision;
     var diviseur = Math.round(/*1*1*60*/precision);
@@ -65,5 +66,6 @@ exports.doLastUsageServerProcess = function(data, option, cb){
             map.set(time,  map.get(time)+1);
         }
     }
+    console.log('END PROCESS['+map.size+']['+data[0].port+']');
     cb(map);
 }

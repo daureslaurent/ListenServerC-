@@ -127,9 +127,10 @@ exports.getLastUsageAllServerCb = function(option, cb){
             var endLabelArray = new Array();
             var endDataArray = new Array();
             var count = 0;
-
+            console.log('OriStart['+server.port+']')
             dataCtrl.getAllDataByPortCallBack(server.port, dataCtrl, function(data){
-                console.log('OriDataSize:'+data.length)
+                console.log('getAllDataByPortCallBack')
+                console.log('OriDataSize['+data[0].port+']:'+data.length)
                 process.doLastUsageServerProcess(data, option, function(map){
                     count++;
                     var labelArray = new Array();
@@ -140,6 +141,8 @@ exports.getLastUsageAllServerCb = function(option, cb){
                     });
                     endLabelArray.push(labelArray);
                     endDataArray.push(dataArray);
+                    console.log(count+'//'+serverList.length+' '+data[0].port)
+
                     if (count == serverList.length){
                         //Convert label timestamp to date
                         var nameArray = new Array();
@@ -155,6 +158,7 @@ exports.getLastUsageAllServerCb = function(option, cb){
                             nameArray.push(strDate);
                         }
                         var endData = {labels: nameArray, data: endDataArray};
+                        console.log('END ALL_LAST_DATA')
                         cb(endData);
                     }
                 });

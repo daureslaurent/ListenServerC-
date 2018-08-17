@@ -3,6 +3,7 @@ var validator = require('validator');
 var utils = require('../api/utils/utils');
 var express = require('express');
 var serverCtrl = require('../api/controllers/serverController');
+var dataCtrl = require('../api/controllers/dataController');
 var serverCmd = require('../api/utils/serverCmd');
 
 module.exports = function(app) {
@@ -78,6 +79,8 @@ module.exports = function(app) {
                 var redirect = req.query.redirect;
                 console.log('CreateServer['+addr+']['+name+']['+port+']['+redirect+']');
                 serverCtrl.createServer(addr, name, port, redirect);
+                var Initdata = {ip: addr, port: port, data:"SW5pdGlhbCBEYXRh"};
+                dataCtrl.createData(data);
                 res.render('server', { serverList: servers });
             }
             else if (req.query.todel){
