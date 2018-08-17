@@ -147,7 +147,7 @@ exports.getLastUsageAllServerCb = function(option, cb){
                         for (let index = 0; index < listLabel.length; index++) {
                             const timeElem = listLabel[index];
                             var timeStamp = (timeElem*Math.round(precision))*1000;
-                            var date = new Date(timeStamp+7200);
+                            var date = new Date(timeStamp);
                             var strDate = date.getHours()+''+date.getMinutes();
                             console.log(date.toString())
                             nameArray.push(strDate);
