@@ -26,12 +26,13 @@ std::string	CMD_log::Run()
   if (fichier)  // si l'ouverture a fonctionné
     {
       while (fichier.good())
-	{
-	  std::string	buf;  // déclaration d'une chaîne qui contiendra la ligne lue
-	  std::getline(fichier, buf);  // on met dans "contenu" la ligne
-	  final += buf;
-	  final += "\n";
-	}
+      {
+        std::string	buf;  // déclaration d'une chaîne qui contiendra la ligne lue
+        std::getline(fichier, buf);  // on met dans "contenu" la ligne
+        final += buf;
+        final += "\n";
+      }
+      final += "[END]\n";    
       fichier.close();
     }
   else
