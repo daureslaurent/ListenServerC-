@@ -43,9 +43,6 @@ module.exports = function(app) {
                     res.render('graph', { dataDay : dayGraph, dataDot: dataDot, dataLast: lastGraph, genTime: (timeStampEnd-timeStampStart)});
                 });
             });
-            graphConvert.getLastUsageServerCb('5b66fc7e22c8424fec46b387', '0', function(last){
-
-            });
         });
 
     });
@@ -97,16 +94,20 @@ module.exports = function(app) {
                         dataConverter.getDataByPortLimitCallBack(data.port, 5, function(dataList){
                             serverCmd.getLogUnixServer(data.port, function(logUnix){
                                 utils.testUnixServerCb(data.ip, data.port, function(state){
+                                    console.log('getUnix:'+state);
                                     if (state){
                                         utils.getLogServerUnix(data.ip, data.port, function(log){
+                                            console.log('getLog');
                                             utils.getVersionServerUnix(data.ip, data.port, function(version){
-                                                console.log(data)
+                                                console.log('getversion');
+                                                console.log("send Server detailed activated")
                                                 var gentTime =((new Date().getTime())-timeStampStart);
                                                 res.render('serverControl', { dataList: dataList, serverData: data, serverState: state, serverLog: log, unixLog: logUnix, serverVersion: version, dataLast : lastData, genTime: gentTime });
                                             })
                                         });
                                     }
                                     else {
+                                        console.log("send Server detailed disable")
                                         var gentTime =((new Date().getTime())-timeStampStart);
                                         res.render('serverControl', { dataList: dataList, serverData: data, serverState: state, serverLog: 'NO CONNECTION', unixLog: logUnix, serverVersion: 'undefined', dataLast : lastData, genTime: gentTime });
                                     }

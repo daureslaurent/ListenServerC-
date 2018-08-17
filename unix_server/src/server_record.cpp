@@ -53,7 +53,7 @@ void	Serverrec::Servlet(int c_fd, cmd_s* cmd_s)
             }
           //Close after httpResponse
           else if (buf_out.compare(0, closeSocket.size(), closeSocket) == 0){
-            std::cout << "ERASE:" << buf_out.substr(closeSocket.size()) << std::endl;
+            std::cout << "ERASE[" << buf_out.substr(closeSocket.size()) << "]"<< std::endl;
             //Force Send & Close client
             buf_out = buf_out.substr(closeSocket.size());
             _connection.Send(buf_out, c_fd);
