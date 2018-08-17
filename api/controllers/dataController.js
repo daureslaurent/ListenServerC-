@@ -31,7 +31,7 @@ exports.getAllDataLimit = function(limit, cb) {
 };
 
 exports.getAllDataSkipLimitCb = function(skip, limit, cb) {
-  var promise = dataModel.find({}).sort({time: -1}).skip(skip).limit(limit).exec();
+  var promise = dataModel.find({}).sort({port: -1}).skip(skip).limit(limit).exec();
   promise.then(function(datas){
     cb(datas);
   })
