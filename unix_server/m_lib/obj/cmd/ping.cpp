@@ -15,5 +15,5 @@ void		CMD_ping::Init(const int fd)
 
 std::string	CMD_ping::Run()
 {
-  return "pong\n";
+  return "-==SERVERCLOSESOCKET==-\npong\n";
 }
