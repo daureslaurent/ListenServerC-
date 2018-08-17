@@ -59,7 +59,7 @@ void	Serverrec::Servlet(int c_fd, cmd_s* cmd_s)
             buf_out = buf_out.substr(closeSocket.size());
             _connection.Send(buf_out, c_fd);
             _rec.Push("Send :", buf_out, _connection.Get_ip(), _connection.getPort());
-            close(c_fd);
+            //close(c_fd);
             exit = false;
           }
         }
