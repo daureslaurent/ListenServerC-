@@ -62,6 +62,7 @@ exports.testUnixServerMsg = function(serverIp, port, msg){
     client.destroy();
   });
   client.on('error', function(err) {
+    console.log('testUnixServerMsg ERR: '+err);
       client.destroy();
   });
 };
@@ -86,7 +87,8 @@ exports.getLogServerUnix = function(addr, port, cb){
   });
   
   client.on('error', function(err) {
-    cb(false, key);
+    console.log('getLogServerUnix ERR: '+err);
+    cb(false);
     client.destroy();
   });
 };
@@ -111,7 +113,8 @@ exports.getVersionServerUnix = function(addr, port, cb){
   });
   
   client.on('error', function(err) {
-    cb(false, key);
+    console.log('getVersionServerUnix ERR: '+err);
+    cb(false);
     client.destroy();
   });
 };
