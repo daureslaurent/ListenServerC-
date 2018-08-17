@@ -21,7 +21,7 @@ std::string	CMD_log::Run()
 {
   std::string path = "out"+std::to_string(_port)+"/log_connection.log";
   std::ifstream		fichier(path, std::ios::in);  // on ouvre en lecture
-  std::string		final = "-==SERVERCLOSESOCKET==-\n";
+  std::string		final = "-==SERVERCLOSESOCKET==-";
 
   if (fichier)  // si l'ouverture a fonctionné
     {
@@ -38,7 +38,7 @@ std::string	CMD_log::Run()
   else
     {
       std::cerr << "Impossible d'ouvrir le fichier !" << std::endl;
-      final = "Erre open file (SERVER)(NOTFIND)";
+      final = "-==SERVERCLOSESOCKET==-Erre open file (SERVER)(NOTFIND)";
     }
   return final;
 }

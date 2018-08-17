@@ -19,5 +19,6 @@ void		CMD_version::Init(const int fd)
 
 std::string	CMD_version::Run()
 {
-  return "-==SERVERCLOSESOCKET==-" + std::atoi(VERSION);
+  std::string version = VERSION;
+  return "-==SERVERCLOSESOCKET==-" + version;
 }
