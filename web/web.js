@@ -37,8 +37,11 @@ module.exports = function(app) {
         var timeStampStart = new Date().getTime();
         graphConvert.getPercentPortCallBack(function(dataDot){
             graphConvert.getGraphDayDataCallBack(function(dayGraph){
-                var timeStampEnd = new Date().getTime();
-                res.render('graph', { dataDay : dayGraph, dataDot: dataDot, genTime: (timeStampEnd-timeStampStart)});
+                var option = {timeDiff : 1*60*60, precision: 1*60 };
+                graphConvert.getLastUsageAllServerCb(option, function(lastGraph){
+                    var timeStampEnd = new Date().getTime();
+                    res.render('graph', { dataDay : dayGraph, dataDot: dataDot, dataLast: lastGraph, genTime: (timeStampEnd-timeStampStart)});
+                });
             });
             graphConvert.getLastUsageServerCb('5b66fc7e22c8424fec46b387', '0', function(last){
 
@@ -89,7 +92,8 @@ module.exports = function(app) {
                 var serverId = req.query.serverId;
                 serverCtrl.getServerByIdCb(serverId, function(dataNAN){
                     var data = dataNAN[0];
-                    graphConvert.getLastUsageServerCb(serverId, 0, function(lastData){
+                    var option = {timeDiff : 1*60*60, precision: 1*60 };
+                    graphConvert.getLastUsageServerCb(serverId, option, function(lastData){
                         dataConverter.getDataByPortLimitCallBack(data.port, 5, function(dataList){
                             serverCmd.getLogUnixServer(data.port, function(logUnix){
                                 utils.testUnixServerCb(data.ip, data.port, function(state){

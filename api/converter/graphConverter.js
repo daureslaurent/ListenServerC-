@@ -117,3 +117,48 @@ exports.getLastUsageServerCb = function(id, backTime, cb){
         });
     });
 }
+// option {timeDiff : 1*60*60, precision: 1*60 }
+exports.getLastUsageAllServerCb = function(option, cb){
+    var backTime = option.timeDiff;
+    var precision = option.precision;
+    serverCtrl.getAllServerCb(function(serverList){
+        for (let index = 0; index < serverList.length; index++) {
+            const server = serverList[index];
+            var endLabelArray = new Array();
+            var endDataArray = new Array();
+            var count = 0;
+
+            dataCtrl.getAllDataByPortCallBack(server.port, dataCtrl, function(data){
+                console.log('OriDataSize:'+data.length)
+                process.doLastUsageServerProcess(data, option, function(map){
+                    count++;
+                    var labelArray = new Array();
+                    var dataArray = new Array();
+                    map.forEach(function(valeur, cle) {
+                        labelArray.push(cle);
+                        dataArray.push(valeur);
+                    });
+                    endLabelArray.push(labelArray);
+                    endDataArray.push(dataArray);
+                    if (count == serverList.length){
+                        //Convert label timestamp to date
+                        var nameArray = new Array();
+                        var listLabel = endLabelArray[0];
+                        for (let index = 0; index < listLabel.length; index++) {
+                            const timeElem = listLabel[index];
+                            var timeStamp = (timeElem*Math.round(precision))*1000;
+                            var date = new Date(timeStamp);
+                            var strDate = date.getHours()+''+date.getMinutes();
+                            console.log(date.toString())
+                            nameArray.push(strDate);
+                        }
+                        var endData = {labels: nameArray, data: endDataArray};
+                        cb(endData);
+                    }
+                });
+            });
+        }
+       //GetDataByPort
+
+    });
+}

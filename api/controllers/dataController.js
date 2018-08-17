@@ -84,12 +84,53 @@ exports.getDataByPortCallBack = function(port, cb){
   });
 };
 
+exports.getDataByPortSkipLimit = function(port, skip, limit, cb) { 
+  var promise = dataModel.find({'port':port}).skip(skip).limit(limit).exec();
+  promise.then(function(datas){
+    cb(datas);
+  })
+  .catch(function(err){
+    console.log('getAllData: err: '+err);
+  });
+};
+
+
+exports.getAllDataByPortCallBack = function(port, dataCtrl, cb){
+  dataCtrl.getCountByPortCallBack(port, function(count){
+    console.log('Port '+port+' :'+count)
+    var curPage = 0;
+    var paging = 999;
+    var maxPage = count - 1;
+    var tmpArr = new Array();
+    var nbOccur = Math.ceil(maxPage/paging);
+    var currOccur = 0;
+
+    for (;curPage < maxPage; curPage += paging) {
+      if (curPage+paging > maxPage){
+          paging = maxPage - curPage;
+      }
+      console.log('Start :'+curPage+' :'+paging+' :'+maxPage)
+      dataCtrl.getDataByPortSkipLimit(port, curPage, paging, function(data){
+          currOccur++;
+          tmpArr = tmpArr.concat(data);
+          console.log(currOccur+'/'+nbOccur)
+          if (currOccur >= nbOccur){
+            console.log('end')
+              cb(tmpArr);
+          }
+      });
+    }
+  });
+};
+
+
 exports.getDataByPortLimitCallBack = function(port, limit, cb){
   var promise = dataModel.find({'port':port})
                 .sort({time: -1})
                 .limit(limit)
                 .exec();
   promise.then(function(data){
+    console.log('reqOK');
     cb(data);
   })
   .catch(function(err){
