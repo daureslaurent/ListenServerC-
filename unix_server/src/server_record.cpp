@@ -25,6 +25,7 @@ void	Serverrec::Servlet(int c_fd, cmd_s* cmd_s)
       std::string ip = _connection.Get_ip();
       //if (!_connection.Islocal(ip))
         std::cout << "Request[" << ip << "][" << (void*)this << "]" << std::endl;
+        std::cout << "DATA[" << buf_in << "]" << std::endl;
 
       if (buf_in.compare("ERR\n") == 0){
         //Stop thread
