@@ -83,6 +83,29 @@
                 <div class="card">
                     <div class="card-body">
                         <small><b>Graph Settings</b></small>
+                        <div class="card-text">Time</div>
+                        <form action="server" method="GET" role="form" class="form-horizontal">
+                            <div class="form-group">
+                                <div>
+                                    <div class="input-group mb-3">
+                                        <input type="hidden" id = serverId name="serverId" value="<%= serverData._id %>">
+                                        <input type="text" class="form-control" id="h" name="h" placeholder="hour" aria-label="hour" aria-describedby="basic-addon1">
+                                        <input type="text" class="form-control" id="m" name="m" placeholder="min" aria-label="min" aria-describedby="basic-addon1">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card-text">Precision</div>
+                            <div class="form-group">
+                                <div>
+                                    <div class="input-group mb-3">
+                                        <input type="hidden" id = serverId name="serverId" value="<%= serverData._id %>">
+                                        <input type="text" class="form-control" id="ph" name="ph" placeholder="hour" aria-label="hour" aria-describedby="basic-addon1">
+                                        <input type="text" class="form-control" id="pm" name="pm" placeholder="min" aria-label="min" aria-describedby="basic-addon1">
+                                    </div>
+                                    <button type="submit" class="btn btn-default">set</button>
+                                </div>
+                            </div>
+                        </form>
                         <div class="card-text">Color: <%= serverData.graph.color %></div>
                     </div>
                 </div>
@@ -175,7 +198,11 @@
             type: 'bar',
             // The data for our dataset
             data: {
-                labels: [<%= dataLast.labels %>],
+                labels: [
+            <% for(var i=0; i<dataLast.labels.length; i++) { %>
+                '<%= dataLast.labels[i] %>'
+                <% if(i+1 != dataLast.labels.length){ %>,<% } %><% } %>
+                ],
                 datasets: [
                     { 
                     label: "Request",
@@ -185,16 +212,7 @@
                     }
                 ]
             },
-            options: {
-                scales: {
-                    xAxes: [{
-                        stacked: true
-                    }],
-                    yAxes: [{
-                        stacked: true
-                    }]
-                }
-            }
+            options: {}
         });
     </script>
 

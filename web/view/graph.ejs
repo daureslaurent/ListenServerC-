@@ -20,13 +20,13 @@
             <div class="col-md-12">
                 <div class="card">
                     <div class="card-body">
-                        <small><b>Graph request by hours</b></small>
+                        <small><b>Last 24H</b></small>
                         <div class="card-text"><canvas id="chartLast"></canvas></div>
                     </div>
                 </div>
             </div>
         </div>
-
+        <br>
         <div class="row">
             <div class="col-md-8">
                 <div class="card">
@@ -89,7 +89,11 @@
         // The data for our dataset
 
         data: {
-            labels: [<%= dataDot.labels %>],
+            labels: [
+                <% for(var i=0; i<dataDot.labels.length; i++) { %>
+                '<%= dataDot.labels[i] %>'
+                <% if(i+1 != dataDot.labels.length){ %>,<% } %><% } %>
+            ],
       datasets: [
                 {
                 label: "Request",

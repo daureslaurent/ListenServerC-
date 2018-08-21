@@ -6,7 +6,7 @@ var dataCtrl = require('../controllers/dataController');
 var serverCtrl = require('../controllers/serverController');
 var hours = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9,
     10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 
-    20, 21, 22, 23, 0];
+    20, 21, 22, 23];
 
 //Cache System
 var dayGraphCache = null;
@@ -38,6 +38,8 @@ exports.getGraphDayDataCallBack = function(cb){
                 retArray.push(tmpArray);
                 finalCount++;
                 if (finalCount == mapPort.size){
+                    //Trabsform
+
                     var ret = {labels: hours, name: portArray, data: retArray}
                     cb(ret);
                 }
@@ -85,7 +87,7 @@ exports.getPercentPortCallBack = function(cb){
                 dataCtrl.getCountByPortCallBack(server.port, function(count){
                     utils.getRedirectionCb(server.port, function(rediPort){
                         currCount++;
-                        nameArray.push(rediPort.substr(0, rediPort.indexOf(":")));
+                        nameArray.push(rediPort);
                         dataArray.push(Math.round((count/totalCountData)*100));
                         if (currCount >= listServer.length){
                             var ret = {labels: nameArray, data: dataArray}
@@ -99,12 +101,12 @@ exports.getPercentPortCallBack = function(cb){
     
 }
 
-exports.getLastUsageServerCb = function(id, backTime, cb){
+exports.getLastUsageServerCb = function(id, option, cb){
     serverCtrl.getServerByIdCb(id, function(serverList){
         var server = serverList[0];
        //GetDataByPort
-        dataCtrl.getDataByPortCallBack(server.port, function(data){
-            process.doLastUsageServerProcess(data, backTime, function(map){
+        dataCtrl.getAllDataByPortCallBack(server.port, dataCtrl, function(data){
+            process.doLastUsageServerProcess(data, option, function(map){
                 
                 var labelArray = new Array();
                 var dataArray = new Array();
@@ -112,7 +114,16 @@ exports.getLastUsageServerCb = function(id, backTime, cb){
                     labelArray.push(cle);
                     dataArray.push(valeur);
                 });
-                var endData = {portNames: null, labels: labelArray, data: dataArray};
+                var nameArray = new Array();
+                for (let index = 0; index < labelArray.length; index++) {
+                    const timeElem = labelArray[index];
+                    var timeStamp = (timeElem*Math.round(option.precision))*1000;
+                    var date = new Date(timeStamp +(7200*1000));
+                    var strDate = utils.dateToDateGraph(date);
+                    //var strDate = date.getHours()+''+date.getMinutes();
+                    nameArray.push(strDate);
+                }
+                var endData = {labels: nameArray, data: dataArray};
                 cb(endData);
             });
         });
