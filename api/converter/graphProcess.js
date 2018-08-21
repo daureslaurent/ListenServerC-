@@ -41,6 +41,8 @@ exports.doLastUsageServerProcess = function(data, option, cb){
     //var minTime = Math.round(data[data.length-1].time/ diviseur);
     var minTime = Math.round(((Date.now()/1000) - backTime)/diviseur);
 
+    //Try
+    maxTime += 1;
     //init map
     for (let index = minTime; index < maxTime; index++) {
         map.set(index, 0);
