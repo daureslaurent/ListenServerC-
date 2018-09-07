@@ -60,7 +60,8 @@ net.createServer(function (socket) {
   // Handle incoming messages from clients.
   socket.on('data', function (data) {
     //Check multiple msg
-    var listMsg = data.toString().split("}");
+    var msg = String(data);
+    var listMsg = msg.split("}");
     //loop on msg
     for (let index = 0; index < listMsg.length; index++) {
       const msg = listMsg[index];
