@@ -14,7 +14,6 @@ module.exports = function(app) {
         
         if (cacheLast24 != null && cacheLast24 !== undefined  && (nowTime - cacheLast24.time) < cacheTimeShort){
             console.log((nowTime - cacheLast24.time))
-            console.log('from cache');
             res.send(cacheLast24.data);
         }
         else {
@@ -25,7 +24,6 @@ module.exports = function(app) {
                 lastGraph.timeProc = (timeStampEnd-timeStampStart);
                 res.send(lastGraph);
                 cacheLast24 = {time: nowTime, data: lastGraph};
-                console.log('from live');
             });
         }
     });

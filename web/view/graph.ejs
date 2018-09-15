@@ -23,8 +23,13 @@
                 <div class="card">
                     <div class="card-body">
                         <small><b>Last 24H</b></small>
-                        <div class="card-text"><canvas id="chartLast">
-                        </canvas></div>
+                        <div class="card-text">
+                            <canvas id="chartLast" style="visibility: hidden;"></canvas>
+                            <div class="progress" id="chartLastProgress">
+                                <div class="progress-bar progress-bar-striped bg-danger progress-bar-animated" role="progressbar" style="width: 100%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
+                            </div>
+                        </div>
+                        <script>setLoadChart('chartLast', '/web/api/graph/last24', 'chartLastProgress', false)</script>
                     </div>
                 </div>
             </div>
@@ -35,8 +40,13 @@
                 <div class="card">
                     <div class="card-body">
                         <small><b>Graph request by hours</b></small>
-                        <div class="card-text" ><canvas id="chartDay">
-                        </canvas></div>
+                        <div class="card-text" >
+                            <canvas id="chartDay" style="visibility: hidden;"></canvas>
+                            <div class="progress" id="chartDayProgress">
+                                <div class="progress-bar progress-bar-striped bg-danger progress-bar-animated" role="progressbar" style="width: 100%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
+                            </div>
+                        </div>
+                        <script>setLoadChart('chartDay', '/web/api/graph/dayhour', 'chartDayProgress', false)</script>
                     </div>
                 </div>
             </div>
@@ -44,21 +54,20 @@
                 <div class="card">
                     <div class="card-body">
                         <small><b>Graph request by hours</b></small>
-                        <div class="card-text"><canvas id="chartDot"></canvas></div>
+                            <div class="card-text">
+                            <canvas id="chartDot" style="visibility: hidden;"></canvas>
+                            <div class="progress" id="chartDotProgress">
+                                <div class="progress-bar progress-bar-striped bg-danger progress-bar-animated" role="progressbar" style="width: 100%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
+                            </div>
+                        </div>
+                        <script>setLoadChart('chartDot', '/web/api/graph/dotByHour', 'chartDotProgress',  true)</script>
                     </div>
                 </div>
             </div>
         </div>
-
     </div>
-
-
     <%- include('partials/footer') %>
 </body>
 
-<script>
-    setLoadChart('chartDay', '/web/api/graph/dayhour', false);
-    setLoadChart('chartLast', '/web/api/graph/last24', false);
-    setLoadChart('chartDot', '/web/api/graph/dotByHour', true);
-</script>
+
 </html>

@@ -41,7 +41,9 @@ var doReqCb = function(path, cb){
     xhttp.send();
 };
 
-var setLoadChart = function(id, path, isDot){
+var setLoadChart = function(id, path, progressIdHtml, isDot){
+    var progressId = document.getElementById(progressIdHtml);
+
     var type = isDot?'pie':'bar';
     var ctx = document.getElementById(id).getContext('2d');
     var chartObj = new Chart(ctx, {
@@ -49,18 +51,22 @@ var setLoadChart = function(id, path, isDot){
         type: type,
         // The data for our dataset
         data: {},
-        options: {}
+        options: {
+            title : {
+                display : true
+            }
+        }
     });
 
     doReqCb(path, function(data){
     if (isDot)
-        graphSetDot(data, chartObj);
+        graphSetDot(data, chartObj, progressId, id);
     else
-        graphSetClassic(data, chartObj);
+        graphSetClassic(data, chartObj, progressId, id);
     });
 };
 
-var graphSetClassic = function(dataGraph, chartObj){
+var graphSetClassic = function(dataGraph, chartObj, progressId, chartId){
     console.log(dataGraph)
     //Format data for chart
     var listData = new Array();
@@ -84,10 +90,12 @@ var graphSetClassic = function(dataGraph, chartObj){
     chartObj.data.labels = dataGraph.labels;
     chartObj.data.datasets = listData;
     chartObj.options.title.text = 'time: '+dataGraph.timeProc;
+    progressId.style.visibility = "hidden";
+    document.getElementById(chartId).style.visibility = "visible";
     chartObj.update({duration: 1000, easing: 'easeOutElastic'});
 };
 
-var graphSetDot = function(dataGraph, chartObj){
+var graphSetDot = function(dataGraph, chartObj, progressId, chartId){
     //console.log(dataGraph)
     var listColor = new Array();
     for (i = 0; i < dataGraph.labels.length; i++) {
@@ -100,5 +108,7 @@ var graphSetDot = function(dataGraph, chartObj){
     };
 
     chartObj.data = data;
+    progressId.style.visibility = "hidden";
+    document.getElementById(chartId).style.visibility = "visible";
     chartObj.update();
 };
