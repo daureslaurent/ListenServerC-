@@ -57,27 +57,36 @@ net.createServer(function (socket) {
   clients.push(socket);
 
   var validator = require('validator');
+
+  socket.on('error', function(err){
+    console.log("Error: "+err.message);
+  })
   // Handle incoming messages from clients.
   socket.on('data', function (data) {
     //Check multiple msg
     var msg = String(data);
     var listMsg = msg.split("}");
+
     //loop on msg
     for (let index = 0; index < listMsg.length; index++) {
-      const msg = listMsg[index];
-      var jsonData = JSON.parse(data);
-      var decodedData = base64.decode(jsonData.data);
-      if (jsonData && jsonData.data !== 'QklQDQo=' && jsonData.data !== 'cG9uZwo=' && jsonData.data !== 'cGluZwo=' && jsonData.data !== 'W1NFUlZFUl9TRU5EXTpwb25nCg==' && jsonData.data !== 'W1NFUlZFUl9TRU5EXTpCSVANCg=='
-          && jsonData !== blackListData.blackList[0] && !validator.isEmpty(jsonData.data) && (decodedData.startsWith("[SERVER_SEND]:") == 0)){
-        console.log("[port]["+jsonData.port +"] " +
-                    "[time]["+utils.unixToTimeFR(Number.parseInt(jsonData.time))+"] " +
-                    "[ip]["+jsonData.ip +"]");
-                    //console.log("[data]["+jsonData.data+"]");
-                    //console.log("[data]["+base64.decode(jsonData.data)+"]");
-        dataCtrl.createData(jsonData); 
-    }
+      var msg = listMsg[index];
+      if (msg.length > 1){
+        msg += '}';
+        console.log("["+msg+"]");
+        var jsonData = JSON.parse(msg);
+        var decodedData = base64.decode(jsonData.data);
+        if (jsonData && jsonData.data !== 'QklQDQo=' && jsonData.data !== 'cG9uZwo=' && jsonData.data !== 'cGluZwo=' && jsonData.data !== 'W1NFUlZFUl9TRU5EXTpwb25nCg==' && jsonData.data !== 'W1NFUlZFUl9TRU5EXTpCSVANCg=='
+            && jsonData !== blackListData.blackList[0] && !validator.isEmpty(jsonData.data) && (decodedData.startsWith("[SERVER_SEND]:") == 0)){
+          console.log("[port]["+jsonData.port +"] " +
+                      "[time]["+utils.unixToTimeFR(Number.parseInt(jsonData.time))+"] " +
+                      "[ip]["+jsonData.ip +"]");
+                      //console.log("[data]["+jsonData.data+"]");
+                      //console.log("[data]["+base64.decode(jsonData.data)+"]");
+          dataCtrl.createData(jsonData); 
+        }
       //Send alert LedLamp
       utils.ledLampAlert();
+      }
     }
   });
 
