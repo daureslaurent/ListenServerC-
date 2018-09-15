@@ -83,36 +83,21 @@ module.exports = function(app) {
                 var serverId = req.query.serverId;
                 serverCtrl.getServerByIdCb(serverId, function(dataNAN){
                     var data = dataNAN[0];
-                    var timeDiff = 2*60*60;
-                    var precision = 1*60;
-                    if (req.query.m != undefined && req.query.h != undefined){
-                        var min = req.query.m * (60);
-                        var hour = req.query.h * (60*60);
-                        timeDiff = min+hour;
-                        if (req.query.pm != undefined && req.query.ph != undefined){
-                            var pmin = req.query.pm * (60);
-                            var phour = req.query.ph * (60*60);
-                            precision = pmin+phour;
-                        }
-                    }
-                    var option = {timeDiff : timeDiff, precision: precision };
-                    graphConvert.getLastUsageServerCb(serverId, option, function(lastData){
-                        dataConverter.getDataByPortLimitCallBack(data.port, 5, function(dataList){
-                            serverCmd.getLogUnixServer(data.port, function(logUnix){
-                                utils.testUnixServerCb(data.ip, data.port, function(state){
-                                    if (state){
-                                        utils.getLogServerUnix(data.ip, data.port, function(log){
-                                            utils.getVersionServerUnix(data.ip, data.port, function(version){
-                                                var gentTime =((new Date().getTime())-timeStampStart);
-                                                res.render('serverControl', { dataList: dataList, serverData: data, serverState: state, serverLog: log, unixLog: logUnix, serverVersion: version, dataLast : lastData, genTime: gentTime });
-                                            })
-                                        });
-                                    }
-                                    else {
-                                        var gentTime =((new Date().getTime())-timeStampStart);
-                                        res.render('serverControl', { dataList: dataList, serverData: data, serverState: state, serverLog: 'NO CONNECTION', unixLog: logUnix, serverVersion: 'undefined', dataLast : lastData, genTime: gentTime });
-                                    }
-                                });
+                    dataConverter.getDataByPortLimitCallBack(data.port, 5, function(dataList){
+                        serverCmd.getLogUnixServer(data.port, function(logUnix){
+                            utils.testUnixServerCb(data.ip, data.port, function(state){
+                                if (state){
+                                    utils.getLogServerUnix(data.ip, data.port, function(log){
+                                        utils.getVersionServerUnix(data.ip, data.port, function(version){
+                                            var gentTime =((new Date().getTime())-timeStampStart);
+                                            res.render('serverControl', { dataList: dataList, serverData: data, serverState: state, serverLog: log, unixLog: logUnix, serverVersion: version, genTime: gentTime });
+                                        })
+                                    });
+                                }
+                                else {
+                                    var gentTime =((new Date().getTime())-timeStampStart);
+                                    res.render('serverControl', { dataList: dataList, serverData: data, serverState: state, serverLog: 'NO CONNECTION', unixLog: logUnix, serverVersion: 'undefined', genTime: gentTime });
+                                }
                             });
                         });
                     });
