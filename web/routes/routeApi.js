@@ -5,7 +5,7 @@ var graphConvert = require('../../api/converter/graphConverter');
 
 module.exports = function(app) {
     var pathRoute = '/web/api/';
-    var cacheTime = 10 * 1000;
+    var cacheTime = 60 * 1000;
 
     var cacheLast24;
     app.get(pathRoute + 'graph/last24', function(req, res){
