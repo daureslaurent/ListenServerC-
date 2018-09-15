@@ -36,16 +36,8 @@ module.exports = function(app) {
 
     app.get('/web/graph', function(req, res){
         var timeStampStart = new Date().getTime();
-        graphConvert.getPercentPortCallBack(function(dataDot){
-            graphConvert.getGraphDayDataCallBack(function(dayGraph){
-                var option = {timeDiff : 24*60*60, precision: 25*60 };
-                graphConvert.getLastUsageAllServerCb(option, function(lastGraph){
-                    var timeStampEnd = new Date().getTime();
-                    res.render('graph', { dataDay : dayGraph, dataDot: dataDot, dataLast: lastGraph, genTime: (timeStampEnd-timeStampStart)});
-                });
-            });
-        });
-
+        var timeStampEnd = new Date().getTime();
+        res.render('graph', {genTime: (timeStampEnd-timeStampStart)});
     });
 
     app.get('/web/server/:id/state', function(req, res){
@@ -79,7 +71,6 @@ module.exports = function(app) {
                 var redirect = req.query.redirect;
                 console.log('CreateServer['+addr+']['+name+']['+port+']['+redirect+']');
                 serverCtrl.createServer(addr, name, port, redirect);
-                var Initdata = {ip: addr, port: port, data:"SW5pdGlhbCBEYXRh"};
                 dataCtrl.createData(data);
                 res.render('server', { serverList: servers });
             }
@@ -149,6 +140,10 @@ module.exports = function(app) {
             });
         }
     });
+
+    //Set WEB API
+    var webApi = require('./routes/routeApi.js');
+    webApi(app);
 
     console.log('Web loaded');
 };

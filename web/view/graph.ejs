@@ -9,6 +9,8 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.bundle.js"></script>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js" integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T" crossorigin="anonymous"></script>
+
+    <<script src="/web/js/chartsLoader.js"></script>
 </head>
 
 <body>
@@ -21,7 +23,8 @@
                 <div class="card">
                     <div class="card-body">
                         <small><b>Last 24H</b></small>
-                        <div class="card-text"><canvas id="chartLast"></canvas></div>
+                        <div class="card-text"><canvas id="chartLast">
+                        </canvas></div>
                     </div>
                 </div>
             </div>
@@ -32,7 +35,8 @@
                 <div class="card">
                     <div class="card-body">
                         <small><b>Graph request by hours</b></small>
-                        <div class="card-text"><canvas id="chartDay"></canvas></div>
+                        <div class="card-text" ><canvas id="chartDay">
+                        </canvas></div>
                     </div>
                 </div>
             </div>
@@ -51,93 +55,10 @@
 
     <%- include('partials/footer') %>
 </body>
+
 <script>
-    var ctxDay = document.getElementById('chartDay').getContext('2d');
-    var chartDay = new Chart(ctxDay, {
-        // The type of chart we want to create
-        type: 'bar',
-        // The data for our dataset
-        data: {
-            labels: [<%= dataDay.labels %>],
-            datasets: [
-            <% for(var i=0; i<dataDay.data.length; i++) { %>
-                { 
-                label: "Port <%= dataDay.name[i] %>",
-                backgroundColor: 'rgba(<%= Math.random()*255 %>, <%= Math.random()*255 %>, <%= Math.random()*255 %>, 0.8)',
-                data: [<%= dataDay.data[i] %>],
-                }
-                <% if(i+1 != dataDay.data.length){ %>,<% } %>
-            <% } %>
-            ]
-        },
-        options: {
-            scales: {
-                xAxes: [{
-                    stacked: true
-                }],
-                yAxes: [{
-                    stacked: true
-                }]
-            }
-        }
-    });
-
-    var ctxDot = document.getElementById('chartDot').getContext('2d');
-    var chartDot = new Chart(ctxDot, {
-        // The type of chart we want to create
-        type: 'doughnut',
-        // The data for our dataset
-
-        data: {
-            labels: [
-                <% for(var i=0; i<dataDot.labels.length; i++) { %>
-                '<%= dataDot.labels[i] %>'
-                <% if(i+1 != dataDot.labels.length){ %>,<% } %><% } %>
-            ],
-      datasets: [
-                {
-                label: "Request",
-                backgroundColor: ["#3e95cd", "#8e5ea2","#3cba9f","#e8c3b9","#c45850"],
-                data: [<%= dataDot.data %>]
-                }
-            ]
-        },
-        options: {}
-    });
-
-    var ctxLast = document.getElementById('chartLast').getContext('2d');
-    var chartLast = new Chart(ctxLast, {
-        // The type of chart we want to create
-        type: 'bar',
-        // The data for our dataset
-        data: {
-            labels: [
-            <% for(var i=0; i<dataLast.labels.length; i++) { %>
-                '<%= dataLast.labels[i] %>'
-                <% if(i+1 != dataLast.labels.length){ %>,<% } %><% } %>
-            ],
-            datasets: [
-            <% for(var i=0; i<dataLast.data.length; i++) { %>
-                { 
-                label: "Port <%= dataLast.portList[i] %>",
-                backgroundColor: 'rgba(<%= Math.random()*255 %>, <%= Math.random()*255 %>, <%= Math.random()*255 %>, 0.8)',
-                data: [<%= dataLast.data[i] %>],
-                }
-                <% if(i+1 != dataLast.data.length){ %>,<% } %>
-            <% } %>
-            ]
-        },
-        options: {
-            scales: {
-                xAxes: [{
-                    stacked: true
-                }],
-                yAxes: [{
-                    stacked: true
-                }]
-            }
-        }
-    });
+    setLoadChart('chartDay', '/web/api/graph/dayhour', false);
+    setLoadChart('chartLast', '/web/api/graph/last24', false);
+    setLoadChart('chartDot', '/web/api/graph/dotByHour', true);
 </script>
-
 </html>

@@ -40,7 +40,7 @@ exports.getGraphDayDataCallBack = function(cb){
                 if (finalCount == mapPort.size){
                     //Trabsform
 
-                    var ret = {labels: hours, name: portArray, data: retArray}
+                    var ret = {labels: hours, portList: portArray, data: retArray}
                     cb(ret);
                 }
             });
