@@ -7,15 +7,12 @@ var serverCtrl = require('../controllers/serverController');
 
 exports.getAllDataSummary = function(limit, cb){
     dataCtrl.countAllDataCallBack(function(count){
-        dataCtrl.getCountByPortCallBack(2122, function(count2121){
-            dataCtrl.getAllDataLimit(limit, function(datas){
-                utils.formatDataForWebCb(datas, function(end){
-                    cb(end);
-                })
-            });
-            //console.log('datas['+datas+']');
+        dataCtrl.getAllDataLimit(limit, function(datas){
+            utils.formatDataForWebCb(datas, function(end){
+                cb(end);
+            })
         });
-
+        //console.log('datas['+datas+']')
     });
 };
 
