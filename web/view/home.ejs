@@ -9,7 +9,7 @@
     <link rel="stylesheet" type="text/css" href="css/style.css" />
 
 <script>
-var maxReq = 15;
+var maxReq = 200;
 var currentReq = 0;
 var doInfoIp = function(ip, id){
     if (currentReq <= maxReq){
@@ -23,11 +23,11 @@ var doInfoIp = function(ip, id){
                 var element = document.getElementById(id);
                 var div = document.createElement("span");
                 div.setAttribute("class", "badge badge-pill badge-success");
-                div.innerHTML = data.country + " :> " + data.regionName;
+                div.innerHTML = data.country_name + " :> " + data.region + " - " + data.city;
                 element.append(div);
             }
         };
-        xhttp.open("GET", "http://ip-api.com/json/"+ip, true);
+        xhttp.open("GET", "https://ipapi.co/"+ip+"/json/", true);
         xhttp.send();
     }
 };
