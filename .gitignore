@@ -36,3 +36,5 @@ config/server.json
 out*
 serv
 serversDyn.conf
+.vscode/arduino.json
+.vscode/c_cpp_properties.json

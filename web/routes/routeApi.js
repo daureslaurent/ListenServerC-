@@ -7,40 +7,62 @@ module.exports = function(app) {
     var cacheTimeShort = 10 * 60 * 1000;
     var cacheTimeLong = 40 * 60 * 1000;
 
+    //{"data": data, time: 1537811824430}
+    var calculTime = function(time){
+        var now = new Date().getTime();
+        return now - time;
+    }
+
+    /* ===================== LAST24 ===================== */
     var cacheLast24;
     app.get(pathRoute + 'graph/last24', function(req, res){
-        var timeStampStart = new Date().getTime();
-        graphController.last24H().then(function(data){
-            //console.log("graph[last24] Finished");
-            var timeStampEnd = new Date().getTime();
-            data.timeProc = (timeStampEnd-timeStampStart);
-            res.send(data)
-        });
+        if (!cacheLast24 || calculTime(cacheLast24.time) > cacheTimeShort){
+            var timeStampStart = new Date().getTime();
+            graphController.last24H().then(function(data){
+                var timeStampEnd = new Date().getTime();
+                data.timeProc = (timeStampEnd-timeStampStart);
+                cacheLast24 = {data: data, time: timeStampEnd};
+                res.send(data);
+            });
+        }
+        else
+            res.send(cacheLast24.data);
     });
 
+    /* ===================== typeByHour ===================== */
     var cacheDayHour;
     app.get(pathRoute + 'graph/dayhour', function(req, res){
-        var timeStampStart = new Date().getTime();
-        graphController.typeByHour().then(function(data){
-            //console.log("graph[typeByHour] Finished");
-            var timeStampEnd = new Date().getTime();
-            data.timeProc = (timeStampEnd-timeStampStart);
-            res.send(data)
-        });
+        if (!cacheDayHour || calculTime(cacheDayHour.time) > cacheTimeLong){
+            var timeStampStart = new Date().getTime();
+            graphController.typeByHour().then(function(data){
+                var timeStampEnd = new Date().getTime();
+                data.timeProc = (timeStampEnd-timeStampStart);
+                cacheDayHour = {data: data, time: timeStampEnd};
+                res.send(data);
+            });
+        }
+        else
+            res.send(cacheDayHour.data);
     });
 
-
+    /* ===================== DotByType ===================== */
     var cachedotByHour;
     app.get(pathRoute + 'graph/dotByHour', function(req, res){
-        var timeStampStart = new Date().getTime();
-        graphController.dotByType().then(function(data){
-            //console.log("graph[dotByType] Finished");
-            var timeStampEnd = new Date().getTime();
-            data.timeProc = (timeStampEnd-timeStampStart);
-            res.send(data)
-        });
+        if (!cachedotByHour || calculTime(cachedotByHour.time) > cacheTimeLong){
+            var timeStampStart = new Date().getTime();
+            graphController.dotByType().then(function(data){
+                //console.log("graph[dotByType] Finished");
+                var timeStampEnd = new Date().getTime();
+                data.timeProc = (timeStampEnd-timeStampStart);
+                cachedotByHour = {data: data, time: timeStampEnd};
+                res.send(data)
+            });
+        }
+        else
+            res.send(cachedotByHour.data);
     });
 
+    /* ===================== serverDetailed ===================== */
     app.get(pathRoute + 'graph/server/time_activity', function(req, res){
         var timeStampStart = new Date().getTime();
 
