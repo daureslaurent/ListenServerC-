@@ -87,11 +87,11 @@ net.createServer(function (socket) {
             //find IP Info
             axios.get('https://ipapi.co/'+jsonData.ip+'/json/')
               .then(response => {
-                var dataIp = JSON.parse(response);
+                var dataIp = JSON.parse(response.data);
                 var location = {
-                  "country": response.country_name,
-                  "city": response.city,
-                  "region": response.region
+                  "country": dataIp.country_name,
+                  "city": dataIp.city,
+                  "region": dataIp.region
                 };
                 console.log(location);
                 jsonData.location = location;
