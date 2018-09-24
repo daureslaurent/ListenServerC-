@@ -92,6 +92,7 @@ net.createServer(function (socket) {
                   "city": response.city,
                   "region": response.region
                 };
+                console.log(location);
                 jsonData.location = location;
                 console.log("ipInfo [OK]"+JSON.stringify(jsonData));
                 dataCtrl.createData(jsonData); 
