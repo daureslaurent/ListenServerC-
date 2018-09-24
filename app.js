@@ -46,7 +46,7 @@ var utils = require('./api/utils/utils');
 
 // Start a TCP Server
 var base64 = require('base-64');
-
+var currentReq = 0;
 
 net.createServer(function (socket) {
 
@@ -58,7 +58,7 @@ net.createServer(function (socket) {
 
   var validator = require('validator');
 
-  var currentReq = 0;
+  
 
   socket.on('error', function(err){
     console.log("Error: "+err.message);
