@@ -58,6 +58,8 @@ net.createServer(function (socket) {
 
   var validator = require('validator');
 
+  var currentReq = 0;
+
   socket.on('error', function(err){
     console.log("Error: "+err.message);
   })
@@ -73,17 +75,34 @@ net.createServer(function (socket) {
         var msg = listMsg[index];
         if (msg.length > 1){
           msg += '}';
-          console.log("["+msg+"]");
+          currentReq++;
+          console.log("Current request["+currentReq+"]");
           var jsonData = JSON.parse(msg);
           var decodedData = base64.decode(jsonData.data);
           if (jsonData && jsonData.data !== 'QklQDQo=' && jsonData.data !== 'cG9uZwo=' && jsonData.data !== 'cGluZwo=' && jsonData.data !== 'W1NFUlZFUl9TRU5EXTpwb25nCg==' && jsonData.data !== 'W1NFUlZFUl9TRU5EXTpCSVANCg=='
               && jsonData !== blackListData.blackList[0] && !validator.isEmpty(jsonData.data) && (decodedData.startsWith("[SERVER_SEND]:") == 0)){
-            console.log("[port]["+jsonData.port +"] " +
-                        "[time]["+utils.unixToTimeFR(Number.parseInt(jsonData.time))+"] " +
-                        "[ip]["+jsonData.ip +"]");
+                console.log("[port]["+jsonData.port +"] " +
+                "[time]["+utils.unixToTimeFR(Number.parseInt(jsonData.time))+"] " +
+                "[ip]["+jsonData.ip +"]");
+            //find IP Info
+            axios.get('https://ipapi.co/"+ip+"/json/')
+              .then(response => {
+                jsonData.location = {
+                  country: response.country_name,
+                  city: response.city,
+                  region: response.region
+                };
+                console.log("ipInfo [OK]");
+                dataCtrl.createData(jsonData); 
+              })
+              .catch(error => {
+                console.log("ipInfo [KO]["+error+"]");
+                dataCtrl.createData(jsonData); 
+              });
+                
                         //console.log("[data]["+jsonData.data+"]");
                         //console.log("[data]["+base64.decode(jsonData.data)+"]");
-            dataCtrl.createData(jsonData); 
+
           }
         //Send alert LedLamp
         utils.ledLampAlert();

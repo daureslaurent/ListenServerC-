@@ -13,6 +13,11 @@ var DataSchema = new mongoose.Schema({
   },
   data:{
     type: String
+  },
+  location:{
+    country: String,
+    city: String,
+    region: String
   }
 });
 
