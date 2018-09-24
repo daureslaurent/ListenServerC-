@@ -85,7 +85,7 @@ net.createServer(function (socket) {
                 "[time]["+utils.unixToTimeFR(Number.parseInt(jsonData.time))+"] " +
                 "[ip]["+jsonData.ip +"]");
             //find IP Info
-            axios.get('https://ipapi.co/"+ip+"/json/')
+            axios.get('https://ipapi.co/'+jsonData.ip+'/json/')
               .then(response => {
                 jsonData.location = {
                   country: response.country_name,
