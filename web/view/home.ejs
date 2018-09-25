@@ -69,7 +69,7 @@ var doInfoIp = function(ip, id){
                 <div href="#" class="list-group-item list-group-item-action flex-column align-items-start">
                     <div class="d-flex w-100 justify-content-between">
                         <h5 class="mb-1">PORT[<%= dataList[i].port %>] IP[<%= dataList[i].ip %>]</h5>
-                        <span class="badge badge-pill badge-success"><%= dataList[i].location.country %> :&gt; <%= dataList[i].location.region %> - <%= dataList[i].location.city %></span>
+                        
                         <div id="ipInfo<%=dataList[i].ip%>"></div>
                         <script>doInfoIp('<%=dataList[i].ip%>', 'ipInfo<%=dataList[i].ip%>')</script>
                         <small><%= dataList[i].timeStr %></small>

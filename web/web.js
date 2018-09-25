@@ -23,6 +23,7 @@ module.exports = function(app) {
             dataConverter.recurciveUnixTest(function(servers){
                 dataConverter.getBackState(function(backData){
                     res.render('home', { dataList: data , serverList: servers, backState : backData})
+                    console.log(data)
                 });
             });
         });
