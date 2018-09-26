@@ -151,7 +151,7 @@ exports.fancyFormatDataList = function(dataList){
   
   for (let index = 0; index < dataList.length; index++) {
     const elem = dataList[index];
-    var elemLocal = {ip: elem.ip, port: elem.port, time: elem.time, data: new Array(), _id: elem._id};
+    var elemLocal = {ip: elem.ip, port: elem.port, time: elem.time, data: new Array(), _id: elem._id, location: elem.location};
     var mapElem = map.get(elem.ip);
     if (!mapElem){
       elemLocal.data.push(elem.dataDecoded);
