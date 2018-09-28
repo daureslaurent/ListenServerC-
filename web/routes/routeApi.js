@@ -68,7 +68,7 @@ module.exports = function(app) {
         serverController.getListIpServer().then(function(ips){
             var promiseArray = new Array();
             for (let index = 0; index < ips.length; index++) {
-                promiseArray.push(dataController.getAllDataByPortCallBack(ips[index], dataController));
+                promiseArray.push(dataController.getAllDataByPortPromise(ips[index], dataController));
             }
             return Promise.all(promiseArray).then(values => {
                 console.log('export: '+(new Date().getTime()-timeStampStart));
