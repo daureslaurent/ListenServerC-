@@ -86,7 +86,7 @@ exports.getDataByPortCallBack = function(port, cb){
 };
 
 exports.getDataByPortSkipLimit = function(port, skip, limit, cb) { 
-  var promise = dataModel.find({'port':port}).skip(skip).limit(limit).exec();
+  var promise = dataModel.find({'port':port}).skip(skip).limit(limit).select("-_id").select("-__v").exec();
   promise.then(function(datas){
     cb(datas);
   })
@@ -142,5 +142,46 @@ exports.getDataByIpCallBack = function(ip, cb){
   })
   .catch(function(err){
     console.log('getDataByIpCallBack('+port+'): err: '+err);
+  });
+};
+
+/* ========================== PROMISE ========================== */
+
+exports.getCountByPortPromise = function(port){
+  return new Promise(function(resolve, reject) {
+    dataModel.count({'port':port}).exec()
+    .then(function(datas){
+      resolve(datas);
+    })
+    .catch(function(err){
+      console.log('getCountByPortCallBack('+port+'): err: '+err);
+    });
+  });
+  
+};
+
+exports.getAllDataByPortCallBack = function(port, dataCtrl){
+  return new Promise(function(resolve, reject) {
+    
+    dataCtrl.getCountByPortPromise(port).then(function(count){
+      var curPage = 0;
+      var paging = 999;
+      var maxPage = count - 1;
+      var tmpArr = new Array();
+      var nbOccur = Math.ceil(maxPage/paging);
+      var currOccur = 0;
+      for (;curPage < maxPage; curPage += paging) {
+        if (curPage+paging > maxPage){
+            paging = maxPage - curPage;
+        }
+        dataCtrl.getDataByPortSkipLimit(port, curPage, paging, function(data){
+            currOccur++;
+            tmpArr = tmpArr.concat(data);
+            if (currOccur >= nbOccur){
+              resolve(tmpArr);
+            }
+        });
+      }
+    });
   });
 };

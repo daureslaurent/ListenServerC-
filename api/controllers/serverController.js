@@ -3,6 +3,19 @@ var mongoose = require('mongoose');
 var serverModel = mongoose.model('Server');
 
 var test = false;
+
+exports.getListIpServer = function(){
+  return new Promise(function(resolve, reject) {
+    serverModel.find({}).sort({port: -1}).exec().then(function(serverList){
+      var ipArr = new Array();
+      for (let index = 0; index < serverList.length; index++) {
+          ipArr.push(serverList[index].port);
+      }
+      resolve(ipArr);
+    });
+  });
+};
+
 exports.getAllServerCb = function(cb){
   if (!test){
     //this.createServer('192.168.1.17', 'TestServ', '2121', '80');

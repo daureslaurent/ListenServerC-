@@ -1,6 +1,8 @@
 'use strict';
 
-var graphController = require('../controllers/graphControllers.js');
+var graphController = require('../controllers/graphControllers');
+var dataController = require('../../api/controllers/dataController');
+var serverController = require('../../api/controllers/serverController');
 
 module.exports = function(app) {
     var pathRoute = '/web/api/';
@@ -80,4 +82,19 @@ module.exports = function(app) {
             res.send(data)
         });
     });
-}
+
+        /* ===================== exportDataByPort ===================== */
+    app.get(pathRoute + 'data/talk_all', function(req, res){
+        var timeStampStart = new Date().getTime();
+        serverController.getListIpServer().then(function(ips){
+            var promiseArray = new Array();
+            for (let index = 0; index < ips.length; index++) {
+                promiseArray.push(dataController.getAllDataByPortCallBack(ips[index], dataController));
+            }
+            return Promise.all(promiseArray).then(values => {
+                console.log('export: '+(new Date().getTime()-timeStampStart));
+                res.send(values);
+            })
+        }, function(err){console.log(err)})
+    });
+};
