@@ -36,5 +36,6 @@ std::string	CMD_http::Run()
   ss << "</body>"<<std::endl;
   ss << "</html>"<<std::endl;
   //std::cout << ss.str() << std::endl;
+  return "-==SERVERCLOSESOCKET==-\n";
   return ss.str();
 }
