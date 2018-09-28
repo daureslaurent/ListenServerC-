@@ -13,4 +13,4 @@ var IpSchema = new mongoose.Schema({
   }
 });
 
-module.exports = mongoose.model('Data', DataSchema);
+module.exports = mongoose.model('Ip', IpSchema);

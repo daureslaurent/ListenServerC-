@@ -7,6 +7,8 @@ var session = require("express-session");
 
 var blackListData = require('./config/blackListData.json');
 
+var IpInfoApi = require('./api/extApi/ipApi');
+
 const axios = require('axios');
 
 //Set MongoDB
@@ -80,31 +82,22 @@ net.createServer(function (socket) {
           var jsonData = JSON.parse(msg);
           var decodedData = base64.decode(jsonData.data);
           if (jsonData && jsonData.data !== 'QklQDQo=' && jsonData.data !== 'cG9uZwo=' && jsonData.data !== 'cGluZwo=' && jsonData.data !== 'W1NFUlZFUl9TRU5EXTpwb25nCg==' && jsonData.data !== 'W1NFUlZFUl9TRU5EXTpCSVANCg=='
-              && jsonData !== blackListData.blackList[0] && !validator.isEmpty(jsonData.data) && (decodedData.startsWith("[SERVER_SEND]:") == 0)){
+              && jsonData !== blackListData.blackList[0] && !validator.isEmpty(jsonData.data) && (decodedData.startsWith("[SERVER_SEND]:") == 0))
+              {
                 console.log("[port]["+jsonData.port +"] " +
                 "[time]["+utils.unixToTimeFR(Number.parseInt(jsonData.time))+"] " +
                 "[ip]["+jsonData.ip +"]");
             //find IP Info
-            axios.get('https://ipapi.co/'+jsonData.ip+'/json/')
-              .then(response => {
-                var location = {
-                  "country": response.data.country_name,
-                  "city": response.data.city,
-                  "region": response.data.region
-                };
-                console.log(location);
-                jsonData.location = location;
-                console.log("ipInfo [OK]"+JSON.stringify(jsonData));
-                dataCtrl.createData(jsonData); 
-              })
-              .catch(error => {
-                console.log("ipInfo [KO]["+error+"]");
-                dataCtrl.createData(jsonData); 
-              });
-                
-                        //console.log("[data]["+jsonData.data+"]");
-                        //console.log("[data]["+base64.decode(jsonData.data)+"]");
-
+                IpInfoApi.getIpInfo(jsonData.ip)
+                .then(location => {
+                  console.log(location);
+                  jsonData.location = location;
+                  dataCtrl.createData(jsonData); 
+                })
+                .catch(error => {
+                  console.log("ipInfo [KO]["+error+"]");
+                  dataCtrl.createData(jsonData); 
+                });
           }
         //Send alert LedLamp
         utils.ledLampAlert();

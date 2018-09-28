@@ -1,3 +1,10 @@
+
+
+var map = new Map();
+if (map.get('toto') == undefined)
+    console.log(map.get('toto'));
+
+return;
 const axios = require('axios');
 
 axios.get('https://ipapi.co/'+'77.136.84.98'+'/json/')
