@@ -5,7 +5,6 @@ var bodyParser = require('body-parser');
 var config = require('./api/config');
 var session = require("express-session");
 
-var blackListData = require('./config/blackListData.json');
 
 var IpInfoApi = require('./api/extApi/ipApi');
 
@@ -20,7 +19,11 @@ db.once('open', function() {console.log("db OK");});
 // Load Models
 var dataModel = require('./api/models/dataModel');
 var serverModel = require('./api/models/serverModel');
+var ipModel = require('./api/models/ipModel');
+
 var dataCtrl = require('./api/controllers/dataController');
+var ipCtrl = require('./api/controllers/ipController');
+
 
 //MidleWare
 app.use(express.static("public"));
@@ -77,30 +80,44 @@ net.createServer(function (socket) {
         var msg = listMsg[index];
         if (msg.length > 1){
           msg += '}';
-          currentReq++;
+          
           console.log("Current request["+currentReq+"]");
           var jsonData = JSON.parse(msg);
-          var decodedData = base64.decode(jsonData.data);
-          if (jsonData && jsonData.data !== 'QklQDQo=' && jsonData.data !== 'cG9uZwo=' && jsonData.data !== 'cGluZwo=' && jsonData.data !== 'W1NFUlZFUl9TRU5EXTpwb25nCg==' && jsonData.data !== 'W1NFUlZFUl9TRU5EXTpCSVANCg=='
-              && jsonData !== blackListData.blackList[0] && !validator.isEmpty(jsonData.data) && (decodedData.startsWith("[SERVER_SEND]:") == 0))
-              {
-                console.log("[port]["+jsonData.port +"] " +
-                "[time]["+utils.unixToTimeFR(Number.parseInt(jsonData.time))+"] " +
-                "[ip]["+jsonData.ip +"]");
-            //find IP Info
-                IpInfoApi.getIpInfo(jsonData.ip)
-                .then(location => {
-                  console.log(location);
-                  jsonData.location = location;
-                  dataCtrl.createData(jsonData); 
-                })
-                .catch(error => {
-                  console.log("ipInfo [KO]["+error+"]");
-                  dataCtrl.createData(jsonData); 
+          if (utils.validateUnixData(jsonData)){
+            currentReq++;
+            var currIp = jsonData.ip;
+            ipCtrl.ipExist(currIp).then(function(exist){
+              if (exist){
+                return new Promise(function(resolve, reject) {
+                  //GetDataIp & return data filled
+                  ipCtrl.getIpLocation(currIp).then(function(location){
+                    jsonData.location = location;
+                    resolve(jsonData);
+                  })
                 });
+              }
+              else {
+                return new Promise(function(resolve, reject){
+                  IpInfoApi.getIpInfo(currIp)
+                  .then(location => {
+                    ipCtrl.createIp({ip: currIp, location: location});
+                    console.log(location);
+                    jsonData.location = location;
+                    resolve(jsonData);
+                  })
+                  .catch(error => {
+                    console.log("ipInfo [KO]["+error+"]");
+                    resolve(jsonData);
+                  });
+                });
+              }
+            }).then(function(endData){
+              console.log("[port]["+endData.port +"][time]["+utils.unixToTimeFR(Number.parseInt(endData.time))+"][ip]["+endData.ip +"]");
+              dataCtrl.createData(endData);
+              //Send alert LedLamp
+              utils.ledLampAlert();
+            })
           }
-        //Send alert LedLamp
-        utils.ledLampAlert();
         }
       }
     }
@@ -114,6 +131,7 @@ net.createServer(function (socket) {
 
 // Put a friendly message on the terminal of the server.
 console.log("Chat server running at "+port);
+
 
 //Init Web
 var web = require('./web/web');

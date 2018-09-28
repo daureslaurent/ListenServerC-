@@ -1,7 +1,8 @@
 var net = require('net');
 
+var msg = "{\"ip\": \"1.1.1.1\",\"port\": \"2121\",\"time\": \"1536512860\",\"data\": \"SEVBRCAvIEhUVFAvMS4xDQpIb3N0OiAyLjcuMi43Mw0KQ29ubmVjdGlvbjogY2xvc2UNClVzZXItQWdlbnQ6IE1vemlsbGEvNS4wIChXaW5kb3dzIE5UIDYuMSkgQXBwbGVXZWJLaXQvNTM3LjM2IChLSFRNTCwgbGlrZSBHZWNrbykgQ2hyb21lLzM2LjAuMTk4NS4xMjUgU2FmYXJpLzUzNy4zNg0KDQo=\"}";
 //var msg = "{\"ip\": \"1.1.1.1\",\"port\": \"2121\",\"time\": \"1536512860\",\"data\": \"SEVBRCAvIEhUVFAvMS4xDQpIb3N0OiAyLjcuMi43Mw0KQ29ubmVjdGlvbjogY2xvc2UNClVzZXItQWdlbnQ6IE1vemlsbGEvNS4wIChXaW5kb3dzIE5UIDYuMSkgQXBwbGVXZWJLaXQvNTM3LjM2IChLSFRNTCwgbGlrZSBHZWNrbykgQ2hyb21lLzM2LjAuMTk4NS4xMjUgU2FmYXJpLzUzNy4zNg0KDQo=\"}{\"ip\": \"1.1.1.1\",\"port\": \"2121\",\"time\": \"1536512860\",\"data\": \"dDMgMTIuMS4yCkFTOjIwNDgKSEw6MTkKCg==\"}";
-var msg = "16/9 - 23:25:48>:Recv :[]}";
+//var msg = "16/9 - 23:25:48>:Recv :[]}";
 
 // creating a custom socket client and connecting it....
 var client  = new net.Socket();

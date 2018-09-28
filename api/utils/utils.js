@@ -6,6 +6,25 @@ var configLamp = require('../../config/ledLamp.json');
 var serverCtrl = require('../controllers/serverController');
 var serverConf = require('../../config/server.json');
 
+var validator = require('validator');
+var blackListData = require('../../config/blackListData.json');
+
+
+exports.validateUnixData = function(jsonData){
+  var decodedData = base64.decode(jsonData.data);
+  return (
+    jsonData 
+    && jsonData.data !== 'QklQDQo=' 
+    && jsonData.data !== 'cG9uZwo=' 
+    && jsonData.data !== 'cGluZwo=' 
+    && jsonData.data !== 'W1NFUlZFUl9TRU5EXTpwb25nCg==' 
+    && jsonData.data !== 'W1NFUlZFUl9TRU5EXTpCSVANCg=='
+    && jsonData !== blackListData.blackList[0] 
+    && !validator.isEmpty(jsonData.data)
+    && (decodedData.startsWith("[SERVER_SEND]:") == 0)
+  )
+}
+
 exports.unixToTimeStr = function(timeUnix){
   var date = new Date(timeUnix*1000);
   return date.toISOString().replace(/T/, ' ').replace(/\..+/, '');
