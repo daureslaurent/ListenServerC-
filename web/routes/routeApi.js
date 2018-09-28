@@ -3,6 +3,7 @@
 var graphController = require('../controllers/graphControllers');
 var dataController = require('../../api/controllers/dataController');
 var serverController = require('../../api/controllers/serverController');
+var virtualStat = require('../../api/controllers/statController');
 
 module.exports = function(app) {
     var pathRoute = '/web/api/';
@@ -16,35 +17,13 @@ module.exports = function(app) {
     }
 
     /* ===================== LAST24 ===================== */
-    var cacheLast24;
     app.get(pathRoute + 'graph/last24', function(req, res){
-        if (!cacheLast24 || calculTime(cacheLast24.time) > cacheTimeShort){
-            var timeStampStart = new Date().getTime();
-            graphController.last24H().then(function(data){
-                var timeStampEnd = new Date().getTime();
-                data.timeProc = (timeStampEnd-timeStampStart);
-                cacheLast24 = {data: data, time: timeStampEnd};
-                res.send(data);
-            });
-        }
-        else
-            res.send(cacheLast24.data);
+        virtualStat.getLast24Port().then(function(data){res.send(data)});
     });
 
     /* ===================== typeByHour ===================== */
-    var cacheDayHour;
     app.get(pathRoute + 'graph/dayhour', function(req, res){
-        if (!cacheDayHour || calculTime(cacheDayHour.time) > cacheTimeLong){
-            var timeStampStart = new Date().getTime();
-            graphController.typeByHour().then(function(data){
-                var timeStampEnd = new Date().getTime();
-                data.timeProc = (timeStampEnd-timeStampStart);
-                cacheDayHour = {data: data, time: timeStampEnd};
-                res.send(data);
-            });
-        }
-        else
-            res.send(cacheDayHour.data);
+        virtualStat.getPortByHour().then(function(data){res.send(data)});
     });
 
     /* ===================== DotByType ===================== */
@@ -94,6 +73,7 @@ module.exports = function(app) {
             return Promise.all(promiseArray).then(values => {
                 console.log('export: '+(new Date().getTime()-timeStampStart));
                 res.send(values);
+                virtualStat.testCache("toto");
             })
         }, function(err){console.log(err)})
     });

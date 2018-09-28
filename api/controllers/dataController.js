@@ -160,7 +160,7 @@ exports.getCountByPortPromise = function(port){
   
 };
 
-exports.getAllDataByPortCallBack = function(port, dataCtrl){
+exports.getAllDataByPortPromise = function(port, dataCtrl){
   return new Promise(function(resolve, reject) {
     
     dataCtrl.getCountByPortPromise(port).then(function(count){

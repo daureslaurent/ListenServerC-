@@ -140,10 +140,9 @@ exports.getLastUsageAllServerCb = function(option, cb){
             var endDataArray = new Array();
             var endPortArray = new Array();
             var count = 0;
-
             dataCtrl.getAllDataByPortCallBack(server.port, dataCtrl, function(data){
-
                 process.doLastUsageServerProcess(data, option, function(map){
+
                     count++;
                     var labelArray = new Array();
                     var dataArray = new Array();
