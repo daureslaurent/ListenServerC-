@@ -15,7 +15,7 @@ void		CMD_ssh::Init(const int fd)
 
 std::string	CMD_ssh::Run()
 {
-  return "-==SERVERCLOSESOCKET==-\n";
+  return "-==SERVERCLOSESOCKET==-\nBANNED\r\n\r\n";
 
   return "OKRETURNSSH";
 }
