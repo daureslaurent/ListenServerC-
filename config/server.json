@@ -1,4 +1,7 @@
 {
     "ip": "2.7.2.73",
-    "hideIp": "******MYIP*****"
+    "hideIp": "******MYIP*****",
+    "serverList": [
+        {"addr": "192.168.1.17", "name": "serverHTTP", "port": "2121", "redirect": "80:WEB"}
+    ]
 }
