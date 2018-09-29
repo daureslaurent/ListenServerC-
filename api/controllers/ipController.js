@@ -19,6 +19,45 @@ exports.countAllIp = function() {
 
 /* ========================== PROMISE ========================== */
 
+var getIpSkipLimitPromise = function(skip, limit){
+  return new Promise(function(resolve, reject){
+    ipModel.find({})
+    .skip(skip)
+    .limit(limit)
+    .select("-_id").select("-__v").exec()
+    .then(function(data){
+      resolve(data);
+    })
+  });
+}
+
+exports.getAllIp = function(){
+  var countAllIp = ipModel.count({}).exec();
+
+  return new Promise(function(resolve, reject){
+    countAllIp.then(function(count){
+      var curPage = 0;
+      var paging = 900;
+      var maxPage = count - 1;
+      var promiseArray = new Array();
+
+      for (;curPage < maxPage; curPage += paging) {
+        if (curPage+paging > maxPage){
+            paging = maxPage - curPage;
+        }
+        promiseArray.push(getIpSkipLimitPromise(curPage, paging));
+      }
+      return Promise.all(promiseArray).then(dataArray => {
+        var datas = new Array();
+        for (let index = 0; index < dataArray.length; index++) {
+            datas = datas.concat(dataArray[index]);
+        }
+        resolve(datas);
+      }).catch(function(err){console.log(err)});
+    });
+  });
+}
+
 exports.getIpLocation = function(ip){
   return new Promise(function(resolve, reject) {
     ipModel.find({'ip':ip}).exec()

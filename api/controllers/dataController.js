@@ -1,6 +1,7 @@
 'use strict';
 var mongoose = require('mongoose');
 var dataModel = mongoose.model('Data');
+var serverController = require('./serverController');
 
 exports.createData = function(data){
   console.log("CreateData: "+data)
@@ -185,3 +186,17 @@ exports.getAllDataByPortPromise = function(port, dataCtrl){
     });
   });
 };
+
+exports.getAllDataActivePromise = function(dataController){
+  return new Promise(function(resolve, reject) {
+    serverController.getListIpServer().then(function(ips){
+      var promiseArray = new Array();
+      for (let index = 0; index < ips.length; index++) {
+          promiseArray.push(dataController.getAllDataByPortPromise(ips[index], dataController));
+      }
+      return Promise.all(promiseArray).then(values => {
+          resolve(values);
+      })
+    }, function(err){reject(err)});
+  });
+}

@@ -5,6 +5,7 @@ var express = require('express');
 var serverCtrl = require('../api/controllers/serverController');
 var dataCtrl = require('../api/controllers/dataController');
 var serverCmd = require('../api/utils/serverCmd');
+var virtualStat = require('../api/controllers/statController');
 
 module.exports = function(app) {
     var path = require('path');
@@ -126,6 +127,12 @@ module.exports = function(app) {
                 return res.render('search', { dataList: data });
             });
         }
+    });
+
+    app.get('/web/ip', function(req, res){
+        virtualStat.getCountByCountry().then(function(data){
+            res.render('ip', { listIp: data });
+        }).catch(function(err){console.log(err)})
     });
 
     //Set WEB API

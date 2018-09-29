@@ -60,4 +60,4 @@ exports.doLastUsageServerProcess = function(data, option, cb){
         }
     }
     cb(map);
-}
+};

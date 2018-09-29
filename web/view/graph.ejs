@@ -65,7 +65,26 @@
                 </div>
             </div>
         </div>
+        <br>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-body">
+                        <small><b>Graph request by hours</b></small>
+                        <div class="card-text" >
+                            <canvas id="chartCountry" style="visibility: hidden;"></canvas>
+                            <div class="progress" id="chartCountryProgress">
+                                <div class="progress-bar progress-bar-striped bg-danger progress-bar-animated" role="progressbar" style="width: 100%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
+                            </div>
+                        </div>
+                        <script>setLoadChart('chartCountry', '/web/api/graph/ip_country', 'chartCountryProgress', true)</script>
+                    </div>
+                </div>
+            </div>
+        </div>
+
     </div>
+
     <%- include('partials/footer') %>
 </body>
 

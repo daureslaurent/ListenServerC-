@@ -102,7 +102,7 @@ var graphSetDot = function(dataGraph, chartObj, progressId, chartId){
         listColor.push('#'+Math.floor(Math.random()*16777215).toString(16));
     }
     data = {
-        datasets: [{data: dataGraph.data}],
+        datasets: [{data: dataGraph.data, backgroundColor: listColor}],
         // These labels appear in the legend and in the tooltips when hovering different arcs
         labels: dataGraph.labels
     };
