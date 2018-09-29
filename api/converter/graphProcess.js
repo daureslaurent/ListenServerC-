@@ -11,7 +11,6 @@ exports.doProcessDayDataCB =  function(dataList, cb){
     }*/
     
     //Count Data by hours
-    console.log(dataList.length)
     for (let index = 0; index < dataList.length; index++) {
         const element = dataList[index];
         var map = mapPort.get(element.port);

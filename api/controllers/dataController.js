@@ -99,6 +99,9 @@ exports.getDataByPortSkipLimit = function(port, skip, limit, cb) {
 
 exports.getAllDataByPortCallBack = function(port, dataCtrl, cb){
   dataCtrl.getCountByPortCallBack(port, function(count){
+    if (count <= 1){
+      return cb(new Array());
+    }
     var curPage = 0;
     var paging = 999;
     var maxPage = count - 1;
