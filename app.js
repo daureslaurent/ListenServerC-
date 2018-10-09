@@ -118,7 +118,7 @@ net.createServer(function (socket) {
                 time: utils.unixToTimeFR(Number.parseInt(endData.time)), 
                 ip: endData.ip,
                 data: endData.data})
-              //dataCtrl.createData(endData);
+              dataCtrl.createData(endData);
               //Send alert LedLamp
               utils.ledLampAlert();
             })
