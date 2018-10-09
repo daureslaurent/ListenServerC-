@@ -1,8 +1,5 @@
 'use strict';
-const readline = require('readline')
-const blank = '\n'.repeat(process.stdout.rows)
 
-const clearRoutine = require('../routine/clearRoutine')
 const statCtrl = require('../controllers/statController')
 
 class UnixPrompt {
@@ -14,13 +11,16 @@ class UnixPrompt {
   }
 
   exec(){
+    var term = require( 'terminal-kit' ).terminal ;
     var listLog = statCtrl.getLogConsole();
-    clearRoutine.exec();
+
+    term.clear() ;
     listLog.forEach(element => {
       //{port, time, ip}
-      console.log('port['+element.port+'] time['+element.time+']ip['+element.ip+']')
+      term("port[").red(element.port)("] time[" ).green(element.time)("] ip[").blue(element.ip)("]\n");
     })
-    console.log('Request ['+listLog.length+']')
+    var sizeLog = (!listLog.length)?'0':listLog.length;
+    term.gray("Request [").red(sizeLog).gray("]\n");
   }
 };
 const unix_prompt = new UnixPrompt();

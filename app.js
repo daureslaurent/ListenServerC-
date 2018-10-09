@@ -82,7 +82,7 @@ net.createServer(function (socket) {
         if (msg.length > 1){
           msg += '}';
           
-          console.log("Current request["+currentReq+"]");
+          //console.log("Current request["+currentReq+"]");
           var jsonData = JSON.parse(msg);
           if (utils.validateUnixData(jsonData)){
             currentReq++;
@@ -102,7 +102,7 @@ net.createServer(function (socket) {
                   IpInfoApi.getIpInfo(currIp)
                   .then(location => {
                     ipCtrl.createIp({ip: currIp, location: location});
-                    console.log(location);
+                    //console.log(location);
                     jsonData.location = location;
                     resolve(jsonData);
                   })
@@ -113,9 +113,12 @@ net.createServer(function (socket) {
                 });
               }
             }).then(function(endData){
-              statCtrl.addLogConsole({port: endData.port, time: utils.unixToTimeFR(Number.parseInt(endData.time)), ip: endData.ip})
-              console.log("[port]["+endData.port +"][ip]["+endData.ip +"]");
-              dataCtrl.createData(endData);
+              statCtrl.addLogConsole({
+                port: endData.port,
+                time: utils.unixToTimeFR(Number.parseInt(endData.time)), 
+                ip: endData.ip,
+                data: endData.data})
+              //dataCtrl.createData(endData);
               //Send alert LedLamp
               utils.ledLampAlert();
             })
@@ -144,9 +147,13 @@ const RoutineManager = require('./api/routine/routineManager');
 var routineManager = new RoutineManager(3);
 //routineManager.run();
 
-const PromptCustom = require('./api/prompt/prompt');
-var promptCustom = new PromptCustom();
-promptCustom.run();
+const MenuManager = require('./api/prompt/MenuManager');
+var menuManager = new MenuManager();
+menuManager.run();
+
+//const PromptCustom = require('./api/prompt/prompt');
+//var promptCustom = new PromptCustom();
+//promptCustom.run();
 //routineManager.run();
 
 app.listen(2119);

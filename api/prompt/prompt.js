@@ -1,46 +1,48 @@
 'use strict';
 const readline = require('readline')
+
 const blank = '\n'.repeat(process.stdout.rows)
 
 //Modules prompts
 const pr_unix = require('./unixPrompt');
+const pr_menu = require('./menuPromp.js');
 
 class PromptCustom {
   constructor(){
 
-    this.listPrompts = [pr_unix];
-    var rl = readline.createInterface({
-      input: process.stdin,
-      output: process.stdout
-    });
 
-    this.recursiveAsyncReadLine = function () {
-        rl.prompt()
-      rl.question('', function (answer) {
-        this.listPrompts.forEach(element => {
-            if (answer === element.parser)
-            element.exec();
-        });
-        
-
-        if (answer === 'clear')
-            this.clear()
-
-        
-        else if (answer == 'exit') //we need some base case, for recursion
-          return rl.close(); //closing RL and returning from function.
-        else {
-            console.log(answer)
-        }
-
-        this.recursiveAsyncReadLine(); //Calling this function again to ask new question
-      }.bind(this));
-    }.bind(this);
-    
+    this.listPrompts = [pr_unix, pr_menu];
   }
 
   run(){
-    this.recursiveAsyncReadLine(); //we have to actually start our recursion somehow
+    this.promiseRun = new Promise(function start(resolve, reject){
+        console.log('Start Promise')
+
+        var rl = readline.createInterface({
+            input: process.stdin,
+            output: process.stdout
+        });
+        rl.stdoutMuted = true;
+
+        //Open Question
+        rl.question('', function (answer) {
+            rl.close();
+            this.listPrompts.forEach(element => {
+                if (answer === element.parser)
+                    return element.exec();
+            });
+            if (answer === 'clear'){
+                this.clear()
+                resolve();
+            }
+        }.bind(this));
+    }.bind(this));
+
+
+    this.promiseRun.then(function(){
+        
+        this.promiseRun.then(start);
+    });
   }
 
   clear(){

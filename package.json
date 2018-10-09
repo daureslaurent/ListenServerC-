@@ -23,7 +23,9 @@
     "express": "^4.16.3",
     "express-session": "^1.15.6",
     "mongoose": "^4.13.0",
+    "readline-sync": "^1.4.9",
     "request-promise": "^4.2.2",
+    "terminal-kit": "^1.26.3",
     "validator": "^10.5.0"
   }
 }
