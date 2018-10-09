@@ -52,6 +52,7 @@ var utils = require('./api/utils/utils');
 // Start a TCP Server
 var base64 = require('base-64');
 var currentReq = 0;
+const statCtrl = require('./api/controllers/statController');
 
 net.createServer(function (socket) {
 
@@ -112,7 +113,8 @@ net.createServer(function (socket) {
                 });
               }
             }).then(function(endData){
-              console.log("[port]["+endData.port +"][time]["+utils.unixToTimeFR(Number.parseInt(endData.time))+"][ip]["+endData.ip +"]");
+              statCtrl.addLogConsole({port: endData.port, time: utils.unixToTimeFR(Number.parseInt(endData.time)), ip: endData.ip})
+              console.log("[port]["+endData.port +"][ip]["+endData.ip +"]");
               dataCtrl.createData(endData);
               //Send alert LedLamp
               utils.ledLampAlert();
@@ -136,4 +138,15 @@ console.log("Chat server running at "+port);
 //Init Web
 var web = require('./web/web');
 web(app);
+
+//start Routine Manager
+const RoutineManager = require('./api/routine/routineManager');
+var routineManager = new RoutineManager(3);
+//routineManager.run();
+
+const PromptCustom = require('./api/prompt/prompt');
+var promptCustom = new PromptCustom();
+promptCustom.run();
+//routineManager.run();
+
 app.listen(2119);
