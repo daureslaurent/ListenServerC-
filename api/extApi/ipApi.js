@@ -7,7 +7,6 @@ exports.getIpInfo = function(ip){
     return new Promise(function(resolve, reject) {
         var cachedData = mapData.get(ip)
         if (cachedData == undefined){
-            console.log('DoReqIpInfo')
             axios.get('https://ipapi.co/'+ip+'/json/')
             .then(response => {
                 var location = {

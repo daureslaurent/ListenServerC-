@@ -10,19 +10,23 @@ var IpInfoApi = require('./api/extApi/ipApi');
 
 const axios = require('axios');
 
+
+
 //Set MongoDB
 var promise = mongoose.connect(config.finalDB, {useMongoClient: true});
 // Check MongoDB connect
 var db = mongoose.connection;
-db.on('error', console.error.bind(console, 'connection error:'));
-db.once('open', function() {console.log("db OK");});
+db.on('error', function(){infoCtrl.setStateDataBase(false)});
+db.once('open', function() {infoCtrl.setStateDataBase(true)});
 // Load Models
 var dataModel = require('./api/models/dataModel');
 var serverModel = require('./api/models/serverModel');
 var ipModel = require('./api/models/ipModel');
 
+
 var dataCtrl = require('./api/controllers/dataController');
 var ipCtrl = require('./api/controllers/ipController');
+const infoCtrl = require('./api/controllers/infoController');
 
 
 //MidleWare
@@ -52,7 +56,6 @@ var utils = require('./api/utils/utils');
 // Start a TCP Server
 var base64 = require('base-64');
 var currentReq = 0;
-const statCtrl = require('./api/controllers/statController');
 
 net.createServer(function (socket) {
 
@@ -113,12 +116,12 @@ net.createServer(function (socket) {
                 });
               }
             }).then(function(endData){
-              statCtrl.addLogConsole({
+              infoCtrl.addLogConsole({
                 port: endData.port,
                 time: utils.unixToTimeFR(Number.parseInt(endData.time)), 
                 ip: endData.ip,
                 data: endData.data})
-              dataCtrl.createData(endData);
+              //dataCtrl.createData(endData);
               //Send alert LedLamp
               utils.ledLampAlert();
             })

@@ -3,11 +3,10 @@ var mongoose = require('mongoose');
 var ipModel = mongoose.model('Ip');
 
 exports.createIp = function(data){
-  console.log("CreateIp: "+JSON.stringify(data))
   var newIp = new ipModel(data);
   newIp.save(function(err, data) {
-  if (err)
-    console.log("erreur CreateIp: "+err);
+  //if (err)
+    //TODO:ERR
   });
 };
 
@@ -74,4 +73,16 @@ exports.ipExist = function(ip){
       resolve(count > 0);
     })
   });
+};
+
+exports.countIpPromise = function() {
+  return new Promise(function(resolve, reject){
+    ipModel.count({}).exec()
+    .then(function(count){
+      resolve(count);
+    })
+    .catch(function(err){
+      reject(err)
+    });
+  })
 };

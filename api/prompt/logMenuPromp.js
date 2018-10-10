@@ -1,5 +1,5 @@
 'use strict';
-const statCtrl = require('../controllers/statController')
+const infoCtrl = require('../controllers/infoController')
 var term = require( 'terminal-kit' ).terminal ;
 
 
@@ -11,7 +11,7 @@ class MenuPromptLogs {
     var nameArr = new Array();
     var dataArr = new Array();
     var dataMap = new Map();
-    var listLog = statCtrl.getLogConsole();
+    var listLog = infoCtrl.getLogConsole(15);
 
     listLog.forEach(element => {
       var name = 'IP['+element.ip+']:['+element.port+']'+element.time;

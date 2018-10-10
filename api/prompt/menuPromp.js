@@ -6,12 +6,14 @@ const clearRoutine = require('../routine/clearRoutine')
 const statCtrl = require('../controllers/statController')
 
 const logs_menu = require('./logMenuPromp');
+const db_menu = require('./dbMenu');
 
 var term = require( 'terminal-kit' ).terminal ;
 class MainMenu {
   constructor(){
     this.mapMenu = new Map();
     this.mapMenu.set('Logs', logs_menu);
+    this.mapMenu.set('DataBase', db_menu);
     this.mapMenu.set('Exit', 'Exit');
   }
 

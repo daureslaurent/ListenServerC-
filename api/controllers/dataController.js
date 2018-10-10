@@ -4,7 +4,6 @@ var dataModel = mongoose.model('Data');
 var serverController = require('./serverController');
 
 exports.createData = function(data){
-  console.log("CreateData: "+data)
   var newData = new dataModel(data);
   newData.save(function(err, data) {
   if (err)
@@ -203,3 +202,15 @@ exports.getAllDataActivePromise = function(dataController){
     }, function(err){reject(err)});
   });
 }
+
+exports.countDataPromise = function() {
+  return new Promise(function(resolve, reject){
+    dataModel.count({}).exec()
+    .then(function(count){
+      resolve(count);
+    })
+    .catch(function(err){
+      reject(err)
+    });
+  })
+};
