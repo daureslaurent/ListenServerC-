@@ -6,16 +6,6 @@
     <title>ListenServer data</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js" integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T" crossorigin="anonymous"></script>
-    <style>
-        body {
-            padding-top: 20px;
-            padding-bottom: 20px;
-        }
-
-        .jumbotron {
-          margin-top: 10px;
-        }
-    </style>
 </head>
 
 <body>
@@ -54,14 +44,52 @@ function doType(type){
     xhr.open("GET", '/web/api/data/type?typeIn='+type, true);
     xhr.onreadystatechange = function() {
         if (this.readyState == 4 && this.status == 200) {
-        var data = this.responseText
-        console.log(this.responseText)
-        document.getElementById("dataType").innerHTML = data;
+            doPopListData(JSON.parse(this.responseText));
         }
     };
     xhr.send();
 }
+var iTmp = 0;
+function doPopListData(listData){
+    var container = document.getElementById("dataType");
+    container.innerHTML = '';
+    
+    var jumbotronMain = document.createElement("div");
+    jumbotronMain.setAttribute("class", "jumbotron jumbotron-fluid");
 
+    var jumbotronContainer = document.createElement("div");
+    jumbotronContainer.setAttribute("class", "container");
+
+    var jumbotronData = document.createElement("div");
+    jumbotronData.setAttribute("class", "display-4");
+    //jumbotronData.innerHTML = listData.length;
+    jumbotronData.innerHTML = listData.length + " request";
+    jumbotronContainer.appendChild(jumbotronData);
+    jumbotronMain.appendChild(jumbotronContainer);
+    container.appendChild(jumbotronMain);
+    
+    for(var i = 0; i < listData.length; i++) {
+        iTmp = i;
+        container.appendChild(popOneData(listData[i]));
+    }
+}
+
+function popOneData(element){
+    var baseElem = document.createElement('div');
+    baseElem.setAttribute('class', 'card')
+    var dataCard = document.createElement("div");
+    dataCard.setAttribute("class", 'card-body');
+    var time = unixToTimeStr(element.time);
+    dataCard.innerHTML = '<pre>' + window.atob(element.data) + '='+iTmp+'='+element.ip+'='+element.location.country+'='+time+'=' + '</pre>';
+    baseElem.appendChild(dataCard);
+    return baseElem;
+}
+
+
+function unixToTimeStr(timeUnix){
+  var date = new Date(timeUnix*1000);
+  return date.toISOString().replace(/T/, ' ').replace(/\..+/, '');
+};
  
 </script>
 </html>

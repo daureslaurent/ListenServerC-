@@ -10,10 +10,6 @@ module.exports = function(app) {
     var cacheTimeShort = 10 * 60 * 1000;
     var cacheTimeLong = 40 * 60 * 1000;
 
-    virtualStat.getCountByIp().then(function(data){
-        console.log("getCountByIp["+JSON.stringify(data)+"]");
-    })
-
     //{"data": data, time: 1537811824430}
     var calculTime = function(time){
         var now = new Date().getTime();

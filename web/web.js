@@ -36,15 +36,11 @@ module.exports = function(app) {
     });
 
     app.get('/web/data_type', function(req, res){
-        dataConverter.getAllDataSummary(0, function(data){
-            res.render('dataType', { dataList: data });
-        });
+            res.render('dataType');
     });
 
     app.get('/web/graph', function(req, res){
-        var timeStampStart = new Date().getTime();
-        var timeStampEnd = new Date().getTime();
-        res.render('graph', {genTime: (timeStampEnd-timeStampStart)});
+        res.render('graph', {genTime: 'NA'});
     });
 
     app.get('/web/server/:id/state', function(req, res){
@@ -128,7 +124,7 @@ module.exports = function(app) {
         else {
             var port = Number(req.query.port);
             if (!req.query.port ||!validator.isNumeric(req.query.port))
-                port = 0;
+                return res.render('search', { dataList: '' });
             dataConverter.getDataByPortCallBack(port, function(data){
                 return res.render('search', { dataList: data });
             });
