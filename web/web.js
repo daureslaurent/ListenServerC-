@@ -35,6 +35,12 @@ module.exports = function(app) {
         });
     });
 
+    app.get('/web/data_type', function(req, res){
+        dataConverter.getAllDataSummary(0, function(data){
+            res.render('dataType', { dataList: data });
+        });
+    });
+
     app.get('/web/graph', function(req, res){
         var timeStampStart = new Date().getTime();
         var timeStampEnd = new Date().getTime();

@@ -152,7 +152,7 @@ var routineManager = new RoutineManager(3);
 
 const MenuManager = require('./api/prompt/MenuManager');
 var menuManager = new MenuManager();
-menuManager.run();
+//menuManager.run();
 
 //const PromptCustom = require('./api/prompt/prompt');
 //var promptCustom = new PromptCustom();

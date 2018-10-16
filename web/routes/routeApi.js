@@ -85,4 +85,40 @@ module.exports = function(app) {
             })
         }, function(err){console.log(err)})
     });
+
+    /* ===================== dataType ===================== */
+    var base64 = require('base-64');
+    app.get(pathRoute + 'data/type', function(req, res){
+        var timeStampStart = new Date().getTime();
+        var typeIn = req.query.typeIn;
+        dataController.getAllDataActivePromise(dataController).then(function(listdata){
+            var endList = new Array();
+            listdata.forEach(mainElem => {
+                mainElem.forEach(element => {
+                    if (element.data != undefined){
+                        var decodedData = base64.decode(element.data);
+                        if (typeIn == "http" && (decodedData.includes("GET") || decodedData.includes("HTTP"))){
+                            endList.push(element);
+                        }
+                        else if (typeIn == "ssh" && (decodedData.includes("SSH"))) {
+                            //console.log('['+decodedData+']');
+                            endList.push(element);
+                        }
+                        else if (typeIn == "sip" && (decodedData.includes("SIP"))) {
+                            //console.log('['+decodedData+']');
+                            endList.push(element);
+                        }
+                        else if (typeIn == "ghost" && (decodedData.includes("Gh0st­"))) {
+                            endList.push(element);
+                        }
+                        else if (typeIn != undefined && decodedData.includes(typeIn)) {
+                            endList.push(element);
+                        }
+                    }
+                });
+            });
+            console.log(endList.length)
+            res.send(endList);
+        }).catch(function(err){console.log(err)});
+    });
 };
